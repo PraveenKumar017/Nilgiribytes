@@ -2167,11 +2167,13 @@ a.map-placeholder:hover {
    The reveal styles now live in css/animations.css so that all motion lives
    in one place. The `.reveal` class name is unchanged. */
 
-/* ---------- Floating WhatsApp button ---------- */
+/* ---------- Floating WhatsApp button ----------
+   Always visible on every page (web + mobile). The entrance is a pure CSS
+   animation, so the button shows up even when JavaScript never runs. */
 .float-wa {
   position: fixed;
-  right: clamp(1rem, 3vw, 1.75rem);
-  bottom: clamp(1rem, 3vw, 1.75rem);
+  right: clamp(0.75rem, 3vw, 1.75rem);
+  bottom: calc(clamp(0.75rem, 3vw, 1.75rem) + env(safe-area-inset-bottom, 0px));
   z-index: 800;
   display: inline-flex;
   align-items: center;
@@ -2179,15 +2181,14 @@ a.map-placeholder:hover {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--color-olive);
-  color: var(--color-cream);
+  background: var(--color-whatsapp);
+  color: #FFFFFF;
   box-shadow: var(--shadow-whatsapp);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out),
-    visibility var(--dur-base), background var(--transition);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  animation: floatWaIn 520ms var(--ease-out) both;
+  transition: background var(--transition), transform 220ms var(--ease-out);
 }
 
 .float-wa.is-visible {
@@ -2196,14 +2197,34 @@ a.map-placeholder:hover {
   transform: translateY(0);
 }
 
-.float-wa:hover {
-  background: var(--color-chocolate);
+.float-wa:hover,
+.float-wa:focus-visible {
+  background: var(--color-whatsapp-dark);
+  transform: translateY(-3px);
+}
+
+.float-wa:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
 }
 
 .float-wa svg {
   width: 28px;
   height: 28px;
   fill: currentColor;
+}
+
+/* Touch-friendly size on phones. */
+@media (max-width: 767.98px) {
+  .float-wa {
+    width: 54px;
+    height: 54px;
+  }
+
+  .float-wa svg {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 /* ---------- Contact page ---------- */

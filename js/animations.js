@@ -50,9 +50,6 @@
       max: 40, /* px of vertical travel */
       minWidth: 768, /* disabled below this viewport width */
     },
-    floatingWhatsApp: {
-      afterScroll: 300, /* px scrolled before the button appears */
-    },
   };
 
   const PACKAGES = {
@@ -390,10 +387,11 @@
     });
   }
 
-  /** Floating WhatsApp button — appears after a short scroll, pulses once. */
+  /** Floating WhatsApp button — always visible, pulse ring repeats. */
   function initFloatingWhatsApp() {
     const btn = document.querySelector("[data-float-wa]");
-    if (!btn) return;
+    if (!btn || btn.dataset.waReady === "1") return;
+    btn.dataset.waReady = "1";
 
     const config = (window.Bakery && window.Bakery.config) || {};
     if (config.whatsappNumber) {
@@ -403,32 +401,50 @@
       );
     }
 
-    let shown = false;
-    let pulsed = false;
+    btn.classList.add("is-visible");
 
-    function onScroll() {
-      const scrolled =
-        window.pageYOffset || document.documentElement.scrollTop || 0;
-      const past = scrolled >= CONFIG.floatingWhatsApp.afterScroll;
+    if (reduceMotion) return;
 
-      if (past && !shown) {
-        shown = true;
-        btn.classList.add("is-visible");
-        if (!pulsed) {
-          pulsed = true;
-          btn.classList.add("is-pulse");
-          window.setTimeout(function () {
-            btn.classList.remove("is-pulse");
-          }, 1700);
-        }
-      } else if (!past && shown) {
-        shown = false;
-        btn.classList.remove("is-visible");
-      }
+    const PULSE_MS = 1600;
+    const REPEAT_MS = 7000;
+
+    let pulsing = false;
+    let lastPulse = 0;
+
+    /** Restart the ring animation from scratch. */
+    function pulse() {
+      if (pulsing) return;
+      pulsing = true;
+      lastPulse = Date.now();
+
+      btn.classList.remove("is-pulse");
+      void btn.offsetWidth; /* force reflow so the animation replays */
+      btn.classList.add("is-pulse");
+
+      window.setTimeout(function () {
+        btn.classList.remove("is-pulse");
+        pulsing = false;
+      }, PULSE_MS + 100);
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    /* First pulse straight away, then keep repeating while the page is open. */
+    window.setTimeout(pulse, 400);
+    window.setInterval(pulse, REPEAT_MS);
+
+    /* Pulse again whenever the visitor comes back to the tab. */
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) pulse();
+    });
+
+    /* …and once more after a scroll, but never more often than REPEAT_MS. */
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (Date.now() - lastPulse < REPEAT_MS) return;
+        pulse();
+      },
+      { passive: true }
+    );
   }
 
   /* --------------------------------------------------------------------------

@@ -14,8 +14,12 @@
 
   /* ----- Supporting palette ----- */
   --color-cinnamon: #75432D;    /* warm accents, category labels */
-  --color-olive: #526044;       /* freshness / WhatsApp */
+  --color-olive: #526044;       /* freshness / accent surfaces */
   --color-ink: #28221D;         /* Espresso Ink — body text */
+
+  /* ----- WhatsApp brand ----- */
+  --color-whatsapp: #25D366;      /* WhatsApp green — floating button */
+  --color-whatsapp-dark: #1EB455; /* hover / pressed */
 
   /* ----- Semantic colors ----- */
   --color-background: var(--color-cream);
@@ -73,7 +77,7 @@
   --shadow-badge: 0 3px 10px rgba(53, 23, 15, 0.25);
   --shadow-hero-text: 0 2px 24px rgba(53, 23, 15, 0.45);
   --shadow-modal: 0 30px 80px rgba(53, 23, 15, 0.35);
-  --shadow-whatsapp: 0 6px 18px rgba(82, 96, 68, 0.30);
+  --shadow-whatsapp: 0 6px 20px rgba(37, 211, 102, 0.38);
   --shadow-gold-cta: 0 8px 24px rgba(199, 154, 66, 0.35);
   --texture-ivory:
     repeating-linear-gradient(

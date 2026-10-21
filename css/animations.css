@@ -340,7 +340,18 @@ html.js [data-motion~="signature-experience"] [data-parallax] img {
   animation: cartBadgePop 420ms var(--ease-out) 1;
 }
 
-/* Floating WhatsApp button — one-time pulse ring. */
+/* Floating WhatsApp button — entrance + one-time pulse ring. */
+@keyframes floatWaIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes floatWaRing {
   0% {
     opacity: 0.55;
@@ -357,7 +368,7 @@ html.js [data-motion~="signature-experience"] [data-parallax] img {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid var(--color-olive);
+  border: 2px solid var(--color-whatsapp);
   opacity: 0;
   pointer-events: none;
 }
@@ -387,6 +398,7 @@ html.js [data-motion~="signature-experience"] [data-parallax] img {
   .intro.is-active .intro_logo,
   .intro.is-active .intro_rule,
   .cart-count.is-pop,
+  .float-wa,
   .float-wa.is-pulse::after {
     animation: none;
   }
