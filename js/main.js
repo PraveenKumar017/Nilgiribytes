@@ -164,6 +164,11 @@
       lastFocused = document.activeElement;
       nav.classList.add("is-open");
       openBtn.setAttribute("aria-expanded", "true");
+      /* Lift the header stacking context above the overlay (z-index 900).
+         The nav is position:fixed with z-index 1100, but it is trapped
+         inside .site-header (sticky, z-index 500) — without this, the
+         overlay's blur paints over the open nav and blocks all clicks. */
+      document.body.classList.add("nav-is-open");
       if (overlay) overlay.hidden = false;
       requestAnimationFrame(function () {
         if (overlay) overlay.classList.add("is-open");
@@ -177,6 +182,7 @@
     function closeNav() {
       nav.classList.remove("is-open");
       openBtn.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("nav-is-open");
       if (overlay) overlay.classList.remove("is-open");
       document.body.classList.remove("is-locked");
       document.removeEventListener("keydown", onKeydown);

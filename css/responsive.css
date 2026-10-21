@@ -75,6 +75,14 @@
     visibility: visible;
   }
 
+  /* The nav is position:fixed (z-index 1100) but sits inside .site-header
+     (sticky, z-index 500), which caps it in the stacking context. Lift the
+     whole header above the overlay (z-index 900) while the menu is open so
+     the blur no longer covers the nav and links are clickable. */
+  body.nav-is-open .site-header {
+    z-index: 1200;
+  }
+
   .site-nav_list {
     flex-direction: column;
     align-items: flex-start;

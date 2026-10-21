@@ -1284,8 +1284,8 @@ p {
   gap: 1.25rem;
   width: min(520px, calc(100% - 2rem));
   padding: 0.75rem 0.75rem 0.75rem 1.25rem;
-  background: var(--color-chocolate);
-  border: 1px solid var(--hairline-gold);
+  background: var(--color-surface);
+  border: 1px solid var(--color-gold);
   border-radius: 14px;
   box-shadow: var(--shadow-drawer);
   visibility: hidden;
@@ -1317,13 +1317,13 @@ p {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-wheat);
+  color: var(--color-muted);
 }
 
 .cart-bar_total {
-  font-family: var(--font-heading);
   font-size: 1.05rem;
-  color: var(--color-cream);
+  font-weight: 600;
+  color: var(--color-heading);
 }
 
 .cart-bar_btn {
@@ -1334,6 +1334,80 @@ p {
 body.is-locked .cart-bar {
   transform: translate(-50%, calc(100% + 2rem));
   visibility: hidden;
+}
+
+/* ---------- Cart page (cart.html) ---------- */
+
+.cart-page_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .cart-page_grid {
+    grid-template-columns: 1fr 340px;
+  }
+}
+
+.cart-page_lines {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md, 12px);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.cart-page_lines .cart-line {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-page_lines .cart-line:last-child {
+  border-bottom: none;
+}
+
+.cart-page_summary {
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-md, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cart-page_summary-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-heading);
+  margin-bottom: 0.25rem;
+}
+
+.cart-page_summary .btn {
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+.cart-page_continue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-cocoa);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cart-page_continue:hover {
+  color: var(--color-gold);
+}
+
+.cart-page_empty {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 3rem 1.5rem;
 }
 
 .drawer_header {

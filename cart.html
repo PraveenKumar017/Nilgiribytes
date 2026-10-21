@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | Nilgiribytes</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" href="assets/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="description"
+    content="Review your Nilgiribytes cart and place your order on WhatsApp.">
+  <meta name="robots" content="noindex">
+  <script>
+    /* Marks that JavaScript is available — see css/animations.css. */
+    document.documentElement.classList.add("js");
+    window.setTimeout(function () {
+      if (!window.NILGIRI_MOTION_READY) {
+        document.documentElement.classList.remove("js");
+      }
+    }, 2500);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body data-page="cart">
+
+  <!-- Shared header (fetched by js/main.js) -->
+  <div data-include="header"></div>
+
+  <main id="main-content">
+
+    <section class="section" aria-labelledby="cart-title">
+      <div class="container" data-cart-page>
+
+        <span class="section-kicker reveal" data-reveal="fade-up">Your order</span>
+        <h1 class="section-heading reveal" data-reveal="fade-up" id="cart-title">Shopping Cart</h1>
+        <hr class="divider reveal" data-reveal="fade-in">
+
+        <!-- Empty state -->
+        <div class="empty-state cart-page_empty reveal" data-reveal="fade-up" data-cart-page-empty hidden>
+          <p>Your cart is empty. Add something fresh from the shop.</p>
+          <p class="mt-2">
+            <a class="btn btn--primary" href="shop.html">Browse Products</a>
+          </p>
+        </div>
+
+        <!-- Cart content -->
+        <div class="cart-page_grid" data-cart-page-content hidden>
+          <div class="cart-page_lines" data-cart-page-lines>
+            <!-- Filled by js/cart.js -->
+          </div>
+
+          <aside class="cart-page_summary" aria-label="Order summary">
+            <h2 class="cart-page_summary-title">Order Summary</h2>
+            <div class="cart-summary">
+              <span>Items</span>
+              <span data-cart-page-count>0 items</span>
+            </div>
+            <div class="cart-summary">
+              <span>Subtotal</span>
+              <span class="cart-summary_total" data-cart-page-subtotal>₹0</span>
+            </div>
+            <button class="btn btn--whatsapp" type="button" data-order-whatsapp disabled>
+              Order on WhatsApp
+            </button>
+            <p class="cart-note">
+              Your order summary opens in WhatsApp — confirm quantity and delivery with us directly.
+            </p>
+            <p class="mt-2">
+              <a class="cart-page_continue" href="shop.html">&larr; Continue shopping</a>
+            </p>
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Shared footer (fetched by js/main.js) -->
+  <div data-include="footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/animations.js" defer></script>
+</body>
+
+</html>
