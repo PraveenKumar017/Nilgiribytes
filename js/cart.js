@@ -185,6 +185,8 @@ const STORAGE_KEY = "veb_cart";
     const row = document.createElement("div");
     row.className = "cart-line";
 
+    const media = document.createElement("div");
+    media.className = "cart-line_media";
     const img = document.createElement("img");
     img.className = "cart-line_img";
     img.src = line.image;
@@ -195,14 +197,17 @@ const STORAGE_KEY = "veb_cart";
     img.addEventListener("error", function () {
       Bakery.handleImageError(img, "");
     });
+    media.appendChild(img);
 
     const info = document.createElement("div");
+    info.className = "cart-line_info";
+
+    /* Row 1: name — stepper */
+    const row1 = document.createElement("div");
+    row1.className = "cart-line_row";
     const name = document.createElement("p");
     name.className = "cart-line_name";
     name.textContent = line.name;
-    const meta = document.createElement("p");
-    meta.className = "cart-line_meta";
-    meta.textContent = line.sizeLabel + " · " + Bakery.formatPrice(line.price) + " each";
 
     const stepper = document.createElement("div");
     stepper.className = "qty-stepper";
@@ -227,26 +232,27 @@ const STORAGE_KEY = "veb_cart";
     stepper.appendChild(qty);
     stepper.appendChild(plus);
 
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.className = "cart-line_remove";
-    remove.textContent = "Remove";
-    remove.addEventListener("click", function () {
-      Bakery.cart.remove(key);
-    });
+    row1.appendChild(name);
+    row1.appendChild(stepper);
 
-    info.appendChild(name);
-    info.appendChild(meta);
-    info.appendChild(stepper);
-    info.appendChild(remove);
-
+    /* Row 2: size · unit price — line total */
+    const row2 = document.createElement("div");
+    row2.className = "cart-line_row";
+    const meta = document.createElement("p");
+    meta.className = "cart-line_meta";
+    meta.textContent = line.sizeLabel + " · " + Bakery.formatPrice(line.price) + " each";
     const priceEl = document.createElement("p");
     priceEl.className = "cart-line_price";
     priceEl.textContent = Bakery.formatPrice(line.price * line.qty);
 
-    row.appendChild(img);
+    row2.appendChild(meta);
+    row2.appendChild(priceEl);
+
+    info.appendChild(row1);
+    info.appendChild(row2);
+
+    row.appendChild(media);
     row.appendChild(info);
-    row.appendChild(priceEl);
     return row;
   }
 
