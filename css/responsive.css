@@ -12,7 +12,7 @@
 }
 
 .product-grid {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
@@ -156,6 +156,11 @@
     --section-space: 72px;
   }
 
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -221,7 +226,9 @@
   }
 }
 
-/* ---------- Small screens fine-tuning ---------- */
+/* ---------- Small screens fine-tuning ----------
+   Phones get one full-width card per row, so the card keeps its normal
+   padding; only the type sizes step down slightly. */
 @media (max-width: 479px) {
   .site-logo {
     font-size: 1.15rem;
@@ -231,13 +238,17 @@
     height: 44px;
   }
 
-  .product-card_body {
-    padding: 0.9rem;
+  .product-card_name {
+    font-size: 1.08rem;
+  }
+
+  .product-card_price {
+    font-size: 1.08rem;
   }
 
   .size-select_btn {
-    font-size: 0.75rem;
-    min-width: 52px;
+    font-size: 0.78rem;
+    padding: 0.55rem 0.3rem;
   }
 
   .shop-controls .field,

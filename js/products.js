@@ -118,11 +118,15 @@
       openModal(item);
     });
 
-    // "View Product" link — slides in over the bottom of the image on hover.
+    // Quick-view eye icon — sits in the top-right corner of the image.
     const viewBtn = document.createElement("button");
     viewBtn.type = "button";
     viewBtn.className = "product-card_view";
-    viewBtn.textContent = "View Product";
+    viewBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+      '<path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/>' +
+      '<circle cx="12" cy="12" r="3"/></svg>';
     viewBtn.setAttribute("aria-label", "View details for " + item.name);
     viewBtn.addEventListener("click", function (e) {
       e.stopPropagation();

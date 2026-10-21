@@ -19,6 +19,9 @@ html {
   /* Sticky header must not cover the target of an in-page anchor. */
   scroll-padding-top: calc(var(--header-height) + 16px);
   background: var(--color-background);
+  /* Reveal animations shift elements sideways before they fade in; clip that
+     so the page never gains a horizontal scrollbar on phones. */
+  overflow-x: clip;
 }
 
 [id] {
@@ -33,6 +36,9 @@ body {
   background: var(--color-background);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Reveal animations shift elements sideways before they fade in; clip that
+     so the page never gains a horizontal scrollbar on phones. */
+  overflow-x: clip;
 }
 
 img,
@@ -934,40 +940,41 @@ p {
   transform: scale(1.07);
 }
 
-/* "View Product" gold link that slides in over the bottom of the image */
+/* Quick-view eye icon in the top-right corner of the image */
 .product-card_view {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0.7rem;
+  right: 0.7rem;
   z-index: 2;
-  display: block;
-  width: 100%;
-  padding: 0.6rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   font-family: var(--font-body);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-align: center;
   color: var(--color-chocolate);
-  background: linear-gradient(
-    180deg,
-    rgba(251, 247, 239, 0.92),
-    rgba(251, 247, 239, 0.98)
-  );
-  border: 0;
-  border-top: 1px solid var(--hairline-gold);
+  background: rgba(251, 247, 239, 0.94);
+  border: 1px solid var(--hairline-gold);
+  border-radius: 50%;
+  box-shadow: var(--shadow-card);
   cursor: pointer;
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(-6px);
   transition: opacity var(--dur-base) var(--ease-out),
     transform var(--dur-base) var(--ease-out),
-    background var(--transition), color var(--transition);
+    background var(--transition), color var(--transition),
+    border-color var(--transition);
+}
+
+.product-card_view svg {
+  width: 19px;
+  height: 19px;
 }
 
 .product-card_view:hover {
   background: var(--color-gold);
+  border-color: var(--color-gold);
   color: var(--color-chocolate);
 }
 
@@ -977,11 +984,11 @@ p {
   transform: translateY(0);
 }
 
-/* Touch devices: the link stays visible and the card does not lift. */
+/* Touch devices: the icon stays visible and the card does not lift. */
 @media (hover: none) {
   .product-card_view {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 
   .product-card:hover {
@@ -1040,6 +1047,7 @@ p {
   font-weight: 600;
   color: var(--color-cocoa);
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 0.5rem;
 }
@@ -1064,17 +1072,17 @@ p {
   gap: 0.7rem;
 }
 
-/* Size selector */
+/* Size selector — one equal-width row, never breaks into ragged rows. */
 .size-select {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 0.35rem;
 }
 
 .size-select_btn {
-  flex: 1;
-  min-width: 60px;
-  padding: 0.45rem 0.35rem;
+  min-width: 0;
+  padding: 0.45rem 0.3rem;
   font-size: 0.8rem;
   font-weight: 600;
   background: var(--color-cream);
@@ -1374,8 +1382,19 @@ p {
   visibility: visible;
 }
 
+/* Dark, blurred scrim behind the panel so the modal reads clearly */
+.modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--modal-scrim);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
 .modal_panel {
   position: relative;
+  z-index: 1;
   width: min(880px, 100%);
   max-height: 90dvh;
   overflow-y: auto;

@@ -90,6 +90,7 @@
 
   /* ----- Derived warm-brown alphas ----- */
   --overlay-scrim: rgba(40, 34, 29, 0.55);
+  --modal-scrim: rgba(14, 10, 8, 0.68);
   --hero-overlay: linear-gradient(
     90deg,
     rgba(53, 23, 15, 0.88) 0%,
