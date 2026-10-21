@@ -54,7 +54,7 @@
         // -----------------------------------------------------------
         // MAIN HERO TIMELINE (Pinned across scroll distance)
         // -----------------------------------------------------------
-        const scrollDistance = desktop ? 2400 : 1800;
+        const scrollDistance = desktop ? 1600 : 700;
 
         const tl = gsap.timeline({
           defaults: { ease: "power1.inOut" },
@@ -62,7 +62,7 @@
             trigger: ovenStory,
             start: "top top",
             end: () => `+=${scrollDistance}`,
-            scrub: 0.75,
+            scrub: true,
             pin: stage,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -70,26 +70,25 @@
         });
 
         // -----------------------------------------------------------
-        // PHASE 1 (0% – 25%): Kitchen Scene Established
+        // Timeline is scrubbed 1:1 (scrub: true) over scrollDistance.
+        // Every unit below maps proportionally onto the pin distance,
+        // and there are no gaps — motion starts on the first pixel
+        // of scroll and runs continuously to the end of the pin.
+        //
+        //   0.0 – 2.0   door opens + glow spills
+        //   2.0 – 4.2   varkey emerges, rolls into 3D
+        //   4.2 – 6.4   varkey flies down and docks onto Card 1
         // -----------------------------------------------------------
-        tl.fromTo(
-          heroCopy,
-          { y: 0, opacity: 1 },
-          { y: 0, opacity: 1, duration: 2 },
-          0
-        );
 
-        // -----------------------------------------------------------
-        // PHASE 2 (25% – 50%): Middle Deck Door Swings Open & Glows
-        // -----------------------------------------------------------
+        // PHASE 1 — oven door opens, glow spills out
         tl.to(
           ovenOpen,
           {
             opacity: 1,
-            duration: 2.2,
+            duration: 2.0,
             ease: "power2.inOut"
           },
-          1.8
+          0
         );
 
         tl.to(
@@ -100,13 +99,10 @@
             duration: 1.8,
             ease: "sine.out"
           },
-          2.0
+          0.2
         );
 
-        // -----------------------------------------------------------
-        // PHASE 3 (50% – 75%): 3D Volumetric Varkey Emerges to Center
-        // Thick, golden-layered pastry flying out of the right-side oven
-        // -----------------------------------------------------------
+        // PHASE 2 — 3D volumetric varkey emerges from the oven
         tl.fromTo(
           varkey,
           {
@@ -122,10 +118,10 @@
             x: desktop ? -220 : -60,
             y: desktop ? 40 : 25,
             filter: "brightness(1.0) drop-shadow(0 20px 35px rgba(0,0,0,0.7))",
-            duration: 2.5,
+            duration: 2.2,
             ease: "power2.out"
           },
-          3.5
+          2.0
         );
 
         // Gentle 3D roll and pitch (keeps volumetric thickness, never paper-thin)
@@ -135,10 +131,10 @@
             rotationY: -16,
             rotationX: 14,
             rotationZ: 10,
-            duration: 2.5,
+            duration: 2.2,
             ease: "power1.out"
           },
-          3.5
+          2.0
         );
 
         tl.to(
@@ -146,15 +142,13 @@
           {
             opacity: 0.75,
             scale: 1.2,
-            duration: 2.0,
+            duration: 1.8,
             ease: "power2.out"
           },
-          3.8
+          2.3
         );
 
-        // -----------------------------------------------------------
-        // PHASE 4 (75% – 100%): Varkey Swoops Downward Towards Card 1
-        // -----------------------------------------------------------
+        // PHASE 3 — varkey swoops downward towards Card 1
         function computeCardVector() {
           if (!targetCard) return { x: desktop ? -480 : -120, y: desktop ? 320 : 180 };
           const stageRect = stage.getBoundingClientRect();
@@ -182,10 +176,10 @@
             x: vec.x,
             y: vec.y,
             scale: desktop ? 0.82 : 0.7,
-            duration: 2.6,
+            duration: 2.2,
             ease: "power2.in"
           },
-          5.8
+          4.2
         );
 
         tl.to(
@@ -194,10 +188,10 @@
             rotationY: 0,
             rotationX: 0,
             rotationZ: 0,
-            duration: 2.6,
+            duration: 2.2,
             ease: "power1.inOut"
           },
-          5.8
+          4.2
         );
 
         tl.to(
@@ -205,27 +199,29 @@
           {
             opacity: 0.1,
             y: -30,
-            duration: 1.5
+            duration: 1.4
           },
-          6.0
+          4.4
         );
 
-        tl.to(
-          scrollHint,
-          {
-            opacity: 0,
-            duration: 0.6
-          },
-          5.5
-        );
+        if (scrollHint) {
+          tl.to(
+            scrollHint,
+            {
+              opacity: 0,
+              duration: 0.6
+            },
+            4.0
+          );
+        }
 
         tl.to(
           glow,
           {
             opacity: 0.25,
-            duration: 1.5
+            duration: 1.4
           },
-          6.2
+          4.6
         );
 
         // -----------------------------------------------------------
