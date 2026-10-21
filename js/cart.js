@@ -55,8 +55,9 @@ const STORAGE_KEY = "veb_cart";
   /* ---------- Public API ---------- */
 
   Bakery.cart = {
-    /** Add an item (from products.js) with a selected size index. */
-    add: function (item, sizeIndex, qty) {
+    /** Add an item (from products.js) with a selected size index.
+        Pass { openDrawer: false } to update the cart silently (no drawer). */
+    add: function (item, sizeIndex, qty, options) {
       const lines = readCart();
       const sizeLabel = Bakery.itemSizeLabel(item, sizeIndex);
       const price = Bakery.itemPrice(item, sizeIndex);
@@ -78,7 +79,7 @@ const STORAGE_KEY = "veb_cart";
         });
       }
       writeCart(lines);
-      openDrawer();
+      if (!options || options.openDrawer !== false) openDrawer();
     },
 
     updateQty: function (key, delta) {
@@ -99,6 +100,11 @@ const STORAGE_KEY = "veb_cart";
         return lineKey(l) !== key;
       });
       writeCart(lines);
+    },
+
+    /** Cart line key for an item + size (matches updateQty/remove). */
+    lineKey: function (item, sizeIndex) {
+      return item.id + "::" + Bakery.itemSizeLabel(item, sizeIndex);
     },
   };
 

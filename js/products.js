@@ -138,6 +138,10 @@
     const body = document.createElement("div");
     body.className = "product-card_body";
 
+    // Top row: product name + price share one line
+    const topRow = document.createElement("div");
+    topRow.className = "product-card_top";
+
     const nameWrap = document.createElement("h3");
     nameWrap.className = "product-card_name";
     const nameBtn = document.createElement("button");
@@ -153,8 +157,9 @@
     const price = document.createElement("p");
     price.className = "product-card_price";
 
-    body.appendChild(nameWrap);
-    body.appendChild(price);
+    topRow.appendChild(nameWrap);
+    topRow.appendChild(price);
+    body.appendChild(topRow);
 
     if (Bakery.isCombo(item)) {
       const inc = document.createElement("p");
@@ -175,6 +180,14 @@
     let sizeIndex = 0;
 
     if (!Bakery.isCombo(item)) {
+      const selectorWrap = document.createElement("div");
+      selectorWrap.className = "size-select_wrap";
+
+      const selectorLabel = document.createElement("span");
+      selectorLabel.className = "size-select_label";
+      selectorLabel.textContent = "Size";
+      selectorWrap.appendChild(selectorLabel);
+
       const selector = document.createElement("div");
       selector.className = "size-select";
       selector.setAttribute("role", "group");
@@ -192,11 +205,15 @@
             b.setAttribute("aria-pressed", String(i === idx));
           });
           updatePrice();
+          /* Different size = a different cart line; start the action over. */
+          cartQty = 0;
+          renderAddControl();
         });
         selector.appendChild(btn);
       });
 
-      footer.appendChild(selector);
+      selectorWrap.appendChild(selector);
+      footer.appendChild(selectorWrap);
     }
 
     function updatePrice() {
@@ -205,18 +222,68 @@
     }
     updatePrice();
 
-    const addBtn = document.createElement("button");
-    addBtn.type = "button";
-    addBtn.className = "btn btn--primary btn--block";
-    addBtn.textContent = "Add to cart";
-    addBtn.addEventListener("click", function () {
-      Bakery.cart.add(item, sizeIndex, 1);
-      addBtn.textContent = "Added ✓";
-      setTimeout(function () {
+    /* "Add to cart" swaps into a qty stepper once the item is added
+       (same behaviour as the product modal). */
+    let cartQty = 0;
+
+    function renderAddControl() {
+      actionSlot.innerHTML = "";
+
+      if (cartQty < 1) {
+        const addBtn = document.createElement("button");
+        addBtn.type = "button";
+        addBtn.className = "btn btn--primary btn--block";
         addBtn.textContent = "Add to cart";
-      }, 1200);
-    });
-    footer.appendChild(addBtn);
+        addBtn.addEventListener("click", function () {
+          cartQty = 1;
+          Bakery.cart.add(item, sizeIndex, 1, { openDrawer: false });
+          renderAddControl();
+        });
+        actionSlot.appendChild(addBtn);
+        return;
+      }
+
+      const stepper = document.createElement("div");
+      stepper.className = "qty-stepper qty-stepper--card";
+      stepper.setAttribute("aria-label", "Quantity in cart");
+
+      const minus = document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.setAttribute("aria-label", "Decrease quantity");
+
+      const qtyLabel = document.createElement("span");
+      qtyLabel.textContent = String(cartQty);
+      qtyLabel.setAttribute("aria-live", "polite");
+
+      const plus = document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.setAttribute("aria-label", "Increase quantity");
+
+      minus.addEventListener("click", function () {
+        Bakery.cart.updateQty(Bakery.cart.lineKey(item, sizeIndex), -1);
+        cartQty -= 1;
+        renderAddControl();
+      });
+
+      plus.addEventListener("click", function () {
+        if (cartQty >= 20) return;
+        Bakery.cart.updateQty(Bakery.cart.lineKey(item, sizeIndex), 1);
+        cartQty += 1;
+        renderAddControl();
+      });
+
+      stepper.appendChild(minus);
+      stepper.appendChild(qtyLabel);
+      stepper.appendChild(plus);
+      actionSlot.appendChild(stepper);
+    }
+
+    const actionSlot = document.createElement("div");
+    actionSlot.className = "product-card_action";
+    renderAddControl();
+    footer.appendChild(actionSlot);
 
     body.appendChild(footer);
     card.appendChild(media);
@@ -445,7 +512,6 @@
     modalLastFocus = document.activeElement;
 
     let sizeIndex = 0;
-    let qty = 1;
 
     // Media
     const media = el.querySelector("[data-modal-media]");
@@ -515,6 +581,9 @@
             b.setAttribute("aria-pressed", String(i === idx));
           });
           renderPrice();
+          /* Different size = a different cart line; start the action over. */
+          cartQty = 0;
+          renderActions();
         });
         selector.appendChild(btn);
       });
@@ -533,53 +602,64 @@
     }
     renderPrice();
 
-    // Actions: qty stepper + add
+    // Actions: "Add to cart" swaps into a qty stepper once the item is added.
     const actions = el.querySelector("[data-modal-actions]");
-    actions.innerHTML = "";
+    let cartQty = 0;
 
-    const stepper = document.createElement("div");
-    stepper.className = "qty-stepper";
-    stepper.setAttribute("aria-label", "Quantity");
-    const minus = document.createElement("button");
-    minus.type = "button";
-    minus.textContent = "−";
-    minus.setAttribute("aria-label", "Decrease quantity");
-    const qtyLabel = document.createElement("span");
-    qtyLabel.textContent = "1";
-    qtyLabel.setAttribute("aria-live", "polite");
-    const plus = document.createElement("button");
-    plus.type = "button";
-    plus.textContent = "+";
-    plus.setAttribute("aria-label", "Increase quantity");
+    function renderActions() {
+      actions.innerHTML = "";
 
-    minus.addEventListener("click", function () {
-      if (qty > 1) {
-        qty -= 1;
-        qtyLabel.textContent = String(qty);
+      if (cartQty < 1) {
+        const addBtn = document.createElement("button");
+        addBtn.type = "button";
+        addBtn.className = "btn btn--primary";
+        addBtn.textContent = "Add to cart";
+        addBtn.addEventListener("click", function () {
+          cartQty = 1;
+          Bakery.cart.add(item, sizeIndex, 1, { openDrawer: false });
+          renderActions();
+        });
+        actions.appendChild(addBtn);
+        return;
       }
-    });
-    plus.addEventListener("click", function () {
-      if (qty < 20) {
-        qty += 1;
-        qtyLabel.textContent = String(qty);
-      }
-    });
 
-    stepper.appendChild(minus);
-    stepper.appendChild(qtyLabel);
-    stepper.appendChild(plus);
+      const stepper = document.createElement("div");
+      stepper.className = "qty-stepper";
+      stepper.setAttribute("aria-label", "Quantity in cart");
 
-    const addBtn = document.createElement("button");
-    addBtn.type = "button";
-    addBtn.className = "btn btn--primary";
-    addBtn.textContent = "Add to cart";
-    addBtn.addEventListener("click", function () {
-      Bakery.cart.add(item, sizeIndex, qty);
-      closeModal();
-    });
+      const minus = document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.setAttribute("aria-label", "Decrease quantity");
 
-    actions.appendChild(stepper);
-    actions.appendChild(addBtn);
+      const qtyLabel = document.createElement("span");
+      qtyLabel.textContent = String(cartQty);
+      qtyLabel.setAttribute("aria-live", "polite");
+
+      const plus = document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.setAttribute("aria-label", "Increase quantity");
+
+      minus.addEventListener("click", function () {
+        Bakery.cart.updateQty(Bakery.cart.lineKey(item, sizeIndex), -1);
+        cartQty -= 1;
+        renderActions();
+      });
+
+      plus.addEventListener("click", function () {
+        if (cartQty >= 20) return;
+        Bakery.cart.updateQty(Bakery.cart.lineKey(item, sizeIndex), 1);
+        cartQty += 1;
+        renderActions();
+      });
+
+      stepper.appendChild(minus);
+      stepper.appendChild(qtyLabel);
+      stepper.appendChild(plus);
+      actions.appendChild(stepper);
+    }
+    renderActions();
 
     el.classList.add("is-open");
     el.setAttribute("aria-hidden", "false");

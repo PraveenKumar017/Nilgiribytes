@@ -914,7 +914,7 @@ p {
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
   border-color: var(--hairline-gold);
 }
@@ -925,7 +925,7 @@ p {
 
 .product-card_media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--color-ivory);
   cursor: pointer;
@@ -939,7 +939,7 @@ p {
 }
 
 .product-card:hover .product-card_media img {
-  transform: scale(1.07);
+  transform: scale(1.06);
 }
 
 /* Quick-view eye icon in the top-right corner of the image */
@@ -951,8 +951,8 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   font-family: var(--font-body);
   color: var(--color-chocolate);
@@ -970,8 +970,8 @@ p {
 }
 
 .product-card_view svg {
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
 }
 
 .product-card_view:hover {
@@ -1000,15 +1000,15 @@ p {
 
 .product-card_tag {
   position: absolute;
-  top: 0.8rem;
-  left: 0.8rem;
+  top: 0.7rem;
+  left: 0.7rem;
   background: linear-gradient(180deg, var(--color-gold), var(--color-cinnamon));
   color: var(--color-cream);
-  font-size: 0.66rem;
+  font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.32rem 0.75rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 999px;
   box-shadow: var(--shadow-badge);
 }
@@ -1016,13 +1016,21 @@ p {
 .product-card_body {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.25rem;
+  gap: 0.9rem;
+  padding: 1.1rem 1.15rem 1.2rem;
   flex: 1;
 }
 
+.product-card_top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
 .product-card_name {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
 }
 
 .product-card_link-btn {
@@ -1041,40 +1049,71 @@ p {
 }
 
 .product-card_price {
+  margin: 0;
+  flex-shrink: 0;
   font-family: var(--font-body);
-  font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.02rem;
+  font-weight: 700;
   color: var(--color-cocoa);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.product-card_price::before {
-  content: "";
-  width: 18px;
-  height: 2px;
-  background: var(--color-gold);
-  align-self: center;
+  white-space: nowrap;
 }
 
 .product-card_includes {
-  font-size: 0.85rem;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
   color: var(--color-muted);
+}
+
+.product-card_action .btn {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+.product-card_action .qty-stepper--card {
+  height: 40px;
+}
+
+.product-card_action .qty-stepper--card button {
+  flex: 0 0 46px;
+  height: 38px;
+  font-size: 1.1rem;
+}
+
+.product-card_action .qty-stepper--card span {
+  height: 38px;
+  font-size: 0.95rem;
 }
 
 .product-card_footer {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.8rem;
 }
 
-/* Size selector — one equal-width row, never breaks into ragged rows. */
+/* Breathing room between the size pills and the add control. */
+.product-card_action {
+  margin-top: 0.5rem;
+}
+
+/* Size selector — label above a single equal-width row of pills. */
+.size-select_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.size-select_label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
 .size-select {
   display: grid;
   grid-auto-flow: column;
@@ -1084,12 +1123,12 @@ p {
 
 .size-select_btn {
   min-width: 0;
-  padding: 0.45rem 0.3rem;
-  font-size: 0.8rem;
+  padding: 0.45rem 0.25rem;
+  font-size: 0.78rem;
   font-weight: 600;
   background: var(--color-cream);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   cursor: pointer;
   transition: background var(--transition), border-color var(--transition),
     color var(--transition), box-shadow var(--transition);
@@ -1328,6 +1367,34 @@ p {
   font-weight: 600;
 }
 
+/* Card stepper — replaces the Add to cart button, same full width. */
+.qty-stepper--card {
+  width: 100%;
+  height: 48px;
+  margin-top: 0;
+  border-color: var(--color-border);
+}
+
+.qty-stepper--card button {
+  flex: 0 0 52px;
+  width: auto;
+  height: 46px;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: var(--color-surface);
+}
+
+.qty-stepper--card span {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
 .cart-line_remove {
   background: none;
   border: 0;
@@ -1495,9 +1562,40 @@ p {
 
 .modal_actions {
   display: flex;
-  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* "Add to cart" swaps into this stepper — fixed width, both states match. */
+.modal_actions .qty-stepper {
+  width: 196px;
+  height: 52px;
+  margin-top: 0;
+  border-color: var(--color-border);
+}
+
+.modal_actions .qty-stepper button {
+  flex: 0 0 58px;
+  height: 50px;
+  width: auto;
+  font-size: 1.35rem;
+  line-height: 1;
+  background: var(--color-surface);
+}
+
+.modal_actions .qty-stepper span {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 50px;
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.modal_actions .btn {
+  width: 196px;
 }
 
 .todo-note {

@@ -185,6 +185,24 @@
     align-items: flex-end;
   }
 
+  /* Shorter add-to-cart control on desktop cards */
+  .product-card_action .btn {
+    padding: 0.5rem 1.1rem;
+  }
+
+  .product-card_action .qty-stepper--card {
+    height: 36px;
+  }
+
+  .product-card_action .qty-stepper--card button {
+    flex: 0 0 42px;
+    height: 34px;
+  }
+
+  .product-card_action .qty-stepper--card span {
+    height: 34px;
+  }
+
   .newsletter_form {
     flex-direction: row;
   }
@@ -227,9 +245,7 @@
   }
 }
 
-/* ---------- Small screens fine-tuning ----------
-   Phones get one full-width card per row, so the card keeps its normal
-   padding; only the type sizes step down slightly. */
+/* ---------- Small screens fine-tuning ---------- */
 @media (max-width: 479px) {
   .site-logo {
     font-size: 1.15rem;
@@ -239,17 +255,22 @@
     height: 44px;
   }
 
+  .product-card_body {
+    padding: 1rem 1rem 1.1rem;
+    gap: 0.8rem;
+  }
+
   .product-card_name {
-    font-size: 1.08rem;
+    font-size: 1rem;
   }
 
   .product-card_price {
-    font-size: 1.08rem;
+    font-size: 0.95rem;
   }
 
   .size-select_btn {
-    font-size: 0.78rem;
-    padding: 0.55rem 0.3rem;
+    font-size: 0.74rem;
+    padding: 0.45rem 0.2rem;
   }
 
   .shop-controls .field,
