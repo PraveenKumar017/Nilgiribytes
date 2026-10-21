@@ -528,6 +528,15 @@
 }
 
 @media (max-width: 768px) {
+  :root {
+    --dur-fast: 140ms;      /* hovers, small state changes */
+    --dur-base: 280ms;      /* reveals, fades, drawer */
+    --dur-slow: 600ms;      /* hero content, larger sequences */
+    --dur-hero: 900ms;      /* hero media zoom */
+    --stagger: 60ms;        /* per-item reveal delay */
+    --hero-stagger: 110ms;  /* hero headline / text / CTA sequence */
+  }
+
   .oven-stage {
     flex-direction: column;
     justify-content: center;
