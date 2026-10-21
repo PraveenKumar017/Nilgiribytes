@@ -328,6 +328,13 @@ const STORAGE_KEY = "veb_cart";
     const bar = document.querySelector("[data-cart-bar]");
     if (!bar) return;
 
+    /* You're already on the cart page — the bar would be redundant. */
+    if (document.body.getAttribute("data-page") === "cart") {
+      bar.classList.remove("is-visible");
+      bar.hidden = true;
+      return;
+    }
+
     const count = cartCount(lines);
     if (count === 0) {
       bar.classList.remove("is-visible");
