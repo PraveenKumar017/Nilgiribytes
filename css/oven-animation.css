@@ -104,7 +104,7 @@
 
 .oven-stage .hero-desc {
   font-size: clamp(1rem, 1.2vw, 1.22rem);
-  line-height: 1.65;
+  line-height: 1.8;
   color: #ffffff;
   font-weight: 450;
   margin-bottom: 2rem;
@@ -530,9 +530,11 @@
 @media (max-width: 768px) {
   .oven-stage {
     flex-direction: column;
-    justify-content: flex-start;
-    padding-top: max(80px, 12vh);
-    min-height: 680px;
+    justify-content: center;
+    align-items: center;
+    padding-top: max(60px, 8vh);
+    padding-bottom: max(80px, 12vh);
+    min-height: 100dvh;
   }
 
   .oven-stage-vignette {
@@ -547,17 +549,51 @@
 
   .oven-stage .hero-copy {
     width: 90%;
+    max-width: 500px;
     margin: 0 auto;
     text-align: center;
+    background: transparent;
+    padding: 0 20px;
+    border-radius: 0;
+  }
+
+  .oven-stage .hero-eyebrow {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .oven-stage .hero-heading {
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
   }
 
   .oven-stage .hero-desc {
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+    line-height: 1.85;
+    margin-bottom: 2.5rem;
   }
 
   .oven-stage .hero-cta-group {
     justify-content: center;
+    margin: 0 auto;
+    gap: 24px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .oven-stage .hero-cta-group .btn--primary,
+  .oven-stage .hero-cta-group .btn--outline {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 0.95rem;
   }
 
   .oven-layer {
