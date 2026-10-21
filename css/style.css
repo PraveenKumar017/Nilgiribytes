@@ -1271,6 +1271,71 @@ p {
   visibility: visible;
 }
 
+/* ---------- Sticky bottom cart bar ---------- */
+
+.cart-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, calc(100% + 2rem));
+  z-index: 850;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: min(520px, calc(100% - 2rem));
+  padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+  background: var(--color-chocolate);
+  border: 1px solid var(--hairline-gold);
+  border-radius: 14px;
+  box-shadow: var(--shadow-drawer);
+  visibility: hidden;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 320ms;
+}
+
+.cart-bar.is-visible {
+  transform: translate(-50%, 0);
+  visibility: visible;
+}
+
+/* The .cart-bar display:flex rule above would otherwise defeat the
+   UA [hidden] style — restore it so the attribute really hides the bar. */
+.cart-bar[hidden] {
+  display: none;
+}
+
+.cart-bar_info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-right: auto;
+  min-width: 0;
+}
+
+.cart-bar_count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-wheat);
+}
+
+.cart-bar_total {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--color-cream);
+}
+
+.cart-bar_btn {
+  flex-shrink: 0;
+}
+
+/* Keep the bar out of the way while the drawer (or any modal) is open. */
+body.is-locked .cart-bar {
+  transform: translate(-50%, calc(100% + 2rem));
+  visibility: hidden;
+}
+
 .drawer_header {
   display: flex;
   align-items: center;

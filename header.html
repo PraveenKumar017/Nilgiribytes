@@ -68,6 +68,17 @@
   </div>
 </header>
 
+<!-- Sticky bottom cart bar — shown whenever the cart has items (js/cart.js) -->
+<div class="cart-bar" data-cart-bar hidden>
+  <div class="cart-bar_info">
+    <span class="cart-bar_count" data-cart-bar-count>0 items</span>
+    <span class="cart-bar_total" data-cart-bar-total>₹0</span>
+  </div>
+  <button class="btn btn--primary cart-bar_btn" type="button" data-cart-bar-view>
+    View Cart
+  </button>
+</div>
+
 <!-- Cart drawer (shared across pages) -->
 <div class="overlay" data-overlay hidden></div>
 

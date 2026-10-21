@@ -272,6 +272,39 @@ const STORAGE_KEY = "veb_cart";
 
     const orderBtn = drawer.querySelector("[data-order-whatsapp]");
     if (orderBtn) orderBtn.disabled = lines.length === 0;
+
+    renderCartBar(lines);
+  }
+
+  /* ---------- Sticky bottom cart bar ---------- */
+
+  function renderCartBar(lines) {
+    const bar = document.querySelector("[data-cart-bar]");
+    if (!bar) return;
+
+    const count = cartCount(lines);
+    if (count === 0) {
+      bar.classList.remove("is-visible");
+      bar.hidden = true;
+      return;
+    }
+
+    const countEl = bar.querySelector("[data-cart-bar-count]");
+    const totalEl = bar.querySelector("[data-cart-bar-total]");
+    if (countEl) {
+      countEl.textContent = count + (count === 1 ? " item" : " items");
+    }
+    if (totalEl) {
+      totalEl.textContent = Bakery.formatPrice(cartSubtotal(lines));
+    }
+
+    bar.hidden = false;
+    /* Double rAF so the browser paints the hidden position before sliding up. */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        bar.classList.add("is-visible");
+      });
+    });
   }
 
   /* ---------- WhatsApp order ---------- */
@@ -345,6 +378,10 @@ const STORAGE_KEY = "veb_cart";
 
     const orderBtn = drawer.querySelector("[data-order-whatsapp]");
     if (orderBtn) orderBtn.addEventListener("click", orderOnWhatsApp);
+
+    document.querySelectorAll("[data-cart-bar-view]").forEach(function (btn) {
+      btn.addEventListener("click", openDrawer);
+    });
 
     render();
     announce();
