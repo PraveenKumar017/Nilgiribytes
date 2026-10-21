@@ -161,19 +161,6 @@
       color var(--transition), transform var(--transition);
   }
 
-  .site-nav_link::after {
-    /* arrow hint — reuse the underline pseudo-element */
-    content: "";
-    position: static;
-    width: 8px;
-    height: 8px;
-    border-top: 2px solid currentColor;
-    border-right: 2px solid currentColor;
-    transform: rotate(45deg) scale(0.8);
-    opacity: 0.45;
-    transition: transform var(--transition), opacity var(--transition);
-  }
-
   .site-nav_link:hover,
   .site-nav_link:focus-visible {
     background: var(--color-wheat);
@@ -181,9 +168,9 @@
     color: var(--color-chocolate);
   }
 
-  .site-nav_link:hover::after {
-    transform: rotate(45deg) scale(1);
-    opacity: 1;
+  .site-nav_link::after {
+    /* desktop underline hint doesn't suit the tile layout */
+    display: none;
   }
 
   .site-nav_link[aria-current="page"] {
