@@ -108,6 +108,12 @@
     });
     media.appendChild(img);
 
+    /* Reading-time badge — top-right over the image. */
+    const readBadge = document.createElement("span");
+    readBadge.className = "post-card_read";
+    readBadge.textContent = post.readingTime;
+    media.appendChild(readBadge);
+
     const body = document.createElement("div");
     body.className = "post-card_body";
 
@@ -118,11 +124,8 @@
     cat.textContent = post.category;
     const date = document.createElement("span");
     date.textContent = formatDate(post.date);
-    const read = document.createElement("span");
-    read.textContent = post.readingTime;
     meta.appendChild(cat);
     meta.appendChild(date);
-    meta.appendChild(read);
 
     const title = document.createElement("h3");
     title.className = "post-card_title";

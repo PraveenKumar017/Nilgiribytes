@@ -53,13 +53,23 @@
 
     <!-- ===== List view (default) ===== -->
     <div id="blog-list-view">
-      <section class="page-hero" aria-labelledby="blog-title">
-        <div class="container">
+      <section class="page-hero page-hero--blog" aria-labelledby="blog-title">
+        <div class="page-hero_media" aria-hidden="true">
+          <img src="assets/Craftsmanship.png" alt="" width="2000" height="1500" fetchpriority="high"
+            data-remove-on-error>
+        </div>
+        <div class="page-hero_overlay" aria-hidden="true"></div>
+        <div class="container page-hero_content">
           <span class="section-kicker">The blog</span>
           <h1 class="page-hero_title" id="blog-title">Stories from Our Oven.</h1>
           <p class="page-hero_text">Tips, tales and recipes from the bakery floor.
             <!-- Sample content: articles are placeholders until the bakery supplies real posts. -->
           </p>
+          <ul class="page-hero_pills">
+            <li>Baking Tips</li>
+            <li>Bakery Stories</li>
+            <li>Recipes</li>
+          </ul>
         </div>
       </section>
 
@@ -89,7 +99,7 @@
 
           <div id="blog-featured"></div>
 
-          <div class="blog-grid mt-2" id="blog-grid">
+          <div class="blog-grid mt-4" id="blog-grid">
             <noscript>
               <p class="empty-state">Enable JavaScript to read the blog.</p>
             </noscript>

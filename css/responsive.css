@@ -50,6 +50,16 @@
 
 /* ---------- Mobile-only: navigation & single-column stacks ---------- */
 @media (max-width: 767.98px) {
+  .related {
+    width: 100%;
+    left: auto;
+    transform: none;
+  }
+
+  .related .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
   .nav-toggle {
     display: inline-flex;
   }
@@ -219,7 +229,8 @@
     margin-inline: auto;
   }
 
-  .page-hero--shop {
+  .page-hero--shop,
+  .page-hero--blog {
     min-height: 0;
     padding-block: 2.75rem;
   }
