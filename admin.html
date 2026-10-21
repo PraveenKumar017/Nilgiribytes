@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Nilgiribytes</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" href="assets/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    document.documentElement.classList.add("js");
+    window.setTimeout(function () {
+      if (!window.NILGIRI_MOTION_READY) {
+        document.documentElement.classList.remove("js");
+      }
+    }, 2500);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body data-page="admin">
+
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <div class="admin-sidebar_top">
+        <a class="admin-sidebar_brand" href="index.html">Nilgiribytes <span>Admin</span></a>
+        <a class="admin-sidebar_back" href="index.html">Back to site ↗</a>
+      </div>
+
+      <nav class="admin-sidebar_nav">
+        <button class="admin-sidebar_link is-active" type="button" data-admin-view="products">
+          Products
+        </button>
+
+        <button class="admin-sidebar_link" type="button" data-admin-view="blog">
+          Blog
+        </button>
+
+        <a class="admin-sidebar_link admin-sidebar_link--back" href="index.html">← Back to site</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main" id="main-content">
+
+      <div class="admin-toolbar">
+        <h1 class="admin-toolbar_title" data-admin-title>Catalog</h1>
+        <div class="admin-toolbar_actions" data-admin-actions>
+          <button class="btn btn--primary" type="button" data-admin-add>Add product</button>
+          <button class="btn" type="button" data-admin-add-combo>Add combo</button>
+        </div>
+      </div>
+
+      <section class="admin-section" aria-label="Products and combos" data-admin-view-panel="products">
+        <h2 class="admin-sub_title">Products</h2>
+        <div class="admin-table_wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">200g</th>
+                <th scope="col">250g</th>
+                <th scope="col">400g</th>
+                <th scope="col">500g</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody data-products-list></tbody>
+          </table>
+        </div>
+
+        <h2 class="admin-sub_title admin-sub_title--spaced">Combos</h2>
+        <div class="admin-table_wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody data-combos-list></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-section" aria-label="Blog" data-admin-view-panel="blog" hidden>
+        <div class="admin-soon">
+          <h2>Blog manager coming soon</h2>
+          <p>Create, edit and publish blog posts from here.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Editor drawer -->
+  <div class="admin-overlay" data-admin-overlay hidden></div>
+  <aside class="admin-drawer" data-admin-drawer hidden aria-label="Edit item" role="dialog" aria-modal="true">
+    <div class="admin-drawer_header">
+      <h2 data-admin-drawer-title>Edit item</h2>
+      <button class="admin-drawer_close" type="button" data-admin-close aria-label="Close editor">×</button>
+    </div>
+    <form class="admin-drawer_body" data-admin-form>
+
+      <label class="admin-field">
+        <span>ID <em>(lowercase-with-dashes, unique)</em></span>
+        <input name="id" type="text" required pattern="[a-z0-9-]+" autocomplete="off">
+      </label>
+
+      <label class="admin-field">
+        <span>Name</span>
+        <input name="name" type="text" required autocomplete="off">
+      </label>
+
+      <label class="admin-field">
+        <span>Category</span>
+        <input name="category" type="text" list="admin-categories" required autocomplete="off">
+        <datalist id="admin-categories">
+          <option value="Varkey"></option>
+          <option value="Salt Biscuit"></option>
+          <option value="Sweet Biscuit"></option>
+          <option value="Cakes"></option>
+          <option value="Combos"></option>
+        </datalist>
+      </label>
+
+      <label class="admin-field">
+        <span>Description</span>
+        <textarea name="description" rows="3"></textarea>
+      </label>
+
+      <label class="admin-field">
+        <span>Image path</span>
+        <input name="image" type="text" placeholder="assets/images/products/…" autocomplete="off">
+      </label>
+
+      <!-- Product: sizes -->
+      <fieldset class="admin-sizes" data-admin-sizes>
+        <legend>Sizes &amp; prices</legend>
+        <div data-admin-sizes-rows></div>
+        <button class="btn btn--small" type="button" data-admin-add-size>+ Add size</button>
+      </fieldset>
+
+      <!-- Combo: fixed price + weight + includes -->
+      <div class="admin-combo-fields" data-admin-combo-fields hidden>
+        <label class="admin-field">
+          <span>Price (₹)</span>
+          <input name="price" type="number" min="0" step="1">
+        </label>
+        <label class="admin-field">
+          <span>Weight label</span>
+          <input name="weight" type="text" placeholder="1 kg total" autocomplete="off">
+        </label>
+        <label class="admin-field">
+          <span>Includes <em>(one per line: Product Name | 500g)</em></span>
+          <textarea name="includes" rows="4" placeholder="Special Varkey | 500g"></textarea>
+        </label>
+      </div>
+
+      <div class="admin-drawer_footer">
+        <button class="btn btn--primary" type="submit">Save item</button>
+        <button class="btn btn--danger" type="button" data-admin-delete hidden>Delete</button>
+      </div>
+    </form>
+  </aside>
+
+  <script src="js/admin.js"></script>
+</body>
+
+</html>

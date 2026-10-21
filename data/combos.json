@@ -8,7 +8,6 @@
       "image": "assets/images/products/varkey.png",
       "weight": "1 kg total",
       "price": 290,
-      "featured": true,
       "includes": [
         { "productId": "special-varkey", "name": "Special Varkey", "quantity": "500g" },
         { "productId": "regular-varkey", "name": "Regular Varkey", "quantity": "500g" }
@@ -22,7 +21,6 @@
       "image": "assets/images/products/Cookies_Treats.png",
       "weight": "1 kg total",
       "price": 300,
-      "featured": true,
       "includes": [
         { "productId": "special-varkey", "name": "Special Varkey", "quantity": "250g" },
         { "productId": "crispy-varkey", "name": "Crispy Varkey", "quantity": "250g" },
@@ -38,7 +36,6 @@
       "image": "assets/images/products/Cookies_Treats.png",
       "weight": "1 kg total",
       "price": 300,
-      "featured": true,
       "includes": [
         { "productId": "special-varkey", "name": "Special Varkey", "quantity": "250g" },
         { "productId": "sweet-biscuit", "name": "Sweet Biscuit", "quantity": "250g" },

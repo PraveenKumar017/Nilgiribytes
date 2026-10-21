@@ -21,7 +21,6 @@
       ingredients: p.ingredients || "",
       allergens: p.allergens || "",
       image: p.image,
-      featured: Boolean(p.featured),
       sizes: p.sizes || [],
       price: null,
       includes: null,
@@ -38,7 +37,6 @@
       ingredients: c.ingredients || "",
       allergens: c.allergens || "",
       image: c.image,
-      featured: c.featured !== false,
       sizes: [],
       price: c.price,
       includes: c.includes || [],
@@ -324,14 +322,12 @@
     if (!grid) return;
 
     Bakery.loadProducts().then(function (items) {
-      const combos = items.filter(function (i) {
-        return Bakery.isCombo(i) && i.featured;
+      const combos = items.filter(Bakery.isCombo);
+      const products = items.filter(function (i) {
+        return !Bakery.isCombo(i);
       });
-      const top = items.filter(function (i) {
-        return !Bakery.isCombo(i) && i.featured;
-      });
-      // Show 4 bestsellers: the 3 combos + the top featured item
-      renderInto(grid, combos.concat(top).slice(0, 4));
+      /* Show 4 bestsellers: the combos first, then the first products. */
+      renderInto(grid, combos.concat(products).slice(0, 4));
     });
   }
 
@@ -387,11 +383,8 @@
           list.sort(function (a, b) {
             return a.name.localeCompare(b.name);
           });
-        } else {
-          list.sort(function (a, b) {
-            return Number(b.featured) - Number(a.featured);
-          });
         }
+        /* Default "featured" sort keeps the original data-file order. */
 
         renderInto(grid, list, { quick: rendered });
         rendered = true;

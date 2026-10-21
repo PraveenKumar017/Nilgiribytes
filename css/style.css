@@ -2617,6 +2617,22 @@ a.map-placeholder:hover {
   font-size: 0.82rem;
 }
 
+.footer-admin-link {
+  color: var(--color-wheat);
+  text-decoration: none;
+  margin-left: 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  transition: opacity var(--transition), color var(--transition);
+}
+
+.footer-admin-link:hover {
+  opacity: 1;
+  color: var(--color-gold);
+}
+
 .social-links {
   display: flex;
   gap: 0.65rem;
