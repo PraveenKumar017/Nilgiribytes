@@ -130,6 +130,9 @@
           entries.forEach(function (entry) {
             if (!entry.isIntersecting) return;
             entry.target.classList.add("is-visible");
+            if (entry.target.id === "varkey-target-card" && !entry.target.classList.contains("is-landed")) {
+              entry.target.classList.add("is-landed");
+            }
             revealObserver.unobserve(entry.target);
           });
         },
