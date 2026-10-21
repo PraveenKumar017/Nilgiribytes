@@ -1,0 +1,56 @@
+{
+  "combos": [
+    {
+      "id": "bestseller-combo",
+      "name": "Bestseller Combo",
+      "category": "Combos",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "weight": "1 kg total",
+      "price": 290,
+      "featured": true,
+      "includes": [
+        { "productId": "special-varkey", "name": "Special Varkey", "quantity": "500g" },
+        { "productId": "regular-varkey", "name": "Regular Varkey", "quantity": "500g" }
+      ]
+    },
+    {
+      "id": "ooty-signature-combo",
+      "name": "Ooty Signature Combo",
+      "category": "Combos",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/Cookies_Treats.png",
+      "weight": "1 kg total",
+      "price": 300,
+      "featured": true,
+      "includes": [
+        { "productId": "special-varkey", "name": "Special Varkey", "quantity": "250g" },
+        { "productId": "crispy-varkey", "name": "Crispy Varkey", "quantity": "250g" },
+        { "productId": "regular-varkey", "name": "Regular Varkey", "quantity": "250g" },
+        { "productId": "salt-biscuit", "name": "Salt Biscuit", "quantity": "250g" }
+      ]
+    },
+    {
+      "id": "tea-time-combo",
+      "name": "Tea Time Combo",
+      "category": "Combos",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/Cookies_Treats.png",
+      "weight": "1 kg total",
+      "price": 300,
+      "featured": true,
+      "includes": [
+        { "productId": "special-varkey", "name": "Special Varkey", "quantity": "250g" },
+        { "productId": "sweet-biscuit", "name": "Sweet Biscuit", "quantity": "250g" },
+        { "productId": "salt-biscuit", "name": "Salt Biscuit", "quantity": "250g" },
+        { "productId": "varkey-flakes", "name": "Varkey Flakes", "quantity": "250g" }
+      ]
+    }
+  ]
+}

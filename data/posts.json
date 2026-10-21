@@ -1,0 +1,58 @@
+{
+  "posts": [
+    {
+      "slug": "the-art-of-the-perfect-varkey",
+      "title": "The Art of the Perfect Varkey",
+      "category": "Bakery Stories",
+      "author": "Sample Author",
+      "date": "2026-01-15",
+      "readingTime": "4 min read",
+      "featured": true,
+      "image": "assets/images/products/varkey.png",
+      "excerpt": "SAMPLE CONTENT — A short look at what makes a varkey light, layered and endlessly snackable. Final text to be confirmed by the bakery.",
+      "content": [
+        { "type": "p", "text": "SAMPLE CONTENT — This is placeholder copy written only to demonstrate the article layout. The bakery will supply the final story before this page goes live." },
+        { "type": "h2", "text": "Why layers matter" },
+        { "type": "p", "text": "TODO: confirm with bakery — describe how the dough is folded and rested, and how that creates the flaky layers people look for in a good varkey." },
+        { "type": "list", "items": ["TODO: confirm with bakery — flour and fat used", "TODO: confirm with bakery — resting time", "TODO: confirm with bakery — baking temperature and time"] },
+        { "type": "h2", "text": "Best enjoyed with" },
+        { "type": "p", "text": "TODO: confirm with bakery — serving suggestions, pairings and storage tips." }
+      ]
+    },
+    {
+      "slug": "five-ways-to-enjoy-your-tea-time-combo",
+      "title": "Five Ways to Enjoy Your Tea Time Combo",
+      "category": "Recipes",
+      "author": "Sample Author",
+      "date": "2026-01-22",
+      "readingTime": "3 min read",
+      "featured": false,
+      "image": "assets/images/products/Cookies_Treats.png",
+      "excerpt": "SAMPLE CONTENT — Simple pairing ideas to make your combo box last all week. Final recipes to be confirmed by the bakery.",
+      "content": [
+        { "type": "p", "text": "SAMPLE CONTENT — Placeholder article used to demonstrate the blog detail view. All recipes below must be confirmed by the bakery." },
+        { "type": "h2", "text": "Pairing ideas" },
+        { "type": "ol", "items": ["TODO: confirm with bakery — pairing one", "TODO: confirm with bakery — pairing two", "TODO: confirm with bakery — pairing three", "TODO: confirm with bakery — pairing four", "TODO: confirm with bakery — pairing five"] },
+        { "type": "p", "text": "TODO: confirm with bakery — storage instructions so the combo stays fresh." }
+      ]
+    },
+    {
+      "slug": "behind-the-oven-a-day-at-the-bakery",
+      "title": "Behind the Oven: A Day at the Bakery",
+      "category": "Baking Tips",
+      "author": "Sample Author",
+      "date": "2026-01-29",
+      "readingTime": "5 min read",
+      "featured": false,
+      "image": "assets/images/products/varkey.png",
+      "excerpt": "SAMPLE CONTENT — A walk-through of a typical baking day, from the early mix to the first warm batch on the shelf.",
+      "content": [
+        { "type": "p", "text": "SAMPLE CONTENT — Placeholder article. The bakery will replace this with a real account of how each day begins." },
+        { "type": "h2", "text": "Before sunrise" },
+        { "type": "p", "text": "TODO: confirm with bakery — opening routine, first batch timings and who does what." },
+        { "type": "h2", "text": "Freshness you can taste" },
+        { "type": "p", "text": "TODO: confirm with bakery — how batches are timed through the day and how freshness is checked." }
+      ]
+    }
+  ]
+}

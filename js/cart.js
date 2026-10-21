@@ -1,0 +1,359 @@
+/* ==========================================================================
+   cart.js — cart state (localStorage), cart drawer UI, WhatsApp ordering.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The WhatsApp number lives in ONE place: js/main.js → Bakery.config.whatsappNumber
+   (set once, in the "Site configuration" block).
+   Current: +91 93449 21647 (owner-confirmed).
+   The literal below is only a fallback for the unlikely case that main.js
+   failed to load.
+   -------------------------------------------------------------------------- */
+const WHATSAPP_NUMBER =
+  (window.Bakery && window.Bakery.config && window.Bakery.config.whatsappNumber) ||
+  "919344921647";
+
+const STORAGE_KEY = "veb_cart";
+
+(function () {
+  "use strict";
+
+  const Bakery = (window.Bakery = window.Bakery || {});
+
+  /* ---------- State ---------- */
+
+  function readCart() {
+    const lines = Bakery.storage.get(STORAGE_KEY, []);
+    return Array.isArray(lines) ? lines : [];
+  }
+
+  function writeCart(lines) {
+    Bakery.storage.set(STORAGE_KEY, lines);
+    render();
+    if (typeof Bakery.refreshCartBadge === "function") {
+      Bakery.refreshCartBadge();
+    }
+    announce();
+  }
+
+  function lineKey(line) {
+    return line.id + "::" + line.sizeLabel;
+  }
+
+  function cartSubtotal(lines) {
+    return lines.reduce(function (sum, line) {
+      return sum + line.price * line.qty;
+    }, 0);
+  }
+
+  function cartCount(lines) {
+    return lines.reduce(function (sum, line) {
+      return sum + line.qty;
+    }, 0);
+  }
+
+  /* ---------- Public API ---------- */
+
+  Bakery.cart = {
+    /** Add an item (from products.js) with a selected size index. */
+    add: function (item, sizeIndex, qty) {
+      const lines = readCart();
+      const sizeLabel = Bakery.itemSizeLabel(item, sizeIndex);
+      const price = Bakery.itemPrice(item, sizeIndex);
+      const existing = lines.find(function (l) {
+        return l.id === item.id && l.sizeLabel === sizeLabel;
+      });
+
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        lines.push({
+          id: item.id,
+          name: item.name,
+          sizeLabel: sizeLabel,
+          price: price,
+          qty: qty,
+          image: item.image,
+          category: item.category,
+        });
+      }
+      writeCart(lines);
+      openDrawer();
+    },
+
+    updateQty: function (key, delta) {
+      const lines = readCart();
+      const line = lines.find(function (l) {
+        return lineKey(l) === key;
+      });
+      if (!line) return;
+      line.qty += delta;
+      const next = lines.filter(function (l) {
+        return l.qty > 0;
+      });
+      writeCart(next);
+    },
+
+    remove: function (key) {
+      const lines = readCart().filter(function (l) {
+        return lineKey(l) !== key;
+      });
+      writeCart(lines);
+    },
+  };
+
+  /* ---------- Drawer UI ---------- */
+
+  let drawer = null;
+  let overlay = null;
+  let lastFocus = null;
+
+  function openDrawer() {
+    if (!drawer) return;
+    lastFocus = document.activeElement;
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    const toggle = document.querySelector("[data-cart-toggle]");
+    if (toggle) toggle.setAttribute("aria-expanded", "true");
+    if (overlay) {
+      overlay.hidden = false;
+      requestAnimationFrame(function () {
+        overlay.classList.add("is-open");
+      });
+    }
+    document.body.classList.add("is-locked");
+    const closeBtn = drawer.querySelector("[data-cart-close]");
+    if (closeBtn) closeBtn.focus();
+    document.addEventListener("keydown", onKeydown);
+  }
+
+  function closeDrawer() {
+    if (!drawer) return;
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    const toggle = document.querySelector("[data-cart-toggle]");
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+    if (overlay) overlay.classList.remove("is-open");
+    document.body.classList.remove("is-locked");
+    document.removeEventListener("keydown", onKeydown);
+    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+  }
+
+  function onKeydown(e) {
+    if (e.key === "Escape") {
+      closeDrawer();
+      return;
+    }
+    if (e.key !== "Tab" || !drawer.classList.contains("is-open")) return;
+    const items = Array.from(
+      drawer.querySelectorAll('a[href], button:not([disabled])')
+    ).filter(function (el) {
+      return el.offsetParent !== null;
+    });
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  function announce() {
+    const live = document.querySelector("[data-cart-live]");
+    if (!live) return;
+    const lines = readCart();
+    const count = cartCount(lines);
+    live.textContent =
+      count === 0
+        ? "Cart is empty."
+        : count + (count === 1 ? " item" : " items") + " in cart. Subtotal " +
+        Bakery.formatPrice(cartSubtotal(lines)) + ".";
+  }
+
+  function render() {
+    if (!drawer) return;
+    const lines = readCart();
+    const wrap = drawer.querySelector("[data-cart-lines]");
+    const subtotalEl = drawer.querySelector("[data-cart-subtotal]");
+    if (!wrap) return;
+
+    wrap.innerHTML = "";
+
+    if (!lines.length) {
+      const empty = document.createElement("p");
+      empty.className = "empty-state";
+      empty.textContent = "Your cart is empty. Add something fresh from the shop.";
+      wrap.appendChild(empty);
+    } else {
+      lines.forEach(function (line) {
+        const key = lineKey(line);
+        const row = document.createElement("div");
+        row.className = "cart-line";
+
+        const img = document.createElement("img");
+        img.className = "cart-line_img";
+        img.src = line.image;
+        img.alt = "";
+        img.width = 64;
+        img.height = 64;
+        img.loading = "lazy";
+        img.addEventListener("error", function () {
+          Bakery.handleImageError(img, "");
+        });
+
+        const info = document.createElement("div");
+        const name = document.createElement("p");
+        name.className = "cart-line_name";
+        name.textContent = line.name;
+        const meta = document.createElement("p");
+        meta.className = "cart-line_meta";
+        meta.textContent = line.sizeLabel + " · " + Bakery.formatPrice(line.price) + " each";
+
+        const stepper = document.createElement("div");
+        stepper.className = "qty-stepper";
+        const minus = document.createElement("button");
+        minus.type = "button";
+        minus.textContent = "−";
+        minus.setAttribute("aria-label", "Decrease quantity of " + line.name);
+        minus.addEventListener("click", function () {
+          Bakery.cart.updateQty(key, -1);
+        });
+        const qty = document.createElement("span");
+        qty.textContent = String(line.qty);
+        qty.setAttribute("aria-live", "polite");
+        const plus = document.createElement("button");
+        plus.type = "button";
+        plus.textContent = "+";
+        plus.setAttribute("aria-label", "Increase quantity of " + line.name);
+        plus.addEventListener("click", function () {
+          Bakery.cart.updateQty(key, 1);
+        });
+        stepper.appendChild(minus);
+        stepper.appendChild(qty);
+        stepper.appendChild(plus);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "cart-line_remove";
+        remove.textContent = "Remove";
+        remove.addEventListener("click", function () {
+          Bakery.cart.remove(key);
+        });
+
+        info.appendChild(name);
+        info.appendChild(meta);
+        info.appendChild(stepper);
+        info.appendChild(remove);
+
+        const priceEl = document.createElement("p");
+        priceEl.className = "cart-line_price";
+        priceEl.textContent = Bakery.formatPrice(line.price * line.qty);
+
+        row.appendChild(img);
+        row.appendChild(info);
+        row.appendChild(priceEl);
+        wrap.appendChild(row);
+      });
+    }
+
+    if (subtotalEl) {
+      subtotalEl.textContent = Bakery.formatPrice(cartSubtotal(lines));
+    }
+
+    const orderBtn = drawer.querySelector("[data-order-whatsapp]");
+    if (orderBtn) orderBtn.disabled = lines.length === 0;
+  }
+
+  /* ---------- WhatsApp order ---------- */
+
+  function buildOrderMessage() {
+    const lines = readCart();
+    const total = cartSubtotal(lines);
+
+    const itemLines = lines.map(function (line, idx) {
+      return (
+        idx + 1 +
+        ". " +
+        line.name +
+        " (" +
+        line.sizeLabel +
+        ") x" +
+        line.qty +
+        " — ₹" +
+        line.price * line.qty
+      );
+    });
+
+    return [
+      "Hello Nilgiribytes! I would like to place an order:",
+      "",
+      itemLines.join("\n"),
+      "",
+      "Total: ₹" + total,
+      "",
+      "Items: " + cartCount(lines),
+      "(Please confirm delivery/pickup details. — order from website)",
+    ].join("\n");
+  }
+
+  function orderOnWhatsApp() {
+    const lines = readCart();
+    if (!lines.length) return;
+    const message = buildOrderMessage();
+    const url =
+      typeof Bakery.whatsappLink === "function"
+        ? Bakery.whatsappLink(message)
+        : "https://wa.me/" +
+          WHATSAPP_NUMBER +
+          "?text=" +
+          encodeURIComponent(message);
+    window.open(url, "_blank", "noopener");
+  }
+
+  /* ---------- Boot ---------- */
+  function init() {
+    drawer = document.getElementById("cart-drawer");
+    overlay = document.querySelector("[data-overlay]");
+    if (!drawer) return;
+
+    document.querySelectorAll("[data-cart-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", openDrawer);
+    });
+    document.querySelectorAll("[data-cart-close]").forEach(function (btn) {
+      btn.addEventListener("click", closeDrawer);
+    });
+    if (overlay) {
+      overlay.addEventListener("click", function () {
+        if (drawer.classList.contains("is-open")) closeDrawer();
+        const nav = document.getElementById("site-nav");
+        if (nav && nav.classList.contains("is-open")) {
+          const navClose = document.querySelector("[data-nav-close]");
+          if (navClose) navClose.click();
+        }
+      });
+    }
+
+    const orderBtn = drawer.querySelector("[data-order-whatsapp]");
+    if (orderBtn) orderBtn.addEventListener("click", orderOnWhatsApp);
+
+    render();
+    announce();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  // Partials may arrive after cart init; re-init when they do.
+  document.addEventListener("partials:ready", function () {
+    drawer = null;
+    init();
+    render();
+  });
+})();

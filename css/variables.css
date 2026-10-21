@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Nilgiribytes — Design tokens (single source of truth for all color,
+   type, spacing, shape and motion). No hard-coded colors in other files.
+   ========================================================================== */
+
+:root {
+  /* ----- Core brand palette ----- */
+  --color-chocolate: #35170F;   /* Heritage Chocolate — primary, footer, headings */
+  --color-cocoa: #6B3821;       /* Roasted Cocoa — hover, secondary surfaces */
+  --color-gold: #C79A42;        /* Antique Gold — accents, icons, fine borders */
+  --color-ivory: #F2E4C5;       /* Warm Ivory — hero bg, highlights */
+  --color-cream: #FBF7EF;       /* Bakery Cream — page background, card surfaces */
+  --color-wheat: #D8C7A4;       /* Wheat Beige — dividers, muted accents */
+
+  /* ----- Supporting palette ----- */
+  --color-cinnamon: #75432D;    /* warm accents, category labels */
+  --color-olive: #526044;       /* freshness / WhatsApp */
+  --color-ink: #28221D;         /* Espresso Ink — body text */
+
+  /* ----- Semantic colors ----- */
+  --color-background: var(--color-cream);
+  --color-surface: #FFFFFF;
+  --color-heading: var(--color-chocolate);
+  --color-text: var(--color-ink);
+  --color-muted: #6E6258;
+  --color-border: #E4D7C1;
+  --color-primary: var(--color-chocolate);
+  --color-primary-hover: var(--color-cocoa);
+  --color-accent: var(--color-gold);
+
+  /* ----- Typography ----- */
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", Arial, sans-serif;
+
+  /* ----- Layout ----- */
+  --container-width: 1200px;
+  --page-padding: 24px;
+  --section-space: 88px;
+  --header-height: 76px;   /* sticky header height — used for scroll-margin-top */
+
+  /* ----- Shape ----- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  /* ----- Elevation (always warm brown, never black) ----- */
+  --shadow-card: 0 2px 6px rgba(53, 23, 15, 0.05), 0 14px 34px rgba(53, 23, 15, 0.10);
+  --shadow-hover: 0 4px 10px rgba(53, 23, 15, 0.08), 0 22px 48px rgba(53, 23, 15, 0.16);
+  --shadow-drawer: -8px 0 40px rgba(53, 23, 15, 0.18);
+  --transition: 220ms ease;
+
+  /* ----- Motion (used by css/animations.css + js/animations.js) ----- */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 200ms;      /* hovers, small state changes */
+  --dur-base: 400ms;      /* reveals, fades, drawer */
+  --dur-slow: 900ms;      /* hero content, larger sequences */
+  --dur-hero: 1400ms;     /* hero media zoom */
+  --stagger: 90ms;        /* per-item reveal delay (delay = --i * --stagger) */
+  --hero-stagger: 160ms;  /* hero headline / text / CTA sequence */
+
+  /* ----- Premium derived accents (from palette only) ----- */
+  --hairline-gold: rgba(199, 154, 66, 0.45);   /* gold at low alpha */
+  --hairline-gold-strong: rgba(199, 154, 66, 0.85);
+  --hairline-gold-soft: rgba(199, 154, 66, 0.18);
+  --hairline-wheat: rgba(216, 199, 164, 0.55);
+  --header-bg: rgba(251, 247, 239, 0.94);      /* cream at low alpha */
+  --gradient-gold: linear-gradient(90deg, rgba(199, 154, 66, 0), var(--color-gold), rgba(199, 154, 66, 0));
+  --gradient-button: linear-gradient(180deg, var(--color-cocoa), var(--color-chocolate));
+  --gradient-dark: linear-gradient(160deg, var(--color-chocolate) 0%, var(--color-cocoa) 100%);
+  --shadow-float: 0 6px 18px rgba(53, 23, 15, 0.22);
+  --shadow-float-hover: 0 10px 26px rgba(53, 23, 15, 0.30);
+  --shadow-badge: 0 3px 10px rgba(53, 23, 15, 0.25);
+  --shadow-hero-text: 0 2px 24px rgba(53, 23, 15, 0.45);
+  --shadow-modal: 0 30px 80px rgba(53, 23, 15, 0.35);
+  --shadow-whatsapp: 0 6px 18px rgba(82, 96, 68, 0.30);
+  --shadow-gold-cta: 0 8px 24px rgba(199, 154, 66, 0.35);
+  --texture-ivory:
+    repeating-linear-gradient(
+      135deg,
+      rgba(216, 199, 164, 0.10) 0px,
+      rgba(216, 199, 164, 0.10) 1px,
+      transparent 1px,
+      transparent 14px
+    );
+
+  /* ----- Derived warm-brown alphas ----- */
+  --overlay-scrim: rgba(40, 34, 29, 0.55);
+  --hero-overlay: linear-gradient(
+    90deg,
+    rgba(53, 23, 15, 0.88) 0%,
+    rgba(53, 23, 15, 0.62) 48%,
+    rgba(53, 23, 15, 0.18) 100%
+  );
+  --footer-rule: rgba(216, 199, 164, 0.25);
+  --footer-social-border: rgba(216, 199, 164, 0.4);
+}

@@ -1,0 +1,539 @@
+/* ==========================================================================
+   NilgiriBytes — Artisan Baking Kitchen Scroll Hero
+   Proper kitchen composition: wooden table on left, deck oven on right
+   ========================================================================== */
+
+:root {
+  --oven-bg-dark: #0b0503;
+  --oven-bg-warm: #180904;
+  --oven-gold: #c79a42;
+  --oven-amber: #e58729;
+  --oven-amber-glow: rgba(245, 140, 40, 0.7);
+  --oven-cream: #fbf7ef;
+  --oven-ivory: #f3e6cf;
+}
+
+/* Full Hero Section Container */
+.oven-story {
+  position: relative;
+  background-color: var(--oven-bg-dark);
+  color: var(--oven-cream);
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Pinned Hero Stage */
+.oven-stage {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  max-height: 1100px;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+/* Soft Left Vignette for Typography Legibility */
+.oven-stage-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 4, 2, 0.94) 0%,
+    rgba(8, 4, 2, 0.86) 28%,
+    rgba(8, 4, 2, 0.58) 46%,
+    rgba(8, 4, 2, 0.15) 62%,
+    transparent 78%
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Hero Content (Positioned over Left Artisan Baker Table) */
+.oven-stage .hero-copy {
+  position: relative;
+  z-index: 15;
+  width: min(45%, 560px);
+  margin-left: max(5vw, 44px);
+  padding: 24px 28px 24px 0;
+  border-radius: 16px;
+  background: radial-gradient(
+    ellipse at 25% 45%,
+    rgba(10, 5, 2, 0.55) 0%,
+    rgba(10, 5, 2, 0.25) 60%,
+    transparent 100%
+  );
+  pointer-events: auto;
+}
+
+.oven-stage .hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #f7ca6d;
+  font-size: clamp(0.72rem, 1vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+  background: rgba(18, 9, 4, 0.75);
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(247, 202, 109, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.oven-stage .hero-heading {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2.4rem, 4.4vw, 5.0rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0 0 1.25rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 4px 25px rgba(0, 0, 0, 0.9);
+}
+
+.oven-stage .hero-heading span.highlight {
+  color: #ffcf68;
+  font-style: italic;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 0 20px rgba(229, 135, 41, 0.5);
+}
+
+.oven-stage .hero-desc {
+  font-size: clamp(1rem, 1.2vw, 1.22rem);
+  line-height: 1.65;
+  color: #ffffff;
+  font-weight: 450;
+  margin-bottom: 2rem;
+  max-width: 470px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+}
+
+.oven-stage .hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.oven-stage .hero-cta-group .btn--primary {
+  background: linear-gradient(135deg, #d39634, #a46c1a);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.oven-stage .hero-cta-group .btn--outline {
+  color: #fbf7ef !important;
+  border: 1.5px solid rgba(251, 247, 239, 0.55);
+  background: rgba(45, 20, 10, 0.45);
+  backdrop-filter: blur(8px);
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.oven-stage .hero-cta-group .btn--outline:hover {
+  background: rgba(251, 247, 239, 0.15);
+  border-color: #fbf7ef;
+}
+
+/* Scene and Baking Kitchen Viewport */
+.oven-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  z-index: 1;
+}
+
+/* Full Artisan Baking Kitchen Viewport */
+.oven-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.oven-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.oven-closed {
+  z-index: 1;
+  opacity: 1;
+}
+
+.oven-open {
+  z-index: 2;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Dynamic Glowing Chamber Spill (Middle Deck Chamber on Right) */
+.oven-glow-spill {
+  position: absolute;
+  top: 30%;
+  left: 66%;
+  width: 24%;
+  height: 28%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 185, 60, 0.95) 0%, rgba(240, 120, 25, 0.6) 45%, transparent 75%);
+  mix-blend-mode: screen;
+  filter: blur(28px);
+  opacity: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   3D Volumetric Authentic Ooty Varkey Flight
+   ========================================================================== */
+
+.varkey-flight {
+  position: absolute;
+  z-index: 30;
+  /* Originates inside the middle deck oven chamber on the right */
+  left: 74%;
+  top: 38%;
+  width: clamp(140px, 14vw, 210px);
+  aspect-ratio: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.varkey-shadow-wrap {
+  position: absolute;
+  bottom: -28%;
+  left: 12%;
+  width: 76%;
+  height: 36%;
+  transform: rotateX(65deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.varkey-shadow {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.varkey-rotator {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* 3D Volumetric Extrusion Layers */
+.varkey-volume {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.varkey-layer-deep {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translateZ(-10px) translateY(4px);
+  filter: brightness(0.55) contrast(1.2);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.varkey-layer-mid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translateZ(-5px) translateY(2px);
+  filter: brightness(0.75) contrast(1.1);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.varkey-hero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform: translateZ(0);
+  filter: drop-shadow(0 18px 32px rgba(10, 4, 2, 0.75));
+}
+
+/* Golden Flying Pastry Crumbs */
+.varkey-crumbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.varkey-crumb {
+  position: absolute;
+  background: radial-gradient(circle, #fce09b 30%, #b86e24 100%);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  opacity: 0.85;
+}
+
+.varkey-crumb.c1 { width: 7px; height: 6px; top: 15%; left: 10%; }
+.varkey-crumb.c2 { width: 9px; height: 7px; top: 80%; left: 20%; }
+.varkey-crumb.c3 { width: 6px; height: 5px; top: 40%; right: 5%; }
+.varkey-crumb.c4 { width: 8px; height: 8px; bottom: 10%; right: 15%; }
+.varkey-crumb.c5 { width: 5px; height: 4px; top: 5%; right: 25%; }
+
+/* Scroll Hint */
+.oven-scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--oven-gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+  opacity: 0.85;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-track {
+  width: 22px;
+  height: 36px;
+  border: 2px solid rgba(199, 154, 66, 0.55);
+  border-radius: 12px;
+  position: relative;
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--oven-gold);
+  border-radius: 2px;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  60% { transform: translate(-50%, 12px); opacity: 0; }
+  100% { transform: translate(-50%, 0); opacity: 0; }
+}
+
+/* ==========================================================================
+   Shop by Choice: Card 1 (Varkey) Docking & Landing Styles
+   ========================================================================== */
+
+#varkey-target-card {
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid rgba(229, 135, 41, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#varkey-target-card.is-landed {
+  border-color: #f7ca6d;
+  box-shadow: 0 16px 40px rgba(229, 135, 41, 0.45), 0 0 28px rgba(247, 202, 109, 0.35);
+  transform: translateY(-6px);
+}
+
+.category-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #e58729, #c79a42);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-varkey-dock {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.card-varkey-dock .category-card_texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#varkey-target-card.is-landed .card-varkey-dock .category-card_texture {
+  opacity: 0.95;
+}
+
+/* Landing Gold Wave Pulse */
+.varkey-dock-pulse {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 110, 0.9) 0%, rgba(229, 135, 41, 0.5) 50%, transparent 75%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#varkey-target-card.is-landed .varkey-dock-pulse {
+  animation: landingWave 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes landingWave {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(28); opacity: 0; }
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .oven-stage .hero-copy {
+    width: min(48%, 500px);
+    margin-left: 4vw;
+  }
+  
+  .oven-layer {
+    object-position: 70% center;
+  }
+
+  .varkey-flight {
+    left: 72%;
+    top: 38%;
+  }
+}
+
+@media (max-width: 992px) {
+  .oven-stage .hero-copy {
+    width: min(52%, 460px);
+    margin-left: 3.5vw;
+  }
+  
+  .oven-layer {
+    object-position: 72% center;
+  }
+
+  .varkey-flight {
+    left: 70%;
+    top: 38%;
+  }
+}
+
+@media (max-width: 768px) {
+  .oven-stage {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: max(80px, 12vh);
+    min-height: 680px;
+  }
+
+  .oven-stage-vignette {
+    background: linear-gradient(
+      180deg,
+      rgba(8, 4, 2, 0.94) 0%,
+      rgba(8, 4, 2, 0.8) 45%,
+      rgba(8, 4, 2, 0.25) 75%,
+      transparent 100%
+    );
+  }
+
+  .oven-stage .hero-copy {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .oven-stage .hero-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .oven-stage .hero-cta-group {
+    justify-content: center;
+  }
+
+  .oven-layer {
+    object-position: 80% 65%;
+  }
+
+  .varkey-flight {
+    left: 55%;
+    top: 55%;
+    width: clamp(110px, 24vw, 160px);
+  }
+
+  .oven-scroll-hint {
+    bottom: 12px;
+  }
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .oven-open {
+    opacity: 0.95 !important;
+  }
+  .oven-glow-spill {
+    opacity: 0.4 !important;
+  }
+  .varkey-flight {
+    opacity: 0 !important;
+  }
+  #varkey-target-card .card-varkey-dock .category-card_texture {
+    opacity: 0.95 !important;
+  }
+  .scroll-wheel {
+    animation: none;
+  }
+}

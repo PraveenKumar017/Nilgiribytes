@@ -1,0 +1,397 @@
+/* ==========================================================================
+   Nilgiribytes — Motion layer
+   Loaded AFTER css/style.css and css/responsive.css.
+
+   Contains: reveal classes, hero sequence, intro overlay, page transitions,
+   parallax, and the small motion accents (cart badge pop, floating WhatsApp).
+
+   MOTION TIERS — js/animations.js writes the active package onto <html> as
+   `data-motion`. The attribute holds the package name, so the "~=" selector
+   operator is used with the full package name (it matches whole words only):
+
+     [data-motion~="silk-motion"]           fades + hover transitions only
+     [data-motion~="golden-reveal"]         + hero sequence + scroll reveals
+     [data-motion~="signature-experience"]  + intro + page transitions + parallax
+
+   Every tier is a strict subset of the one above it.
+
+   ALL hidden initial states are scoped to `html.js`, so every element stays
+   visible when JavaScript is unavailable or the motion layer fails to load.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Scroll reveal (feature 03)
+   -------------------------------------------------------------------------- */
+
+html.js .reveal,
+html.js [data-reveal] {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+html.js .reveal {
+  transform: translateY(24px);
+}
+
+html.js [data-reveal="fade-up"] {
+  transform: translateY(28px);
+}
+
+html.js [data-reveal="fade-in"] {
+  transform: none;
+}
+
+html.js [data-reveal="slide-left"] {
+  transform: translateX(-32px);
+}
+
+html.js [data-reveal="slide-right"] {
+  transform: translateX(32px);
+}
+
+html.js [data-reveal="zoom-in"] {
+  transform: scale(0.94);
+}
+
+html.js .reveal.is-visible,
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Quick fade — used when a grid is re-rendered by a filter / search / sort.
+   No stagger is replayed, the cards simply fade in. */
+html.js .is-quick {
+  transition-duration: var(--dur-fast) !important;
+  transition-delay: 0ms !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Cinematic hero reveal (feature 01)
+   -------------------------------------------------------------------------- */
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1.08);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes heroOverlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heroRuleDraw {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+html.js .hero_content > *:not(.hero_rule) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+html.js .hero.is-loaded .hero_content > *:not(.hero_rule) {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+/* Stagger — headline, supporting text and CTA appear one after another. */
+html.js .hero.is-loaded .hero_content > :nth-child(1) {
+  transition-delay: 0ms;
+}
+
+html.js .hero.is-loaded .hero_content > :nth-child(2) {
+  transition-delay: var(--hero-stagger);
+}
+
+html.js .hero.is-loaded .hero_content > :nth-child(3) {
+  transition-delay: calc(2 * var(--hero-stagger));
+}
+
+html.js .hero.is-loaded .hero_content > :nth-child(4) {
+  transition-delay: calc(3 * var(--hero-stagger));
+}
+
+html.js .hero.is-loaded .hero_content > :nth-child(5) {
+  transition-delay: calc(4 * var(--hero-stagger));
+}
+
+html.js .hero.is-loaded .hero_content > :nth-child(6) {
+  transition-delay: calc(5 * var(--hero-stagger));
+}
+
+/* The thin gold line that draws across the hero after the headline. */
+.hero_rule {
+  display: block;
+  width: min(240px, 60%);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), rgba(199, 154, 66, 0));
+  margin: 1.5rem 0 1.75rem;
+  transform-origin: left center;
+}
+
+html.js .hero_rule {
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+html.js .hero.is-loaded .hero_rule {
+  animation: heroRuleDraw var(--dur-slow) var(--ease-out)
+    calc(3 * var(--hero-stagger)) both;
+}
+
+/* Hero media: gentle zoom, golden reveal and above only. */
+html.js [data-motion~="golden-reveal"] .hero.is-loaded .hero_media,
+html.js [data-motion~="signature-experience"] .hero.is-loaded .hero_media {
+  animation: heroZoom var(--dur-hero) var(--ease-out) both;
+}
+
+html.js .hero.is-loaded .hero_overlay {
+  animation: heroOverlayFade var(--dur-hero) var(--ease-out) both;
+}
+
+/* Silk motion: one gentle fade for the whole hero — no stagger, no zoom. */
+html.js [data-motion~="silk-motion"] .hero.is-loaded .hero_content > * {
+  transition-delay: 0ms;
+}
+
+html.js [data-motion~="silk-motion"] .hero.is-loaded .hero_rule {
+  animation: none;
+  transform: scaleX(1);
+  opacity: 1;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+/* --------------------------------------------------------------------------
+   3. Signature intro (feature 04 — signature experience only)
+   -------------------------------------------------------------------------- */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: var(--color-chocolate);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-base) var(--ease-out),
+    visibility var(--dur-base);
+}
+
+.intro[hidden] {
+  display: none;
+}
+
+.intro.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.intro_inner {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.intro_logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.intro.is-active .intro_logo {
+  animation: introLogoIn var(--dur-slow) var(--ease-out) 120ms both;
+}
+
+@keyframes introLogoIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.intro_brand {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-cream);
+}
+
+.intro_rule {
+  display: block;
+  width: 180px;
+  height: 2px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.intro.is-active .intro_rule {
+  animation: heroRuleDraw var(--dur-slow) var(--ease-out) 420ms both;
+}
+
+.intro_skip {
+  position: absolute;
+  right: clamp(1rem, 4vw, 2.5rem);
+  bottom: clamp(1rem, 4vw, 2.5rem);
+  padding: 0.5rem 1.1rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-wheat);
+  background: transparent;
+  border: 1px solid var(--footer-social-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition),
+    background var(--transition);
+}
+
+.intro_skip:hover {
+  color: var(--color-chocolate);
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* --------------------------------------------------------------------------
+   4. Refined page transitions (signature experience only)
+   -------------------------------------------------------------------------- */
+
+html.js [data-motion~="signature-experience"] body {
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out);
+}
+
+html.js [data-motion~="signature-experience"] body.is-ready {
+  opacity: 1;
+}
+
+html.js [data-motion~="signature-experience"].is-leaving body {
+  opacity: 0;
+  transition-duration: 250ms;
+}
+
+/* --------------------------------------------------------------------------
+   5. Parallax (signature experience only) — transform only, ±40px max
+   -------------------------------------------------------------------------- */
+
+html.js [data-motion~="signature-experience"] [data-parallax] img {
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   6. Motion accents
+   -------------------------------------------------------------------------- */
+
+/* Cart badge pop when the count changes. */
+@keyframes cartBadgePop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-count.is-pop {
+  animation: cartBadgePop 420ms var(--ease-out) 1;
+}
+
+/* Floating WhatsApp button — one-time pulse ring. */
+@keyframes floatWaRing {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+.float-wa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-olive);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.float-wa.is-pulse::after {
+  animation: floatWaRing 1600ms var(--ease-out) 1;
+}
+
+/* --------------------------------------------------------------------------
+   7. Reduced motion — content resolves immediately, only a soft fade left
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal,
+  html.js [data-reveal],
+  html.js .hero_content > *:not(.hero_rule),
+  html.js .hero_rule {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    transition-delay: 0ms;
+  }
+
+  html.js .hero.is-loaded .hero_media,
+  html.js .hero.is-loaded .hero_overlay,
+  html.js .hero.is-loaded .hero_rule,
+  .intro.is-active .intro_logo,
+  .intro.is-active .intro_rule,
+  .cart-count.is-pop,
+  .float-wa.is-pulse::after {
+    animation: none;
+  }
+
+  html.js [data-motion~="signature-experience"] body {
+    opacity: 1;
+    transition: none;
+  }
+
+  html.js [data-motion~="signature-experience"] [data-parallax] img {
+    will-change: auto;
+  }
+
+  .intro {
+    display: none !important;
+  }
+}

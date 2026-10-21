@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: replace the domain with the bakery's real domain before launch.
+Sitemap: https://www.niligibytes.com/sitemap.xml

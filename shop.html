@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop | Nilgiribytes — Varkey, Biscuits &amp; Combos</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" href="assets/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="description"
+    content="Shop freshly baked varkey, biscuits and signature combos from Nilgiribytes. Choose your size and order on WhatsApp.">
+  <link rel="canonical" href="https://www.nilgibytes.com/shop.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Shop | Nilgiribytes">
+  <meta property="og:description"
+    content="Made fresh, shared with love — varkey, biscuits and combos available by weight.">
+  <meta property="og:image" content="https://www.nilgibytes.com/assets/Fresh_Pastries.png">
+  <meta property="og:image:alt" content="Fresh pastries and bakes from the Nilgiribytes counter">
+  <meta property="og:url" content="https://www.nilgibytes.com/shop.html">
+  <meta property="og:site_name" content="Nilgiribytes">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shop | Nilgiribytes">
+  <meta name="twitter:image" content="https://www.nilgibytes.com/assets/Fresh_Pastries.png">
+  <script>
+    /* Marks that JavaScript is available — see css/animations.css. */
+    document.documentElement.classList.add("js");
+    window.setTimeout(function () {
+      if (!window.NILGIRI_MOTION_READY) {
+        document.documentElement.classList.remove("js");
+      }
+    }, 2500);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body data-page="shop">
+
+
+  <!-- Shared header (fetched by js/main.js) -->
+  <div data-include="header"></div>
+
+  <main id="main-content">
+
+    <section class="page-hero page-hero--shop" aria-labelledby="shop-title">
+      <div class="page-hero_media" aria-hidden="true">
+        <img src="assets/Fresh_Pastries.png" alt="" width="2000" height="1500" fetchpriority="high"
+          data-remove-on-error>
+      </div>
+      <div class="page-hero_overlay" aria-hidden="true"></div>
+      <div class="container page-hero_content">
+        <span class="section-kicker">The bakery counter</span>
+        <h1 class="page-hero_title" id="shop-title">Made Fresh, Shared with Love.</h1>
+        <p class="page-hero_text">Varkey and biscuits sold by weight, plus fixed-price
+          combos — baked fresh and packed the same day. Retail &amp; wholesale available,
+          and pre-order cakes also available — contact us on WhatsApp.</p>
+        <ul class="page-hero_pills">
+          <li>Baked fresh daily</li>
+          <li>Sold by weight</li>
+          <li>WhatsApp ordering</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="shop-grid-title">
+      <div class="container">
+        <h2 class="sr-only" id="shop-grid-title">Products</h2>
+
+        <div class="shop-toolbar reveal" data-reveal="fade-up">
+          <div class="filter-chips" role="group" aria-label="Filter by category">
+            <button class="chip" type="button" data-filter="All" aria-pressed="true">All</button>
+            <button class="chip" type="button" data-filter="Varkey" aria-pressed="false">Varkey</button>
+            <button class="chip" type="button" data-filter="Salt Biscuit" aria-pressed="false">Salt Biscuit</button>
+            <button class="chip" type="button" data-filter="Sweet Biscuit" aria-pressed="false">Sweet Biscuit</button>
+            <button class="chip" type="button" data-filter="Cakes" aria-pressed="false">Cakes</button>
+            <button class="chip" type="button" data-filter="Combos" aria-pressed="false">Combos</button>
+          </div>
+
+          <div class="shop-controls">
+            <div class="field">
+              <label for="shop-search">Search</label>
+              <input class="input" id="shop-search" type="search" placeholder="Search products…" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="shop-sort">Sort by</label>
+              <select class="select" id="shop-sort">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="name">Name: A–Z</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <p class="form-hint" id="shop-count" role="status" aria-live="polite">Loading products…</p>
+
+        <div class="product-grid" id="shop-grid">
+          <noscript>
+            <p class="empty-state">Enable JavaScript to browse products, or contact us
+              directly to order.</p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Shared footer (fetched by js/main.js) -->
+  <div data-include="footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/animations.js" defer></script>
+</body>
+
+</html>

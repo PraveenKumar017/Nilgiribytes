@@ -1,0 +1,248 @@
+/* ==========================================================================
+   Nilgiribytes — Responsive styles
+   Breakpoints: 480 / 768 / 1024 / 1280
+   Approach: mobile-only rules are scoped to max-width; grid/spacing
+   upgrades happen in min-width blocks (mobile-first progression).
+   ========================================================================== */
+
+/* ---------- Mobile defaults (also the base values) ---------- */
+:root {
+  --page-padding: 20px;
+  --section-space: 52px;
+}
+
+.product-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.category-grid {
+  grid-template-columns: 1fr;
+}
+
+.testimonial-grid,
+.blog-grid {
+  grid-template-columns: 1fr;
+}
+
+.values-grid {
+  grid-template-columns: 1fr;
+}
+
+.footer-grid {
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+.shop-toolbar {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.shop-controls {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.newsletter_form {
+  flex-direction: column;
+}
+
+/* ---------- Mobile-only: navigation & single-column stacks ---------- */
+@media (max-width: 767.98px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    width: min(320px, 85%);
+    height: 100dvh;
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    padding: 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 260ms ease;
+    visibility: hidden;
+  }
+
+  .site-nav.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .site-nav_list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .site-nav_link {
+    display: block;
+    width: 100%;
+    padding: 0.7rem 0.25rem;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-nav_close {
+    display: inline-flex;
+  }
+
+.split,
+.visit-grid,
+.contact-grid {
+  grid-template-columns: 1fr;
+}
+
+
+  .split_media img {
+    height: 280px;
+  }
+
+  .modal_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card--featured {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card--featured .post-card_media {
+    min-height: 200px;
+  }
+
+  .hero_content {
+    padding-block: 1.25rem 3.25rem;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .page-hero--shop {
+    padding-block: 3rem;
+  }
+
+  .hero_text {
+    margin-inline: auto;
+  }
+
+  .hero_media {
+    background-image: url("../assets/hero_image_mobile.png?v=3");
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+/* ---------- 480px ---------- */
+@media (min-width: 480px) {
+  .product-grid {
+    gap: 1.25rem;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- 768px ---------- */
+@media (min-width: 768px) {
+  :root {
+    --page-padding: 32px;
+    --section-space: 72px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonial-grid,
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shop-toolbar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .shop-controls {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .newsletter_form {
+    flex-direction: row;
+  }
+}
+
+/* ---------- 1024px ---------- */
+@media (min-width: 1024px) {
+  :root {
+    --page-padding: 48px;
+    --section-space: 88px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .testimonial-grid,
+  .blog-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+  }
+}
+
+/* ---------- 1280px ---------- */
+@media (min-width: 1280px) {
+  :root {
+    --page-padding: 64px;
+    --section-space: 96px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------- Small screens fine-tuning ---------- */
+@media (max-width: 479px) {
+  .site-logo {
+    font-size: 1.15rem;
+  }
+
+  .site-logo img {
+    height: 44px;
+  }
+
+  .product-card_body {
+    padding: 0.9rem;
+  }
+
+  .size-select_btn {
+    font-size: 0.75rem;
+    min-width: 52px;
+  }
+
+  .shop-controls .field,
+  .shop-controls .input,
+  .shop-controls .select {
+    width: 100%;
+  }
+}
