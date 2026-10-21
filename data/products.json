@@ -1,210 +1,132 @@
 ﻿{
-    "products":  [
-                     {
-                         "id":  "special-varkey",
-                         "name":  "Special Varkey",
-                         "category":  "Varkey",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/varkey.png",
-                         "featured":  true,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  90
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  160
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  280
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "regular-varkey",
-                         "name":  "Regular Varkey",
-                         "category":  "Varkey",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/varkey.png",
-                         "featured":  true,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  70
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  140
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  260
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "crispy-varkey",
-                         "name":  "Crispy Varkey",
-                         "category":  "Varkey",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/varkey.png",
-                         "featured":  false,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  80
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  150
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  280
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "mini-varkey",
-                         "name":  "Mini Varkey",
-                         "category":  "Varkey",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/varkey.png",
-                         "featured":  false,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  100
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  180
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  300
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "varkey-flakes",
-                         "name":  "Varkey Flakes",
-                         "category":  "Varkey",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/varkey.png",
-                         "featured":  false,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  50
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  90
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  150
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "salt-biscuit",
-                         "name":  "Salt Biscuit",
-                         "category":  "Salt Biscuit",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/salt-cookies.png",
-                         "featured":  true,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  90
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  160
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  280
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "sweet-biscuit",
-                         "name":  "Sweet Biscuit",
-                         "category":  "Sweet Biscuit",
-                         "description":  "TODO: confirm with bakery",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/sweet_biscuit.png",
-                         "featured":  false,
-                         "sizes":  [
-                                       {
-                                           "label":  "250g",
-                                           "grams":  250,
-                                           "price":  90
-                                       },
-                                       {
-                                           "label":  "500g",
-                                           "grams":  500,
-                                           "price":  160
-                                       },
-                                       {
-                                           "label":  "1kg",
-                                           "grams":  1000,
-                                           "price":  280
-                                       }
-                                   ]
-                     },
-                     {
-                         "id":  "cake-preorder",
-                         "name":  "Cakes (Pre-Order)",
-                         "category":  "Cakes",
-                         "description":  "TODO: confirm with bakery — available for pre-order only",
-                         "ingredients":  "TODO: confirm with bakery",
-                         "allergens":  "TODO: confirm with bakery",
-                         "image":  "assets/images/products/cake.png",
-                         "featured":  false,
-                         "sizes":  [
-                                       {
-                                           "label":  "Pre-Order",
-                                           "grams":  0,
-                                           "price":  0
-                                       }
-                                   ]
-                     }
-                 ]
+  "products": [
+    {
+      "id": "special-varkey",
+      "name": "Special Varkey",
+      "category": "Varkey",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "featured": true,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "premium-special-varkey",
+      "name": "Premium Special Varkey",
+      "category": "Varkey",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "featured": false,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "regular-varkey",
+      "name": "Regular Varkey",
+      "category": "Varkey",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "featured": true,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "crispy-varkey",
+      "name": "Crispy Varkey",
+      "category": "Varkey",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "featured": false,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "mini-varkey",
+      "name": "Mini Varkey",
+      "category": "Varkey",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "featured": false,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "varkey-flakes",
+      "name": "Varkey Flakes",
+      "category": "Varkey",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/varkey.png",
+      "featured": false,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "salt-biscuit",
+      "name": "Salt Biscuit",
+      "category": "Salt Biscuit",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/salt-cookies.png",
+      "featured": true,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    },
+    {
+      "id": "sweet-biscuit",
+      "name": "Sweet Biscuit",
+      "category": "Sweet Biscuit",
+      "description": "TODO: confirm with bakery",
+      "ingredients": "TODO: confirm with bakery",
+      "allergens": "TODO: confirm with bakery",
+      "image": "assets/images/products/sweet_biscuit.png",
+      "featured": false,
+      "sizes": [
+        { "label": "200g", "grams": 200, "price": 1 },
+        { "label": "250g", "grams": 250, "price": 1 },
+        { "label": "400g", "grams": 400, "price": 1 },
+        { "label": "500g", "grams": 500, "price": 1 }
+      ]
+    }
+  ]
 }

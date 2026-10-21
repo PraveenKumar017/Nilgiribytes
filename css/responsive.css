@@ -124,7 +124,8 @@
   }
 
   .page-hero--shop {
-    padding-block: 3rem;
+    min-height: 0;
+    padding-block: 2.75rem;
   }
 
   .hero_text {

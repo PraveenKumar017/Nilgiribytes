@@ -720,10 +720,10 @@ p {
   display: flex;
   align-items: center;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: clamp(24rem, 52vh, 34rem);
   background: var(--color-chocolate);
   border-bottom: none;
-  padding-block: clamp(4.5rem, 12vw, 7.5rem);
+  padding-block: clamp(3rem, 8vw, 5rem);
   text-align: center;
   color: var(--color-cream);
 }
@@ -764,12 +764,14 @@ p {
 
 .page-hero--shop .page-hero_title {
   color: var(--color-ivory);
+  line-height: 1.2;
   text-shadow: 0 3px 40px rgba(26, 15, 10, 0.55);
 }
 
 .page-hero--shop .page-hero_text {
   color: var(--color-cream);
   max-width: 640px;
+  line-height: 1.85;
 }
 
 .page-hero_pills {
