@@ -1356,6 +1356,7 @@ p {
   flex-shrink: 0;
   padding: 0.45rem 1rem;
   font-size: 0.85rem;
+  border-radius: 999px;
 }
 
 /* Keep the bar out of the way while the drawer (or any modal) is open. */
