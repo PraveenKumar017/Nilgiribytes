@@ -346,19 +346,15 @@
     if (!grid) return;
 
     const chips = Array.from(document.querySelectorAll("[data-filter]"));
-    const searchInput = document.getElementById("shop-search");
     const sortSelect = document.getElementById("shop-sort");
     const resultCount = document.getElementById("shop-count");
 
     const params = new URLSearchParams(window.location.search);
     let activeCategory = params.get("category") || "All";
-    let query = params.get("q") || "";
     let sort = "featured";
     /* The first render plays the full stagger; later renders (filter, search,
        sort) use a quick fade so the stagger is not replayed every time. */
     let rendered = false;
-
-    if (searchInput) searchInput.value = query;
 
     function apply() {
       Bakery.loadProducts().then(function (items) {
@@ -367,16 +363,6 @@
         if (activeCategory !== "All") {
           list = list.filter(function (i) {
             return i.category === activeCategory;
-          });
-        }
-
-        if (query) {
-          const q = query.toLowerCase();
-          list = list.filter(function (i) {
-            return (
-              i.name.toLowerCase().indexOf(q) > -1 ||
-              i.category.toLowerCase().indexOf(q) > -1
-            );
           });
         }
 
@@ -420,17 +406,6 @@
         });
       }
     });
-
-    if (searchInput) {
-      let t;
-      searchInput.addEventListener("input", function () {
-        clearTimeout(t);
-        t = setTimeout(function () {
-          query = searchInput.value.trim();
-          apply();
-        }, 200);
-      });
-    }
 
     if (sortSelect) {
       sortSelect.addEventListener("change", function () {
