@@ -35,6 +35,7 @@
   /* ----- Typography ----- */
   --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Inter", Arial, sans-serif;
+  --font-quote: "Lora", Georgia, serif;
 
   /* ----- Layout ----- */
   --container-width: 1200px;

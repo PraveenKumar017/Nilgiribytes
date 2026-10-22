@@ -95,11 +95,12 @@
 
   /* ---------- Product card ---------- */
 
-  function buildCard(item) {
+  function buildCard(item, options) {
+    const animate = !options || options.reveal !== false;
     const card = document.createElement("article");
-    card.className = "product-card reveal";
+    card.className = "product-card" + (animate ? " reveal" : "");
     card.dataset.itemId = item.id;
-    card.setAttribute("data-reveal", "fade-up");
+    if (animate) card.setAttribute("data-reveal", "fade-up");
 
     // Media
     const media = document.createElement("div");
@@ -117,23 +118,21 @@
     const imageLoader = Bakery.attachImageLoader(media, img, "Loading " + item.name);
     imageLoader.setSrc(Bakery.itemImage(item, 0));
 
-    const tag = document.createElement("span");
-    tag.className = "product-card_tag";
-    tag.textContent = item.category;
-    media.appendChild(tag);
     media.addEventListener("click", function () {
       openModal(item);
     });
 
-    // Quick-view eye icon — sits in the top-right corner of the image.
+    // Quick-view maximize icon — sits in the top-right corner of the image.
     const viewBtn = document.createElement("button");
     viewBtn.type = "button";
     viewBtn.className = "product-card_view";
     viewBtn.innerHTML =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
-      '<path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/>' +
-      '<circle cx="12" cy="12" r="3"/></svg>';
+      '<path d="M15 3h6v6"/>' +
+      '<path d="M9 21H3v-6"/>' +
+      '<path d="M21 3l-7 7"/>' +
+      '<path d="M3 21l7-7"/></svg>';
     viewBtn.setAttribute("aria-label", "View details for " + item.name);
     viewBtn.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -303,6 +302,7 @@
 
   function renderInto(container, items, options) {
     const quick = Boolean(options && options.quick);
+    const reveal = !options || options.reveal !== false;
     container.innerHTML = "";
     if (!items.length) {
       const empty = document.createElement("p");
@@ -312,10 +312,10 @@
       return;
     }
     items.forEach(function (item) {
-      const card = buildCard(item);
+      const card = buildCard(item, { reveal: reveal });
       /* Re-renders (filter / search / sort) use a quick fade instead of
          replaying the full stagger. */
-      if (quick) card.classList.add("is-quick");
+      if (quick && reveal) card.classList.add("is-quick");
       container.appendChild(card);
     });
     // observe new cards for scroll-reveal animation
@@ -377,7 +377,7 @@
         window.clearTimeout(renderTimer);
         renderTimer = 0;
       }
-      renderInto(grid, list, { quick: rendered });
+      renderInto(grid, list, { quick: rendered, reveal: false });
       rendered = true;
       loaderStartedAt = 0;
 

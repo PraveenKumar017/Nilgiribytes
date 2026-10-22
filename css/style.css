@@ -1061,7 +1061,7 @@ p {
   transition: opacity var(--dur-base) var(--ease-out),
     transform var(--dur-base) var(--ease-out),
     background var(--transition), color var(--transition),
-    border-color var(--transition);
+    border-color var(--transition), box-shadow var(--transition);
 }
 
 .product-card_view svg {
@@ -1069,19 +1069,22 @@ p {
   height: 18px;
 }
 
-.product-card_view:hover {
-  background: var(--color-gold);
-  border-color: var(--color-gold);
-  color: var(--color-chocolate);
-}
-
 .product-card:hover .product-card_view,
 .product-card:focus-within .product-card_view {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
-/* Touch devices: the icon stays visible and the card does not lift. */
+.product-card_view:hover,
+.product-card_view:focus-visible {
+  opacity: 1;
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-chocolate);
+  box-shadow: var(--shadow-badge);
+}
+
+/* Touch devices: show the icon and keep the card steady. */
 @media (hover: none) {
   .product-card_view {
     opacity: 1;
@@ -1091,21 +1094,6 @@ p {
   .product-card:hover {
     transform: none;
   }
-}
-
-.product-card_tag {
-  position: absolute;
-  top: 0.7rem;
-  left: 0.7rem;
-  background: linear-gradient(180deg, var(--color-gold), var(--color-cinnamon));
-  color: var(--color-cream);
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.7rem;
-  border-radius: 999px;
-  box-shadow: var(--shadow-badge);
 }
 
 .product-card_body {
@@ -1165,6 +1153,26 @@ p {
 .product-card_action .btn {
   padding: 0.6rem 1.1rem;
   font-size: 0.9rem;
+}
+
+/* Add-to-cart buttons stay steady on hover — no colour flash or motion. */
+.product-card_action .btn--primary,
+.modal_actions .btn--primary {
+  transition: none;
+}
+
+.product-card_action .btn--primary:hover,
+.modal_actions .btn--primary:hover {
+  background: var(--gradient-button);
+  color: var(--color-cream);
+  box-shadow: inset 0 0 0 1px var(--hairline-gold),
+    var(--shadow-float);
+  transform: none;
+}
+
+.product-card_action .btn--primary:active,
+.modal_actions .btn--primary:active {
+  transform: none;
 }
 
 .product-card_action .qty-stepper--card {
@@ -1316,10 +1324,30 @@ p {
   box-shadow: 0 0 0 3px var(--hairline-gold);
 }
 
+.shop-controls .field {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.shop-controls .field label {
+  white-space: nowrap;
+}
+
 .shop-controls .input,
 .shop-controls .select {
   padding: 0.45rem 0.85rem;
   font-size: 0.9rem;
+}
+
+.shop-controls .select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2375432D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 11px 8px;
 }
 
 .empty-state {
@@ -2057,25 +2085,14 @@ body[data-page="cart"] .section {
 
 .testimonial {
   position: relative;
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 2rem 1.75rem 1.75rem;
+  padding: 2rem 1.75rem 1.5rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), border-color var(--transition);
-}
-
-.testimonial::before {
-  content: "\201C";
-  position: absolute;
-  top: 0.4rem;
-  right: 1.4rem;
-  font-family: var(--font-heading);
-  font-size: 4.5rem;
-  line-height: 1;
-  color: var(--color-gold);
-  opacity: 0.55;
-  pointer-events: none;
 }
 
 .testimonial:hover {
@@ -2084,11 +2101,28 @@ body[data-page="cart"] .section {
 }
 
 .testimonial_quote {
-  font-family: var(--font-heading);
-  font-size: 1.08rem;
+  flex: 1 1 auto;
+  font-family: var(--font-quote);
+  font-size: 1.06rem;
+  line-height: 1.65;
+  letter-spacing: 0.012em;
   font-style: italic;
   color: var(--color-heading);
   margin-bottom: 1.25rem;
+}
+
+.testimonial_quote::before {
+  content: "\201C";
+  float: right;
+  margin: -0.15rem 0 0.35rem 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 3.75rem;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 0.7;
+  color: var(--color-gold);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .testimonial_author {
@@ -2099,6 +2133,7 @@ body[data-page="cart"] .section {
 .testimonial_meta {
   font-size: 0.8rem;
   color: var(--color-muted);
+  margin-bottom: 0;
 }
 
 /* ---------- Newsletter ---------- */
