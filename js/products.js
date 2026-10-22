@@ -21,6 +21,7 @@
       ingredients: p.ingredients || "",
       allergens: p.allergens || "",
       image: p.image,
+      poster: p.poster || "",
       sizeImages: p.sizeImages || {},
       sizes: p.sizes || [],
       price: null,
@@ -338,6 +339,143 @@
       });
       /* Show 4 bestsellers: the combos first, then the first products. */
       renderInto(grid, combos.concat(products).slice(0, 4));
+    });
+  }
+
+  /* ---------- Home: signature range posters ---------- */
+  function initPosterRail() {
+    const rail = document.getElementById("poster-rail");
+    if (!rail) return;
+
+    function createPoster(item, clone) {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "poster-card";
+      card.setAttribute("aria-label", "View " + item.name);
+      if (clone) {
+        card.tabIndex = -1;
+        card.setAttribute("aria-hidden", "true");
+        card.setAttribute("data-poster-clone", "true");
+      }
+
+      const img = document.createElement("img");
+      img.className = "poster-card_img";
+      img.src = item.poster;
+      img.alt = item.name + " — Nilgiribytes";
+      img.width = 1122;
+      img.height = 1402;
+      img.loading = "lazy";
+      img.addEventListener("error", function () {
+        Bakery.handleImageError(img, item.name + " poster coming soon");
+      });
+
+      card.appendChild(img);
+      card.addEventListener("click", function () {
+        Bakery.openProductModal(item);
+      });
+      return card;
+    }
+
+    Bakery.loadProducts().then(function (items) {
+      const posters = items.filter(function (item) {
+        return Boolean(item.poster);
+      });
+
+      if (!posters.length) {
+        const section = rail.closest("section");
+        if (section) section.hidden = true;
+        return;
+      }
+
+      posters.forEach(function (item) {
+        rail.appendChild(createPoster(item, false));
+      });
+
+      const reduceMotion =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      window.requestAnimationFrame(function () {
+        if (rail.scrollWidth <= rail.clientWidth + 1) return;
+
+        posters.forEach(function (item) {
+          rail.appendChild(createPoster(item, true));
+        });
+
+        window.requestAnimationFrame(function () {
+          const first = rail.querySelector(
+            ".poster-card:not([data-poster-clone])"
+          );
+          const firstClone = rail.querySelector('[data-poster-clone="true"]');
+          if (!first || !firstClone) return;
+
+          const loopWidth = firstClone.offsetLeft - first.offsetLeft;
+          if (loopWidth <= 0) return;
+
+          const SPEED = 26;
+          let paused = false;
+          let visible = true;
+          let last = 0;
+          let resumeTimer = 0;
+
+          function resumeAfterInteraction() {
+            window.clearTimeout(resumeTimer);
+            resumeTimer = window.setTimeout(function () {
+              paused = false;
+            }, 1200);
+          }
+
+          function tick(now) {
+            if (!last) last = now;
+            const delta = Math.min(now - last, 64);
+            last = now;
+
+            if (!paused && visible && !document.body.classList.contains("is-locked")) {
+              let x = rail.scrollLeft + (SPEED * delta) / 1000;
+              while (x >= loopWidth) x -= loopWidth;
+              while (x < 0) x += loopWidth;
+              rail.scrollLeft = x;
+            }
+
+            window.requestAnimationFrame(tick);
+          }
+
+          rail.addEventListener("mouseenter", function () {
+            paused = true;
+          });
+          rail.addEventListener("mouseleave", function () {
+            paused = false;
+          });
+          rail.addEventListener("focusin", function () {
+            paused = true;
+          });
+          rail.addEventListener("focusout", function () {
+            paused = false;
+          });
+          rail.addEventListener("pointerdown", function () {
+            paused = true;
+          });
+          rail.addEventListener("pointerup", resumeAfterInteraction);
+          rail.addEventListener("pointercancel", resumeAfterInteraction);
+          rail.addEventListener(
+            "wheel",
+            function () {
+              paused = true;
+              resumeAfterInteraction();
+            },
+            { passive: true }
+          );
+
+          if ("IntersectionObserver" in window) {
+            new IntersectionObserver(function (entries) {
+              visible = entries[0].isIntersecting;
+            }).observe(rail);
+          }
+
+          window.requestAnimationFrame(tick);
+        });
+      });
     });
   }
 
@@ -684,6 +822,7 @@
   /* ---------- Boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initBestsellers();
+    initPosterRail();
     initShop();
   });
 })();

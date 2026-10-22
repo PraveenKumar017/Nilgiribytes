@@ -901,6 +901,58 @@ p {
   color: var(--color-gold);
 }
 
+/* ---------- Signature range posters ---------- */
+.poster-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 30%;
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding-bottom: 0.6rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.poster-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.poster-card {
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.poster-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-float, var(--shadow-card));
+}
+
+.poster-card:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.poster-card_img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+
+
 /* ---------- Product card ---------- */
 .product-grid {
   display: grid;
