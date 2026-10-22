@@ -21,6 +21,7 @@
       ingredients: p.ingredients || "",
       allergens: p.allergens || "",
       image: p.image,
+      sizeImages: p.sizeImages || {},
       sizes: p.sizes || [],
       price: null,
       includes: null,
@@ -85,6 +86,13 @@
     return size ? size.label : "";
   };
 
+  Bakery.itemImage = function (item, sizeIndex) {
+    if (Bakery.isCombo(item)) return item.image;
+    const size = item.sizes[sizeIndex || 0];
+    const key = size ? size.label : "";
+    return (item.sizeImages && item.sizeImages[key]) || item.image;
+  };
+
   /* ---------- Product card ---------- */
 
   function buildCard(item) {
@@ -97,7 +105,7 @@
     const media = document.createElement("div");
     media.className = "product-card_media";
     const img = document.createElement("img");
-    img.src = item.image;
+    img.src = Bakery.itemImage(item, 0);
     img.alt = item.name + " — " + item.category + " from Nilgiribytes";
     img.width = 480;
     img.height = 360;
@@ -202,6 +210,7 @@
           selector.querySelectorAll("button").forEach(function (b, i) {
             b.setAttribute("aria-pressed", String(i === idx));
           });
+          img.src = Bakery.itemImage(item, idx);
           updatePrice();
           /* Different size = a different cart line; start the action over. */
           cartQty = 0;
@@ -510,7 +519,7 @@
     const media = el.querySelector("[data-modal-media]");
     media.innerHTML = "";
     const img = document.createElement("img");
-    img.src = item.image;
+    img.src = Bakery.itemImage(item, 0);
     img.alt = item.name + " — " + item.category;
     img.width = 640;
     img.height = 480;
@@ -573,6 +582,7 @@
           selector.querySelectorAll("button").forEach(function (b, i) {
             b.setAttribute("aria-pressed", String(i === idx));
           });
+          img.src = Bakery.itemImage(item, idx);
           renderPrice();
           /* Different size = a different cart line; start the action over. */
           cartQty = 0;

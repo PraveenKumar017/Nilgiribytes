@@ -74,7 +74,7 @@ const STORAGE_KEY = "veb_cart";
           sizeLabel: sizeLabel,
           price: price,
           qty: qty,
-          image: item.image,
+          image: Bakery.itemImage ? Bakery.itemImage(item, sizeIndex) : item.image,
           category: item.category,
         });
       }
