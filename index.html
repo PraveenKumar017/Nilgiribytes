@@ -221,19 +221,33 @@
     </section>
 
     <!-- Signature range -->
-    <section class="section" aria-labelledby="range-title">
+    <section class="section section--posters" aria-labelledby="range-title">
       <div class="container">
         <span class="section-kicker reveal" data-reveal="fade-up">From the bakery</span>
         <h2 class="section-heading reveal" data-reveal="fade-up" id="range-title">The Signature Range</h2>
         <hr class="divider reveal" data-reveal="fade-in">
         <p class="section-intro reveal" data-reveal="fade-up">Our full range of Ooty varkey and biscuits —
           tap a poster to see sizes and add to your order.</p>
-        <div class="poster-rail" id="poster-rail" aria-label="Signature product range">
-          <noscript>
-            <p class="empty-state">Enable JavaScript to view our range, or visit the
-              <a class="link-arrow" href="shop.html">shop page</a>.
-            </p>
-          </noscript>
+        <div class="poster-deck reveal" data-reveal="fade-up">
+          <div class="poster-stage" id="poster-rail" aria-label="Signature product range">
+            <noscript>
+              <p class="empty-state">Enable JavaScript to view our range, or visit the
+                <a class="link-arrow" href="shop.html">shop page</a>.
+              </p>
+            </noscript>
+          </div>
+          <button class="poster-nav poster-nav--prev" id="poster-prev" type="button" aria-label="Previous poster">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="poster-nav poster-nav--next" id="poster-next" type="button" aria-label="Next poster">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>

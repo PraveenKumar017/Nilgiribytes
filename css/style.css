@@ -901,54 +901,192 @@ p {
   color: var(--color-gold);
 }
 
-/* ---------- Signature range posters ---------- */
-.poster-rail {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 30%;
-  gap: 1rem;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  padding-bottom: 0.6rem;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* ---------- Signature range poster deck ---------- */
+.section--posters {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(199, 154, 66, 0.2), transparent 42%),
+    linear-gradient(158deg, #2b120c 0%, var(--color-chocolate) 52%, #1d0c07 100%);
+  border-block: 1px solid rgba(199, 154, 66, 0.28);
+  color: var(--color-ivory);
 }
 
-.poster-rail::-webkit-scrollbar {
-  display: none;
+.section--posters::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--texture-ivory);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.section--posters .container {
+  position: relative;
+  z-index: 1;
+}
+
+.section--posters .section-kicker {
+  color: var(--color-gold);
+}
+
+.section--posters .section-heading {
+  color: var(--color-ivory);
+}
+
+.section--posters .section-intro {
+  color: rgba(242, 228, 197, 0.72);
+}
+
+.section--posters .divider::after {
+  box-shadow: 0 0 0 3px var(--color-chocolate);
+}
+
+.poster-deck {
+  --stage-height: clamp(430px, 46vw, 620px);
+  position: relative;
+  padding: 0 3.25rem;
+}
+
+.poster-stage {
+  --poster-spread: 50%;
+  position: relative;
+  height: var(--stage-height);
+  perspective: 1600px;
+  perspective-origin: 50% 44%;
+  overflow: hidden;
+}
+
+.poster-stage::before {
+  content: "";
+  position: absolute;
+  inset: 6% 8% 12%;
+  background: radial-gradient(ellipse at center,
+      rgba(199, 154, 66, 0.18),
+      transparent 68%);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+.poster-stage::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  width: min(72%, 720px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: var(--gradient-gold);
+  opacity: 0.7;
 }
 
 .poster-card {
-  position: relative;
-  display: block;
-  padding: 0;
-  overflow: hidden;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
-  transition: transform var(--transition), border-color var(--transition),
-    box-shadow var(--transition);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(230px, 28vw, 360px);
+  aspect-ratio: 4 / 5;
+  padding: 10px;
+  border: 1px solid rgba(199, 154, 66, 0.36);
+  border-radius: 8px;
+  background: var(--color-cream);
+  box-shadow: 0 24px 60px rgba(15, 7, 4, 0.45);
+  opacity: var(--opacity, 1);
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--offset, 0) * var(--poster-spread)))
+    rotateY(calc(var(--offset, 0) * -13deg))
+    scale(var(--scale, 1));
+  transform-style: preserve-3d;
+  transition: transform 760ms var(--ease-out), opacity 560ms ease,
+    box-shadow 560ms ease, border-color 560ms ease;
+  will-change: transform, opacity;
 }
 
-.poster-card:hover {
-  transform: translateY(-4px);
+.poster-card.is-active {
   border-color: var(--color-gold);
-  box-shadow: var(--shadow-float, var(--shadow-card));
-}
-
-.poster-card:focus-visible {
-  outline: 3px solid var(--color-gold);
-  outline-offset: 3px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(199, 154, 66, 0.2);
 }
 
 .poster-card_img {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   object-fit: cover;
+  border-radius: 4px;
+}
+
+.poster-nav {
+  position: absolute;
+  top: calc(var(--stage-height) / 2 - 22px);
+  z-index: 35;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hairline-gold);
+  border-radius: 50%;
+  background: rgba(251, 247, 239, 0.07);
+  color: var(--color-gold);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition);
+}
+
+.poster-nav:hover {
+  background: var(--color-gold);
+  color: var(--color-chocolate);
+  border-color: var(--color-gold);
+}
+
+.poster-nav:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.poster-nav--prev {
+  left: 0;
+}
+
+.poster-nav--next {
+  right: 0;
+}
+
+@media (max-width: 1023px) {
+  .poster-card[data-offset="3"],
+  .poster-card[data-offset="-3"] {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .poster-deck {
+    --stage-height: clamp(390px, 114vw, 500px);
+    padding: 0 2.4rem;
+  }
+
+  .poster-stage {
+    --poster-spread: 54%;
+  }
+
+  .poster-card {
+    width: clamp(205px, 62vw, 280px);
+  }
+
+  .poster-card[data-offset="2"],
+  .poster-card[data-offset="-2"] {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  .poster-nav {
+    top: calc(var(--stage-height) / 2 - 19px);
+    width: 38px;
+    height: 38px;
+  }
 }
 
 

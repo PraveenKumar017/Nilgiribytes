@@ -347,16 +347,9 @@
     const rail = document.getElementById("poster-rail");
     if (!rail) return;
 
-    function createPoster(item, clone) {
-      const card = document.createElement("button");
-      card.type = "button";
+    function createPoster(item) {
+      const card = document.createElement("div");
       card.className = "poster-card";
-      card.setAttribute("aria-label", "View " + item.name);
-      if (clone) {
-        card.tabIndex = -1;
-        card.setAttribute("aria-hidden", "true");
-        card.setAttribute("data-poster-clone", "true");
-      }
 
       const img = document.createElement("img");
       img.className = "poster-card_img";
@@ -370,9 +363,6 @@
       });
 
       card.appendChild(img);
-      card.addEventListener("click", function () {
-        Bakery.openProductModal(item);
-      });
       return card;
     }
 
@@ -387,95 +377,105 @@
         return;
       }
 
-      posters.forEach(function (item) {
-        rail.appendChild(createPoster(item, false));
+      const cards = posters.map(function (item) {
+        const card = createPoster(item);
+        rail.appendChild(card);
+        return card;
       });
 
+      const prevBtn = document.getElementById("poster-prev");
+      const nextBtn = document.getElementById("poster-next");
+      const deck = rail.closest(".poster-deck") || rail;
+      const count = cards.length;
       const reduceMotion =
         window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion) return;
 
-      window.requestAnimationFrame(function () {
-        if (rail.scrollWidth <= rail.clientWidth + 1) return;
+      let active = 0;
+      let paused = false;
+      let visible = true;
+      let timer = 0;
 
-        posters.forEach(function (item) {
-          rail.appendChild(createPoster(item, true));
-        });
+      function render() {
+        cards.forEach(function (card, i) {
+          let offset = i - active;
+          if (offset > count / 2) offset -= count;
+          if (offset < -count / 2) offset += count;
 
-        window.requestAnimationFrame(function () {
-          const first = rail.querySelector(
-            ".poster-card:not([data-poster-clone])"
+          const abs = Math.abs(offset);
+          card.dataset.offset = String(offset);
+          card.style.setProperty("--offset", offset);
+          card.style.setProperty("--scale", Math.max(0.62, 1 - abs * 0.11));
+          card.style.setProperty(
+            "--opacity",
+            abs > 3 ? 0 : Math.max(0.3, 1 - abs * 0.16)
           );
-          const firstClone = rail.querySelector('[data-poster-clone="true"]');
-          if (!first || !firstClone) return;
-
-          const loopWidth = firstClone.offsetLeft - first.offsetLeft;
-          if (loopWidth <= 0) return;
-
-          const SPEED = 26;
-          let paused = false;
-          let visible = true;
-          let last = 0;
-          let resumeTimer = 0;
-
-          function resumeAfterInteraction() {
-            window.clearTimeout(resumeTimer);
-            resumeTimer = window.setTimeout(function () {
-              paused = false;
-            }, 1200);
-          }
-
-          function tick(now) {
-            if (!last) last = now;
-            const delta = Math.min(now - last, 64);
-            last = now;
-
-            if (!paused && visible && !document.body.classList.contains("is-locked")) {
-              let x = rail.scrollLeft + (SPEED * delta) / 1000;
-              while (x >= loopWidth) x -= loopWidth;
-              while (x < 0) x += loopWidth;
-              rail.scrollLeft = x;
-            }
-
-            window.requestAnimationFrame(tick);
-          }
-
-          rail.addEventListener("mouseenter", function () {
-            paused = true;
-          });
-          rail.addEventListener("mouseleave", function () {
-            paused = false;
-          });
-          rail.addEventListener("focusin", function () {
-            paused = true;
-          });
-          rail.addEventListener("focusout", function () {
-            paused = false;
-          });
-          rail.addEventListener("pointerdown", function () {
-            paused = true;
-          });
-          rail.addEventListener("pointerup", resumeAfterInteraction);
-          rail.addEventListener("pointercancel", resumeAfterInteraction);
-          rail.addEventListener(
-            "wheel",
-            function () {
-              paused = true;
-              resumeAfterInteraction();
-            },
-            { passive: true }
-          );
-
-          if ("IntersectionObserver" in window) {
-            new IntersectionObserver(function (entries) {
-              visible = entries[0].isIntersecting;
-            }).observe(rail);
-          }
-
-          window.requestAnimationFrame(tick);
+          card.style.zIndex = String(20 - abs);
+          card.classList.toggle("is-active", offset === 0);
         });
+      }
+
+      function setActive(i) {
+        active = (i + count) % count;
+        render();
+      }
+
+      function restartTimer() {
+        window.clearInterval(timer);
+        if (reduceMotion) return;
+        timer = window.setInterval(function () {
+          if (!paused && visible && !document.body.classList.contains("is-locked")) {
+            setActive(active + 1);
+          }
+        }, 4200);
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", function () {
+          setActive(active - 1);
+          restartTimer();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", function () {
+          setActive(active + 1);
+          restartTimer();
+        });
+      }
+
+      deck.addEventListener("mouseenter", function () {
+        paused = true;
       });
+      deck.addEventListener("mouseleave", function () {
+        paused = false;
+      });
+      deck.addEventListener("focusin", function () {
+        paused = true;
+      });
+      deck.addEventListener("focusout", function () {
+        paused = false;
+      });
+      deck.addEventListener("pointerdown", function () {
+        paused = true;
+      });
+      deck.addEventListener("pointerup", function () {
+        window.setTimeout(function () {
+          paused = false;
+        }, 900);
+      });
+      deck.addEventListener("pointercancel", function () {
+        paused = false;
+      });
+
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          visible = entries[0].isIntersecting;
+        }).observe(deck);
+      }
+
+      render();
+      restartTimer();
     });
   }
 
