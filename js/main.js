@@ -74,6 +74,85 @@
     }
   };
 
+  /** Build the logo-outline loading indicator. */
+  window.Bakery.logoLoader = function (label) {
+    const loader = document.createElement("span");
+    loader.className = "logo-loader";
+    loader.setAttribute("role", "status");
+    const mark = document.createElement("span");
+    mark.className = "logo-loader_mark";
+    mark.setAttribute("aria-hidden", "true");
+    loader.appendChild(mark);
+    const text = document.createElement("span");
+    text.className = "sr-only";
+    text.textContent = label || "Loading";
+    loader.appendChild(text);
+    return loader;
+  };
+
+  /** Cover an image container with the logo loader until the image loads. */
+  window.Bakery.attachImageLoader = function (container, img, label) {
+    const MIN_VISIBLE_MS = 400;
+    const overlay = document.createElement("div");
+    overlay.className = "image-loader is-ready";
+    overlay.appendChild(window.Bakery.logoLoader(label));
+    container.appendChild(overlay);
+
+    let currentSrc = "";
+    let shownAt = 0;
+    let hideTimer = 0;
+
+    function now() {
+      return window.performance && window.performance.now
+        ? window.performance.now()
+        : Date.now();
+    }
+
+    function show() {
+      if (hideTimer) {
+        window.clearTimeout(hideTimer);
+        hideTimer = 0;
+      }
+      if (!overlay.classList.contains("is-ready")) return;
+      shownAt = now();
+      overlay.classList.remove("is-ready");
+    }
+
+    function hide() {
+      if (overlay.classList.contains("is-ready")) return;
+      const remaining = MIN_VISIBLE_MS - (now() - shownAt);
+      if (remaining > 0) {
+        if (hideTimer) window.clearTimeout(hideTimer);
+        hideTimer = window.setTimeout(function () {
+          hideTimer = 0;
+          overlay.classList.add("is-ready");
+        }, remaining);
+      } else {
+        overlay.classList.add("is-ready");
+      }
+    }
+
+    function setSrc(src) {
+      currentSrc = src;
+      if (img.getAttribute("src") === src) {
+        if (!img.complete) show();
+        return;
+      }
+      show();
+      img.src = src;
+      if (img.complete && img.naturalWidth > 0) hide();
+    }
+
+    img.addEventListener("load", function () {
+      if (img.getAttribute("src") === currentSrc) hide();
+    });
+    img.addEventListener("error", function () {
+      if (img.getAttribute("src") === currentSrc) hide();
+    });
+
+    return { setSrc: setSrc, show: show, hide: hide };
+  };
+
   const FILE_PROTOCOL_HINT =
     "This page was opened via file://, so shared partials cannot be loaded. " +
     "Please run a local static server (for example the VS Code extension " +

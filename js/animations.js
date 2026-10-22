@@ -6,7 +6,7 @@
      01  Cinematic hero reveal ................ golden reveal +
      02  Product card hover ................... all packages (CSS only)
      03  Scroll-triggered storytelling ........ golden reveal +
-     04  Signature intro ...................... signature experience only
+     04  Entry intro .......................... home page, first visit
      +    Refined page transitions ............ signature experience only
      +    Selected parallax .................... signature experience only
      +    Silk motion basics ................... all packages (CSS only)
@@ -27,7 +27,7 @@
   /** Active motion package. Change this single value to switch tiers.
    *  "silk-motion"           → hovers + gentle fades only
    *  "golden-reveal"         → + hero sequence, scroll reveals, stagger
-   *  "signature-experience"  → + intro, page transitions, parallax
+   *  "signature-experience"  → + page transitions, parallax
    */
   const MOTION_PACKAGE = "golden-reveal";
 
@@ -41,7 +41,7 @@
       delay: 120, /* ms between page ready and the start of the hero sequence */
     },
     intro: {
-      duration: 2200, /* hard ceiling for the intro, in ms */
+      duration: 1800, /* hard ceiling for the intro, in ms */
     },
     transition: {
       duration: 260, /* ms fade-out before the browser navigates */
@@ -174,7 +174,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     04 — Signature intro (signature experience only)
+     04 — Entry intro
      -------------------------------------------------------------------------- */
 
   function initIntro(onDone) {
@@ -183,7 +183,6 @@
     /* Home page only, once per session, never when motion is reduced. */
     if (
       !intro ||
-      !isSignature ||
       reduceMotion ||
       document.body.getAttribute("data-page") !== "home"
     ) {
@@ -462,7 +461,7 @@
     initPageTransitions();
     initParallax();
 
-    if (isSignature) {
+    if (document.getElementById("intro")) {
       initIntro(startHero);
     } else {
       window.setTimeout(startHero, CONFIG.hero.delay);

@@ -908,6 +908,81 @@ p {
   gap: 1.5rem;
 }
 
+/* Logo-outline loader — shown while the product grid or an image loads. */
+.shop-loader {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.15rem;
+  padding: 3.5rem 1rem;
+  text-align: center;
+}
+
+.shop-loader_text {
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+}
+
+.image-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: var(--color-ivory);
+  opacity: 1;
+  visibility: visible;
+}
+
+.image-loader.is-ready {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 260ms var(--ease-out), visibility 260ms var(--ease-out);
+}
+
+.logo-loader {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+}
+
+.logo-loader_mark {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--hairline-gold);
+  -webkit-mask: url("../assets/nilgiribytes-outline.png") center / contain no-repeat;
+  mask: url("../assets/nilgiribytes-outline.png") center / contain no-repeat;
+}
+
+.logo-loader_mark::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 255deg,
+    var(--color-gold) 300deg,
+    var(--color-cinnamon) 340deg,
+    transparent 360deg
+  );
+  animation: logoLoaderSweep 1400ms linear infinite;
+}
+
+@keyframes logoLoaderSweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .product-card {
   display: flex;
   flex-direction: column;
@@ -1776,6 +1851,7 @@ body[data-page="cart"] .section {
 }
 
 .modal_media {
+  position: relative;
   background: var(--color-ivory);
 }
 

@@ -105,7 +105,6 @@
     const media = document.createElement("div");
     media.className = "product-card_media";
     const img = document.createElement("img");
-    img.src = Bakery.itemImage(item, 0);
     img.alt = item.name + " — " + item.category + " from Nilgiribytes";
     img.width = 480;
     img.height = 360;
@@ -115,6 +114,8 @@
       Bakery.handleImageError(img, item.name + " — photo coming soon");
     });
     media.appendChild(img);
+    const imageLoader = Bakery.attachImageLoader(media, img, "Loading " + item.name);
+    imageLoader.setSrc(Bakery.itemImage(item, 0));
 
     const tag = document.createElement("span");
     tag.className = "product-card_tag";
@@ -210,7 +211,7 @@
           selector.querySelectorAll("button").forEach(function (b, i) {
             b.setAttribute("aria-pressed", String(i === idx));
           });
-          img.src = Bakery.itemImage(item, idx);
+          imageLoader.setSrc(Bakery.itemImage(item, idx));
           updatePrice();
           /* Different size = a different cart line; start the action over. */
           cartQty = 0;
@@ -355,6 +356,36 @@
     /* The first render plays the full stagger; later renders (filter, search,
        sort) use a quick fade so the stagger is not replayed every time. */
     let rendered = false;
+    let loaderStartedAt = 0;
+    let renderTimer = 0;
+
+    function showGridLoader() {
+      grid.innerHTML = "";
+      const wrap = document.createElement("div");
+      wrap.className = "shop-loader";
+      wrap.appendChild(Bakery.logoLoader("Loading products"));
+      const label = document.createElement("p");
+      label.className = "shop-loader_text";
+      label.textContent = "Loading fresh bakes…";
+      wrap.appendChild(label);
+      grid.appendChild(wrap);
+      loaderStartedAt = Date.now();
+    }
+
+    function renderList(list) {
+      if (renderTimer) {
+        window.clearTimeout(renderTimer);
+        renderTimer = 0;
+      }
+      renderInto(grid, list, { quick: rendered });
+      rendered = true;
+      loaderStartedAt = 0;
+
+      if (resultCount) {
+        resultCount.textContent =
+          list.length + (list.length === 1 ? " product" : " products");
+      }
+    }
 
     function apply() {
       Bakery.loadProducts().then(function (items) {
@@ -381,12 +412,13 @@
         }
         /* Default "featured" sort keeps the original data-file order. */
 
-        renderInto(grid, list, { quick: rendered });
-        rendered = true;
-
-        if (resultCount) {
-          resultCount.textContent =
-            list.length + (list.length === 1 ? " product" : " products");
+        const wait = Math.max(0, loaderStartedAt + 450 - Date.now());
+        if (wait > 0) {
+          renderTimer = window.setTimeout(function () {
+            renderList(list);
+          }, wait);
+        } else {
+          renderList(list);
         }
       });
     }
@@ -414,6 +446,7 @@
       });
     }
 
+    showGridLoader();
     apply();
   }
 
@@ -494,12 +527,13 @@
     const media = el.querySelector("[data-modal-media]");
     media.innerHTML = "";
     const img = document.createElement("img");
-    img.src = Bakery.itemImage(item, 0);
     img.alt = item.name + " — " + item.category;
     img.width = 640;
     img.height = 480;
     img.setAttribute("data-fallback", item.name + " — photo coming soon");
     media.appendChild(img);
+    const imageLoader = Bakery.attachImageLoader(media, img, "Loading " + item.name);
+    imageLoader.setSrc(Bakery.itemImage(item, 0));
     // run fallback for this fresh image if it errors
     img.addEventListener("error", function () {
       Bakery.handleImageError(img, item.name + " — photo coming soon");
@@ -557,7 +591,7 @@
           selector.querySelectorAll("button").forEach(function (b, i) {
             b.setAttribute("aria-pressed", String(i === idx));
           });
-          img.src = Bakery.itemImage(item, idx);
+          imageLoader.setSrc(Bakery.itemImage(item, idx));
           renderPrice();
           /* Different size = a different cart line; start the action over. */
           cartQty = 0;

@@ -192,7 +192,7 @@ html.js [data-motion~="silk-motion"] .hero.is-loaded .hero_rule {
 }
 
 /* --------------------------------------------------------------------------
-   3. Signature intro (feature 04 — signature experience only)
+   3. Entry intro (home page, first visit per session)
    -------------------------------------------------------------------------- */
 
 .intro {
@@ -225,15 +225,14 @@ html.js [data-motion~="silk-motion"] .hero.is-loaded .hero_rule {
   text-align: center;
 }
 
-.intro_logo {
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
+.intro .logo-loader {
+  width: 112px;
+  height: 112px;
   opacity: 0;
   transform: scale(0.92);
 }
 
-.intro.is-active .intro_logo {
+.intro.is-active .logo-loader {
   animation: introLogoIn var(--dur-slow) var(--ease-out) 120ms both;
 }
 
@@ -395,7 +394,7 @@ html.js [data-motion~="signature-experience"] [data-parallax] img {
   html.js .hero.is-loaded .hero_media,
   html.js .hero.is-loaded .hero_overlay,
   html.js .hero.is-loaded .hero_rule,
-  .intro.is-active .intro_logo,
+  .intro.is-active .logo-loader,
   .intro.is-active .intro_rule,
   .cart-count.is-pop,
   .float-wa,
