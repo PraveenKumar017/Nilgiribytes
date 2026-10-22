@@ -31,7 +31,7 @@ html {
 body {
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.8;
   color: var(--color-text);
   background: var(--color-background);
   -webkit-font-smoothing: antialiased;
@@ -142,7 +142,10 @@ p {
 }
 
 .section-heading {
-  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
   text-align: center;
   margin-bottom: 0.5rem;
 }
@@ -181,8 +184,9 @@ p {
 .section-intro {
   text-align: center;
   color: var(--color-muted);
-  max-width: 640px;
-  margin: 0 auto 2.75rem;
+  max-width: 680px;
+  margin: 0 auto 3.25rem;
+  font-size: clamp(1rem, 1.2vw, 1.08rem);
 }
 
 .sr-only {
@@ -200,10 +204,10 @@ p {
 /* Ornamental gold divider with centre diamond */
 .divider {
   position: relative;
-  width: 140px;
+  width: 160px;
   height: 10px;
   background: none;
-  margin: 1.1rem auto 2.4rem;
+  margin: 1.2rem auto 2.6rem;
   border: 0;
 }
 
@@ -275,11 +279,11 @@ p {
   justify-content: center;
   gap: 0.5rem;
   font-family: var(--font-body);
-  font-size: 0.94rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: none;
-  padding: 0.85rem 1.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.2rem;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -301,10 +305,10 @@ p {
 }
 
 .btn--primary:hover {
-  background: var(--color-cocoa);
+  background: linear-gradient(180deg, #81462b, var(--color-chocolate));
   box-shadow: inset 0 0 0 1px var(--hairline-gold-strong),
     var(--shadow-float-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 /* Gold CTA (used inside the dark hero) */
@@ -322,13 +326,14 @@ p {
 .btn--outline {
   background: transparent;
   color: var(--color-chocolate);
-  border-color: var(--color-gold);
+  border-color: var(--hairline-gold-strong);
 }
 
 .btn--outline:hover {
   background: var(--color-chocolate);
   color: var(--color-ivory);
   border-color: var(--color-chocolate);
+  transform: translateY(-2px);
 }
 
 .btn--ghost {
@@ -392,16 +397,42 @@ p {
   border-bottom: 1px solid var(--hairline-gold);
 }
 
-/* ---------- Header ---------- */
-.site-header {
-  position: sticky;
+/* ---------- Scroll progress ---------- */
+.scroll-progress {
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  z-index: 700;
+  height: 3px;
+  background: var(--header-bg);
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-chocolate), var(--color-gold));
+  box-shadow: 0 0 10px rgba(199, 154, 66, 0.35);
+  transition: width 120ms linear;
+}
+
+/* ---------- Header ---------- */
+body {
+  padding-top: calc(var(--header-height) + 3px);
+}
+
+.site-header {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
   z-index: 500;
   background: var(--header-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 1px 0 var(--hairline-wheat);
+  box-shadow: 0 1px 0 var(--hairline-wheat), 0 10px 30px rgba(53, 23, 15, 0.04);
 }
 
 .site-header_inner {
@@ -849,7 +880,7 @@ p {
   object-fit: cover;
   opacity: 0.85;
   z-index: 0;
-  transition: transform 400ms ease, opacity var(--transition);
+  transition: transform 680ms var(--ease-out), opacity var(--transition);
 }
 
 .category-card:hover .category-card_texture {
@@ -877,9 +908,14 @@ p {
 }
 
 .category-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--color-gold);
+  border-color: var(--hairline-gold-strong);
+}
+
+.category-card:hover .category-card_texture {
+  transform: scale(1.08);
+  opacity: 0.9;
 }
 
 .category-card_body {
@@ -1095,7 +1131,7 @@ p {
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 /* Logo-outline loader — shown while the product grid or an image loads. */
@@ -1199,9 +1235,21 @@ p {
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-8px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--hairline-gold);
+  border-color: var(--hairline-gold-strong);
+}
+
+.product-card:hover .product-card_img {
+  transform: scale(1.06);
+}
+
+.product-card_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 680ms var(--ease-out);
 }
 
 .product-card:hover::after {
@@ -1220,11 +1268,11 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 500ms ease;
+  transition: transform 680ms var(--ease-out);
 }
 
 .product-card:hover .product-card_media img {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 /* Quick-view eye icon in the top-right corner of the image */

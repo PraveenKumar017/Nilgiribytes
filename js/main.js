@@ -189,6 +189,21 @@
     const header = document.querySelector(".site-header");
     if (!header) return;
 
+    const progressBar = document.querySelector("[data-scroll-progress]");
+    if (progressBar) {
+      function updateScrollProgress() {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const scrollHeight = doc.scrollHeight - doc.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        progressBar.style.width = progress.toFixed(2) + "%";
+      }
+
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+      window.addEventListener("resize", updateScrollProgress);
+    }
+
     // Logo fallback if logo.png is missing
     const logoImg = header.querySelector("[data-logo-img]");
     if (logoImg) {
