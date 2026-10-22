@@ -460,11 +460,11 @@ body {
 }
 
 .site-logo_name {
-  font-family: var(--font-heading);
-  font-size: 1.35rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.42rem;
+  font-weight: 700;
   color: var(--color-heading);
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .site-logo_fallback {
@@ -483,7 +483,8 @@ body {
 
 .site-nav_link {
   position: relative;
-  font-size: 0.93rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   padding: 0.4rem 0;
