@@ -1,0 +1,6 @@
+{
+  "name": "nilgiribytes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nilgiribytes static storefront with Vercel Functions for the product catalog."
+}

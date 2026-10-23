@@ -1,18 +1,18 @@
 /* ==========================================================================
-   admin.html — client-side product & combo manager.
-   Loads data/products.json + data/combos.json, edits them in memory,
-   and persists a draft to localStorage for this browser.
+   admin.html — catalog manager backed by the Vercel catalog API.
    ========================================================================== */
 
 (function () {
   "use strict";
 
-  const DRAFT_KEY = "veb_admin_draft";
+  const API_URL = "api/catalog";
 
   const state = {
     products: [],
     combos: [],
     editing: null, // { type: "product"|"combo", index: number|null }
+    dirty: false,
+    publishing: false,
   };
 
   const $ = function (sel, root) {
@@ -33,59 +33,240 @@
     sizesRows: $("[data-admin-sizes-rows]"),
     comboFields: $("[data-admin-combo-fields]"),
     deleteBtn: $("[data-admin-delete]"),
+    publishBtn: $("[data-admin-publish]"),
+    status: $("[data-admin-status]"),
+    loginScreen: $("#login-screen"),
+    adminScreen: $("#admin-screen"),
+    loginForm: $("#login-form"),
+    loginBtn: $("#login-btn"),
+    loginError: $("#login-error"),
+    username: $("#username"),
+    password: $("#password"),
+    passwordToggle: $("#password-toggle"),
+    logoutBtn: $("[data-admin-logout]"),
   };
 
   let lastFocus = null;
 
-  /* ---------- Load / persist ---------- */
+  /* ---------- Auth / API ---------- */
 
-  function loadDraft() {
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (!raw) return null;
-      const draft = JSON.parse(raw);
-      if (!Array.isArray(draft.products) || !Array.isArray(draft.combos)) return null;
-      return draft;
-    } catch (e) {
-      return null;
-    }
+  function setStatus(message, tone) {
+    if (!els.status) return;
+    els.status.textContent = message || "";
+    if (tone) els.status.setAttribute("data-tone", tone);
+    else els.status.removeAttribute("data-tone");
   }
 
-  function saveDraft() {
-    localStorage.setItem(
-      DRAFT_KEY,
-      JSON.stringify({ products: state.products, combos: state.combos })
-    );
+  function updatePublishState() {
+    if (!els.publishBtn) return;
+    els.publishBtn.disabled = state.publishing || !state.dirty;
+    els.publishBtn.textContent = state.publishing ? "Publishing..." : "Publish changes";
+  }
+
+  function markDirty() {
+    state.dirty = true;
+    updatePublishState();
+    setStatus("Unsaved changes. Publish to update the live site.", "dirty");
+  }
+
+  function applyCatalog(catalog) {
+    state.products = Array.isArray(catalog.products) ? catalog.products : [];
+    state.combos = Array.isArray(catalog.combos) ? catalog.combos : [];
+    renderAll();
+  }
+
+  function showLogin() {
+    if (els.loginScreen) els.loginScreen.hidden = false;
+    if (els.adminScreen) els.adminScreen.hidden = true;
+    if (els.password) els.password.value = "";
+    if (els.loginError) els.loginError.hidden = true;
+    if (els.username) els.username.focus();
+  }
+
+  function showAdmin() {
+    if (els.loginScreen) els.loginScreen.hidden = true;
+    if (els.adminScreen) els.adminScreen.hidden = false;
+  }
+
+  function api(path, options) {
+    const opts = options || {};
+    const headers = Object.assign({ Accept: "application/json" }, opts.headers || {});
+    if (opts.body && !headers["Content-Type"]) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    return fetch(path, Object.assign({}, opts, {
+      credentials: "same-origin",
+      cache: "no-store",
+      headers: headers,
+    }))
+      .then(function (res) {
+        return res
+          .json()
+          .catch(function () {
+            return {};
+          })
+          .then(function (data) {
+            if (res.status === 401) showLogin();
+            if (!res.ok) {
+              const error = new Error(
+                data.error || "Request failed (" + res.status + ")."
+              );
+              error.status = res.status;
+              error.code = data.code;
+              throw error;
+            }
+            return data;
+          });
+      });
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    if (!els.loginForm) return;
+
+    const username = els.username ? els.username.value.trim() : "";
+    const password = els.password ? els.password.value : "";
+
+    if (els.loginError) els.loginError.hidden = true;
+    if (els.loginBtn) {
+      els.loginBtn.disabled = true;
+      els.loginBtn.textContent = "Signing in...";
+    }
+
+    fetch("api/login", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username, password: password }),
+    })
+      .then(function (res) {
+        return res
+          .json()
+          .catch(function () {
+            return {};
+          })
+          .then(function (data) {
+            if (!res.ok) {
+              throw new Error(data.error || "Login failed (" + res.status + ").");
+            }
+            return data;
+          });
+      })
+      .then(function () {
+        if (els.password) els.password.value = "";
+        showAdmin();
+        if (!state.dirty) loadData();
+      })
+      .catch(function (err) {
+        if (els.loginError) {
+          els.loginError.textContent = err.message || "Login failed.";
+          els.loginError.hidden = false;
+        }
+        if (els.password) els.password.value = "";
+      })
+      .finally(function () {
+        if (els.loginBtn) {
+          els.loginBtn.disabled = false;
+          els.loginBtn.textContent = "Login";
+        }
+      });
+  }
+
+  function logout() {
+    fetch("api/logout", { method: "POST", credentials: "same-origin" })
+      .catch(function () {
+        return null;
+      })
+      .finally(function () {
+        state.dirty = false;
+        updatePublishState();
+        showLogin();
+        setStatus("Logged out.", "muted");
+      });
+  }
+
+  function initAuth() {
+    fetch("api/me", { credentials: "same-origin", cache: "no-store" })
+      .then(function (res) {
+        return res
+          .json()
+          .catch(function () {
+            return {};
+          })
+          .then(function (data) {
+            return { res: res, data: data };
+          });
+      })
+      .then(function (result) {
+        if (result.res.ok && result.data.authenticated) {
+          showAdmin();
+          loadData();
+        } else {
+          showLogin();
+        }
+      })
+      .catch(function () {
+        showLogin();
+      });
   }
 
   function loadData() {
-    const draft = loadDraft();
-    if (draft) {
-      state.products = draft.products;
-      state.combos = draft.combos;
-      renderAll();
-      return Promise.resolve();
-    }
-    return Promise.all([
-      fetch("data/products.json").then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      }),
-      fetch("data/combos.json").then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      }),
-    ])
-      .then(function (res) {
-        state.products = res[0].products || [];
-        state.combos = res[1].combos || [];
-        saveDraft();
-        renderAll();
+    setStatus("Loading catalog...", "muted");
+    return api(API_URL)
+      .then(function (catalog) {
+        applyCatalog(catalog);
+        state.dirty = false;
+        updatePublishState();
+        setStatus("Live catalog loaded.", "muted");
       })
       .catch(function (err) {
         console.error(err);
         renderAll();
+        setStatus(err.message || "Could not load the catalog.", "error");
       });
+  }
+
+  async function publishCatalog() {
+    if (state.publishing || !state.dirty) return;
+
+    state.publishing = true;
+    updatePublishState();
+    setStatus("Publishing to GitHub...", "muted");
+
+    const body = JSON.stringify({
+      products: state.products,
+      combos: state.combos,
+    });
+
+    try {
+      let result = null;
+
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          result = await api(API_URL, { method: "PUT", body: body });
+          break;
+        } catch (err) {
+          if (err.code === "CONFLICT" && attempt === 0) {
+            setStatus("Another update was detected. Retrying...", "dirty");
+            continue;
+          }
+          throw err;
+        }
+      }
+
+      state.dirty = false;
+      setStatus(
+        "Published " + result.products + " products and " +
+          result.combos + " combos.",
+        "success"
+      );
+    } catch (err) {
+      setStatus(err.message || "Publish failed.", "error");
+    } finally {
+      state.publishing = false;
+      updatePublishState();
+    }
   }
 
   /* ---------- List rendering ---------- */
@@ -201,7 +382,7 @@
     if (!item) return;
     if (!confirm('Delete "' + item.name + '"?')) return;
     list.splice(index, 1);
-    saveDraft();
+    markDirty();
     renderAll();
   }
 
@@ -348,10 +529,11 @@
       return;
     }
 
-    /* ID uniqueness within its collection */
+    /* ID uniqueness across products and combos */
     const list = type === "product" ? state.products : state.combos;
-    const dupe = list.some(function (item, i) {
-      return item.id === id && i !== edit.index;
+    const existing = edit.index == null ? null : list[edit.index];
+    const dupe = state.products.concat(state.combos).some(function (item) {
+      return item.id === id && item !== existing;
     });
     if (dupe) {
       alert('ID "' + id + '" already exists. IDs must be unique.');
@@ -368,7 +550,7 @@
 
     let item;
     if (type === "combo") {
-      item = Object.assign(base, {
+      item = Object.assign({}, existing || {}, base, {
         category: "Combos",
         price: parseFloat(els.form.price.value) || 0,
         weight: els.form.weight.value.trim() || "1 kg total",
@@ -385,7 +567,7 @@
           .filter(Boolean),
       });
     } else {
-      item = Object.assign(base, { sizes: readSizes() });
+      item = Object.assign({}, existing || {}, base, { sizes: readSizes() });
       if (!item.sizes.length) {
         alert("Add at least one size with a label and price.");
         return;
@@ -395,7 +577,7 @@
     if (edit.index == null) list.push(item);
     else list[edit.index] = item;
 
-    saveDraft();
+    markDirty();
     renderAll();
     closeEditor();
   }
@@ -407,7 +589,7 @@
     const item = list[edit.index];
     if (!confirm('Delete "' + item.name + '"?')) return;
     list.splice(edit.index, 1);
-    saveDraft();
+    markDirty();
     renderAll();
     closeEditor();
   }
@@ -448,11 +630,28 @@
     $("[data-admin-add-size]").addEventListener("click", function () {
       addSizeRow();
     });
+    els.publishBtn.addEventListener("click", publishCatalog);
+
+    if (els.loginForm) els.loginForm.addEventListener("submit", handleLogin);
+    if (els.logoutBtn) els.logoutBtn.addEventListener("click", logout);
+
+    if (els.passwordToggle && els.password) {
+      els.passwordToggle.addEventListener("click", function () {
+        const show = els.password.type === "password";
+        els.password.type = show ? "text" : "password";
+        els.passwordToggle.classList.toggle("is-visible", show);
+        els.passwordToggle.setAttribute(
+          "aria-label",
+          show ? "Hide password" : "Show password"
+        );
+      });
+    }
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && !els.drawer.hidden) closeEditor();
     });
 
-    loadData();
+    updatePublishState();
+    initAuth();
   });
 })();

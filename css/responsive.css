@@ -18,6 +18,43 @@
 
 .category-grid {
   grid-template-columns: 1fr;
+  grid-template-rows: none;
+  grid-auto-rows: auto;
+  gap: 1rem;
+}
+
+.category-card--feature {
+  grid-row: auto;
+  min-height: clamp(380px, 82vw, 460px);
+}
+
+.category-card_media {
+  flex: 0 0 165px;
+}
+
+.category-card--wide {
+  grid-column: auto;
+  flex-direction: column;
+}
+
+.category-card--wide .category-card_media {
+  flex: 0 0 165px;
+}
+
+.category-card--wide .category-card_body {
+  padding: 1.05rem 1.3rem 1.25rem;
+}
+
+.category-collection_head {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.35rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.35rem;
+}
+
+.category-collection_note {
+  max-width: 520px;
 }
 
 .testimonial-grid,
@@ -259,6 +296,44 @@
 
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    gap: 1.25rem;
+  }
+
+  .category-card--feature {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: 380px;
+  }
+
+  .category-card_media {
+    flex: 1 1 auto;
+  }
+
+  .category-card--light {
+    min-height: 270px;
+  }
+
+  .category-card--wide {
+    grid-column: 1 / -1;
+    flex-direction: row;
+  }
+
+  .category-card--wide .category-card_media {
+    flex: 0 0 45%;
+  }
+
+  .category-card--wide .category-card_body {
+    padding: 1.35rem 2rem 1.35rem 1.6rem;
+  }
+
+  .category-collection_head {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.6rem;
   }
 
   .testimonial-grid,
@@ -312,6 +387,32 @@
 
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .category-grid {
+    grid-template-columns: 1.25fr 1fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .category-card--feature {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    min-height: 0;
+  }
+
+  .category-card:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .category-card:nth-child(3) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .category-card--wide {
+    grid-column: 2 / span 2;
+    grid-row: 2;
   }
 
   .testimonial-grid,

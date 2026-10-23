@@ -172,48 +172,76 @@
     </section>
 
     <!-- Featured categories -->
-    <section class="section" id="categories-section" aria-labelledby="categories-title">
+    <section class="section category-collection" id="categories-section" aria-labelledby="categories-title">
       <div class="container">
-        <span class="section-kicker reveal" data-reveal="fade-up">Our range</span>
-        <h2 class="section-heading reveal" data-reveal="fade-up" id="categories-title">Shop by Choice</h2>
-        <hr class="divider reveal" data-reveal="fade-in">
+        <div class="category-collection_head">
+          <div class="category-collection_title">
+            <span class="section-kicker text-left reveal" data-reveal="fade-up">Our range</span>
+            <h2 class="section-heading reveal" data-reveal="fade-up" id="categories-title">Shop by <em>Choice</em>
+            </h2>
+          </div>
+          <div class="category-collection_note reveal" data-reveal="fade-up">
+            <p>From flaky Ooty varkey to tea-time biscuits, every batch is baked in small quantities and packed the
+              day it leaves the oven.</p>
+           
+          </div>
+        </div>
         <div class="category-grid">
           <!-- Card 1: Varkey (Landing Target for the Oven Animation) -->
-          <a class="category-card reveal" data-reveal="drop" href="shop.html?category=Varkey"
+          <a class="category-card category-card--feature reveal" data-reveal="drop" href="shop.html?category=Varkey"
             id="varkey-target-card">
             <div class="card-varkey-dock" id="cardVarkeyDock">
               <img class="category-card_texture" id="varkeyCardImg" src="assets/images/animation/varkey.webp"
                 alt="Authentic Ooty Varkey" loading="lazy">
               <div class="varkey-dock-pulse" id="varkeyDockPulse"></div>
             </div>
+            <span class="category-card_index" aria-hidden="true">01</span>
             <div class="category-card_body">
               <span class="category-badge">Fresh From Oven</span>
               <h3 class="category-card_title">Varkey</h3>
-              <span class="category-card_link">Shop varkey &rarr;</span>
+              <p class="category-card_text">Flaky, buttery layers baked fresh every morning — the taste the Nilgiris is
+                known for.</p>
+              <span class="category-card_link">Shop varkey</span>
             </div>
           </a>
-          <a class="category-card reveal" data-reveal="fade-up" href="shop.html?category=Salt%20Biscuit">
-            <img class="category-card_texture" src="assets/images/Categories/salt_biscuit.png" alt="" aria-hidden="true"
-              loading="lazy" data-remove-on-error>
+          <a class="category-card category-card--light reveal" data-reveal="fade-up"
+            href="shop.html?category=Salt%20Biscuit">
+            <span class="category-card_index" aria-hidden="true">02</span>
+            <div class="category-card_media">
+              <img class="category-card_texture" src="assets/images/Categories/salt_biscuit.png" alt=""
+                aria-hidden="true" loading="lazy" data-remove-on-error>
+            </div>
             <div class="category-card_body">
               <h3 class="category-card_title">Salt Biscuit</h3>
-              <span class="category-card_link">Shop salt biscuit &rarr;</span>
+              <p class="category-card_text">Savoury, subtly salted and crumbly — made for a hot cup of chai.</p>
+              <span class="category-card_link">Shop salt biscuit</span>
             </div>
           </a>
-          <a class="category-card reveal" data-reveal="fade-up" href="shop.html?category=Sweet%20Biscuit">
-            <img class="category-card_texture" src="assets/images/Categories/sweet_biscuit.png" alt=""
-              aria-hidden="true" loading="lazy" data-remove-on-error>
+          <a class="category-card category-card--light reveal" data-reveal="fade-up"
+            href="shop.html?category=Sweet%20Biscuit">
+            <span class="category-card_index" aria-hidden="true">03</span>
+            <div class="category-card_media">
+              <img class="category-card_texture" src="assets/images/Categories/sweet_biscuit.png" alt=""
+                aria-hidden="true" loading="lazy" data-remove-on-error>
+            </div>
             <div class="category-card_body">
               <h3 class="category-card_title">Sweet Biscuit</h3>
-              <span class="category-card_link">Shop sweet biscuit &rarr;</span>
+              <p class="category-card_text">Gently sweet, golden-baked and perfect with evening tea or coffee.</p>
+              <span class="category-card_link">Shop sweet biscuit</span>
             </div>
           </a>
-          <a class="category-card reveal" data-reveal="fade-up" href="shop.html?category=Cakes">
-            <img class="category-card_texture" src="assets/images/Categories/cake.png" alt="" aria-hidden="true"
-              loading="lazy" data-remove-on-error>
+          <a class="category-card category-card--light category-card--wide reveal" data-reveal="fade-up"
+            href="shop.html?category=Cakes">
+            <span class="category-card_index" aria-hidden="true">04</span>
+            <div class="category-card_media">
+              <img class="category-card_texture" src="assets/images/Categories/cake.png" alt="" aria-hidden="true"
+                loading="lazy" data-remove-on-error>
+            </div>
             <div class="category-card_body">
               <h3 class="category-card_title">Cakes</h3>
-              <span class="category-card_link">Shop cakes &rarr;</span>
+              <p class="category-card_text">Soft, celebratory bakes for birthdays, gatherings and everyday
+                indulgence.</p>
+              <span class="category-card_link">Shop cakes</span>
             </div>
           </a>
         </div>

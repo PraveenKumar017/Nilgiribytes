@@ -46,9 +46,24 @@
     };
   }
 
-  Bakery.loadProducts = function () {
-    if (allItems) return Promise.resolve(allItems);
+  function loadPublishedCatalog() {
+    return fetch("api/catalog", {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("catalog API HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.products) || !Array.isArray(data.combos)) {
+          throw new Error("Catalog API returned unexpected data");
+        }
+        return data;
+      });
+  }
 
+  function loadStaticCatalog() {
     return Promise.all([
       fetch("data/products.json").then(function (r) {
         if (!r.ok) throw new Error("products.json HTTP " + r.status);
@@ -58,11 +73,25 @@
         if (!r.ok) throw new Error("combos.json HTTP " + r.status);
         return r.json();
       }),
-    ])
-      .then(function (results) {
+    ]).then(function (results) {
+      return {
+        products: results[0].products || [],
+        combos: results[1].combos || [],
+      };
+    });
+  }
+
+  Bakery.loadProducts = function () {
+    if (allItems) return Promise.resolve(allItems);
+
+    return loadPublishedCatalog()
+      .catch(function () {
+        return loadStaticCatalog();
+      })
+      .then(function (catalog) {
         allItems = []
-          .concat(results[0].products.map(normalizeProduct))
-          .concat(results[1].combos.map(normalizeCombo));
+          .concat(catalog.products.map(normalizeProduct))
+          .concat(catalog.combos.map(normalizeCombo));
         return allItems;
       })
       .catch(function (err) {

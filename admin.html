@@ -30,7 +30,40 @@
 
 <body data-page="admin">
 
-  <div class="admin-layout">
+  <div class="admin-login" id="login-screen">
+    <form class="admin-login_card" id="login-form" novalidate>
+      <a class="admin-login_brand" href="index.html">Nilgiribytes <span>Admin</span></a>
+      <p class="admin-login_sub">Sign in to manage the catalog.</p>
+
+      <label class="admin-field" for="username">
+        <span>Username</span>
+        <input id="username" name="username" type="text" autocomplete="username" required>
+      </label>
+
+      <label class="admin-field" for="password">
+        <span>Password</span>
+        <span class="admin-password">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button class="admin-password_toggle" id="password-toggle" type="button" aria-label="Show password">
+            <svg class="eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-closed" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18 18 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18 18 0 0 1-2.16 3.19"/>
+              <path d="M1 1l22 22"/>
+            </svg>
+          </button>
+        </span>
+      </label>
+
+      <button class="btn btn--primary admin-login_submit" id="login-btn" type="submit">Login</button>
+      <p class="admin-login_error" id="login-error" role="alert" hidden>Invalid username or password.</p>
+      <a class="admin-login_back" href="index.html">← Back to site</a>
+    </form>
+  </div>
+
+  <div class="admin-layout" id="admin-screen" hidden>
 
     <!-- Sidebar -->
     <aside class="admin-sidebar" aria-label="Admin navigation">
@@ -48,6 +81,8 @@
           Blog
         </button>
 
+        <button class="admin-sidebar_link" type="button" data-admin-logout>Logout</button>
+
         <a class="admin-sidebar_link admin-sidebar_link--back" href="index.html">← Back to site</a>
       </nav>
     </aside>
@@ -58,8 +93,10 @@
       <div class="admin-toolbar">
         <h1 class="admin-toolbar_title" data-admin-title>Catalog</h1>
         <div class="admin-toolbar_actions" data-admin-actions>
-          <button class="btn btn--primary" type="button" data-admin-add>Add product</button>
+          <span class="admin-save-status" data-admin-status role="status" aria-live="polite"></span>
+          <button class="btn" type="button" data-admin-add>Add product</button>
           <button class="btn" type="button" data-admin-add-combo>Add combo</button>
+          <button class="btn btn--primary" type="button" data-admin-publish disabled>Publish changes</button>
         </div>
       </div>
 
