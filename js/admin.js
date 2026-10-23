@@ -32,7 +32,6 @@
     sizes: $("[data-admin-sizes]"),
     sizesRows: $("[data-admin-sizes-rows]"),
     comboFields: $("[data-admin-combo-fields]"),
-    deleteBtn: $("[data-admin-delete]"),
     publishBtn: $("[data-admin-publish]"),
     status: $("[data-admin-status]"),
     loginScreen: $("#login-screen"),
@@ -212,13 +211,12 @@
   }
 
   function loadData() {
-    setStatus("Loading catalog...", "muted");
     return api(API_URL)
       .then(function (catalog) {
         applyCatalog(catalog);
         state.dirty = false;
         updatePublishState();
-        setStatus("Live catalog loaded.", "muted");
+        setStatus("");
       })
       .catch(function (err) {
         console.error(err);
@@ -462,7 +460,6 @@
     syncTypeFields();
     els.drawerTitle.textContent =
       (index == null ? "Add " : "Edit ") + (type === "combo" ? "combo" : "product");
-    els.deleteBtn.hidden = index == null;
 
     els.drawer.hidden = false;
     els.overlay.hidden = false;
@@ -586,18 +583,6 @@
     closeEditor();
   }
 
-  function deleteCurrent() {
-    const edit = state.editing;
-    if (!edit || edit.index == null) return;
-    const list = edit.type === "product" ? state.products : state.combos;
-    const item = list[edit.index];
-    if (!confirm('Delete "' + item.name + '"?')) return;
-    list.splice(edit.index, 1);
-    markDirty();
-    renderAll();
-    closeEditor();
-  }
-
   /* ---------- Boot ---------- */
 
   function switchView(view) {
@@ -615,7 +600,6 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     els.form.addEventListener("submit", submitEditor);
-    els.deleteBtn.addEventListener("click", deleteCurrent);
     $("[data-admin-close]").addEventListener("click", closeEditor);
     els.overlay.addEventListener("click", closeEditor);
 

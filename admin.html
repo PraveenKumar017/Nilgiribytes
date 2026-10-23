@@ -69,7 +69,10 @@
     <aside class="admin-sidebar" aria-label="Admin navigation">
       <div class="admin-sidebar_top">
         <a class="admin-sidebar_brand" href="index.html">Nilgiribytes <span>Admin</span></a>
-        <a class="admin-sidebar_back" href="index.html">Back to site ↗</a>
+        <div class="admin-sidebar_top_actions">
+          <a class="admin-sidebar_back" href="index.html">Back</a>
+          <button class="admin-sidebar_back" type="button" data-admin-logout>Logout</button>
+        </div>
       </div>
 
       <nav class="admin-sidebar_nav">
@@ -80,10 +83,6 @@
         <button class="admin-sidebar_link" type="button" data-admin-view="blog">
           Blog
         </button>
-
-        <button class="admin-sidebar_link" type="button" data-admin-logout>Logout</button>
-
-        <a class="admin-sidebar_link admin-sidebar_link--back" href="index.html">← Back to site</a>
       </nav>
     </aside>
 
@@ -93,11 +92,11 @@
       <div class="admin-toolbar">
         <h1 class="admin-toolbar_title" data-admin-title>Catalog</h1>
         <div class="admin-toolbar_actions" data-admin-actions>
-          <span class="admin-save-status" data-admin-status role="status" aria-live="polite"></span>
           <button class="btn" type="button" data-admin-add>Add product</button>
           <button class="btn" type="button" data-admin-add-combo>Add combo</button>
-          <button class="btn btn--primary" type="button" data-admin-publish disabled>Publish changes</button>
+          <button class="btn btn--primary" type="button" data-admin-publish disabled>Publish</button>
         </div>
+        <span class="admin-save-status" data-admin-status role="status" aria-live="polite"></span>
       </div>
 
       <section class="admin-section" aria-label="Products and combos" data-admin-view-panel="products">
@@ -155,22 +154,23 @@
     </div>
     <form class="admin-drawer_body" data-admin-form>
 
-      <label class="admin-field">
-        <span>Name</span>
-        <input name="name" type="text" required autocomplete="off">
-      </label>
+      <div class="admin-field_row">
+        <label class="admin-field">
+          <span>Name</span>
+          <input name="name" type="text" required autocomplete="off">
+        </label>
 
-      <label class="admin-field">
-        <span>Category</span>
-        <input name="category" type="text" list="admin-categories" required autocomplete="off">
-        <datalist id="admin-categories">
-          <option value="Varkey"></option>
-          <option value="Salt Biscuit"></option>
-          <option value="Sweet Biscuit"></option>
-          <option value="Cakes"></option>
-          <option value="Combos"></option>
-        </datalist>
-      </label>
+        <label class="admin-field">
+          <span>Category</span>
+          <select name="category" required>
+            <option value="Varkey">Varkey</option>
+            <option value="Salt Biscuit">Salt Biscuit</option>
+            <option value="Sweet Biscuit">Sweet Biscuit</option>
+            <option value="Cakes">Cakes</option>
+            <option value="Combos">Combos</option>
+          </select>
+        </label>
+      </div>
 
       <label class="admin-field">
         <span>Description</span>
@@ -207,7 +207,6 @@
 
       <div class="admin-drawer_footer">
         <button class="btn btn--primary" type="submit">Save item</button>
-        <button class="btn btn--danger" type="button" data-admin-delete hidden>Delete</button>
       </div>
     </form>
   </aside>
