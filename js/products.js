@@ -64,21 +64,17 @@
   }
 
   function loadStaticCatalog() {
-    return Promise.all([
-      fetch("data/products.json").then(function (r) {
-        if (!r.ok) throw new Error("products.json HTTP " + r.status);
+    return fetch("data/catalog.json")
+      .then(function (r) {
+        if (!r.ok) throw new Error("catalog.json HTTP " + r.status);
         return r.json();
-      }),
-      fetch("data/combos.json").then(function (r) {
-        if (!r.ok) throw new Error("combos.json HTTP " + r.status);
-        return r.json();
-      }),
-    ]).then(function (results) {
-      return {
-        products: results[0].products || [],
-        combos: results[1].combos || [],
-      };
-    });
+      })
+      .then(function (catalog) {
+        return {
+          products: catalog && Array.isArray(catalog.products) ? catalog.products : [],
+          combos: catalog && Array.isArray(catalog.combos) ? catalog.combos : [],
+        };
+      });
   }
 
   Bakery.loadProducts = function () {

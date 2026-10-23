@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": "special-varkey",
+      "id": "pr-001",
       "name": "Special Varkey",
       "category": "Varkey",
       "description": "Our signature Ooty varkey — flaky, buttery layers baked fresh daily and loved across the Nilgiris.",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "id": "premium-special-varkey",
+      "id": "pr-002",
       "name": "Premium Special Varkey",
       "category": "Varkey",
       "description": "A richer, extra-buttery take on our classic varkey, made with premium ingredients for a melt-in-the-mouth bite.",
@@ -72,7 +72,7 @@
       ]
     },
     {
-      "id": "regular-varkey",
+      "id": "pr-003",
       "name": "Regular Varkey",
       "category": "Varkey",
       "description": "Classic Ooty varkey with light, crispy layers — an everyday tea-time favourite baked fresh daily.",
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "id": "crispy-varkey",
+      "id": "pr-004",
       "name": "Crispy Varkey",
       "category": "Varkey",
       "description": "Extra-crisp varkey baked to a golden crunch — perfect with tea, coffee or enjoyed on their own.",
@@ -144,7 +144,7 @@
       ]
     },
     {
-      "id": "mini-varkey",
+      "id": "pr-005",
       "name": "Mini Varkey",
       "category": "Varkey",
       "description": "Bite-sized version of our classic varkey — ideal for kids, snack boxes and gifting.",
@@ -180,7 +180,7 @@
       ]
     },
     {
-      "id": "varkey-flakes",
+      "id": "pr-006",
       "name": "Varkey Flakes",
       "category": "Varkey",
       "description": "Light, crunchy varkey flakes made from our classic recipe — a guilt-free anytime snack.",
@@ -216,7 +216,7 @@
       ]
     },
     {
-      "id": "salt-biscuit",
+      "id": "pr-007",
       "name": "Salt Biscuit",
       "category": "Salt Biscuit",
       "description": "Savoury, subtly salted biscuits with a crumbly melt-in-the-mouth texture — best enjoyed with chai.",
@@ -246,7 +246,7 @@
       ]
     },
     {
-      "id": "sweet-biscuit",
+      "id": "pr-008",
       "name": "Sweet Biscuit",
       "category": "Sweet Biscuit",
       "description": "Gently sweet, golden-baked biscuits that pair perfectly with evening tea or coffee.",
@@ -278,7 +278,7 @@
   ],
   "combos": [
     {
-      "id": "bestseller-combo",
+      "id": "cm-001",
       "name": "Bestseller Combo",
       "category": "Combos",
       "description": "Half a kilo each of our two most-loved varkeys — Special and Regular — packed together for the ultimate daily snack box.",
@@ -287,19 +287,19 @@
       "price": 290,
       "includes": [
         {
-          "productId": "special-varkey",
+          "productId": "pr-001",
           "name": "Special Varkey",
           "quantity": "500g"
         },
         {
-          "productId": "regular-varkey",
+          "productId": "pr-003",
           "name": "Regular Varkey",
           "quantity": "500g"
         }
       ]
     },
     {
-      "id": "ooty-signature-combo",
+      "id": "cm-002",
       "name": "Ooty Signature Combo",
       "category": "Combos",
       "description": "A bit of everything Ooty is famous for — three varkey varieties and our savoury salt biscuits in one gift-ready pack.",
@@ -308,29 +308,29 @@
       "price": 300,
       "includes": [
         {
-          "productId": "special-varkey",
+          "productId": "pr-001",
           "name": "Special Varkey",
           "quantity": "250g"
         },
         {
-          "productId": "crispy-varkey",
+          "productId": "pr-004",
           "name": "Crispy Varkey",
           "quantity": "250g"
         },
         {
-          "productId": "regular-varkey",
+          "productId": "pr-003",
           "name": "Regular Varkey",
           "quantity": "250g"
         },
         {
-          "productId": "salt-biscuit",
+          "productId": "pr-007",
           "name": "Salt Biscuit",
           "quantity": "250g"
         }
       ]
     },
     {
-      "id": "tea-time-combo",
+      "id": "cm-003",
       "name": "Tea Time Combo",
       "category": "Combos",
       "description": "Varkey, flakes and both biscuits sorted for the evening — one pack that covers every tea-time craving at home or work.",
@@ -339,22 +339,22 @@
       "price": 300,
       "includes": [
         {
-          "productId": "special-varkey",
+          "productId": "pr-001",
           "name": "Special Varkey",
           "quantity": "250g"
         },
         {
-          "productId": "sweet-biscuit",
+          "productId": "pr-008",
           "name": "Sweet Biscuit",
           "quantity": "250g"
         },
         {
-          "productId": "salt-biscuit",
+          "productId": "pr-007",
           "name": "Salt Biscuit",
           "quantity": "250g"
         },
         {
-          "productId": "varkey-flakes",
+          "productId": "pr-006",
           "name": "Varkey Flakes",
           "quantity": "250g"
         }

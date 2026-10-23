@@ -424,7 +424,7 @@
       .filter(Boolean);
   }
 
-  /* ---------- Editor drawer ---------- */
+  /* ---------- Editor modal ---------- */
 
   function syncTypeFields() {
     const isCombo = state.editing && state.editing.type === "combo";
@@ -442,7 +442,6 @@
           ? state.products[index]
           : state.combos[index];
 
-    els.form.id.value = item.id || "";
     els.form.name.value = item.name || "";
     els.form.category.value = item.category || "";
     els.form.description.value = item.description || "";
@@ -472,7 +471,7 @@
       els.overlay.classList.add("is-open");
     });
     document.body.style.overflow = "hidden";
-    els.form.id.focus();
+    els.form.name.focus();
   }
 
   function closeEditor() {
@@ -482,7 +481,7 @@
     window.setTimeout(function () {
       els.drawer.hidden = true;
       els.overlay.hidden = true;
-    }, 200);
+    }, 220);
     if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
   }
 
@@ -509,12 +508,17 @@
     };
   }
 
-  function slugify(str) {
-    return str
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+  function nextId(type) {
+    var prefix = type === "combo" ? "cm-" : "pr-";
+    var list = type === "combo" ? state.combos : state.products;
+    var max = 0;
+    list.forEach(function (item) {
+      var match = String(item.id || "").match(
+        new RegExp("^" + prefix + "(\\d+)$"),
+      );
+      if (match) max = Math.max(max, parseInt(match[1], 10));
+    });
+    return prefix + String(max + 1).padStart(3, "0");
   }
 
   function submitEditor(e) {
@@ -523,26 +527,19 @@
     if (!edit) return;
 
     const type = edit.type;
-    const id = els.form.id.value.trim() || slugify(els.form.name.value);
-    if (!id) {
-      alert("ID (or a name to slugify) is required.");
+    const list = type === "product" ? state.products : state.combos;
+    const existing = edit.index == null ? null : list[edit.index];
+    const name = els.form.name.value.trim();
+    if (!name) {
+      alert("Name is required.");
       return;
     }
 
-    /* ID uniqueness across products and combos */
-    const list = type === "product" ? state.products : state.combos;
-    const existing = edit.index == null ? null : list[edit.index];
-    const dupe = state.products.concat(state.combos).some(function (item) {
-      return item.id === id && item !== existing;
-    });
-    if (dupe) {
-      alert('ID "' + id + '" already exists. IDs must be unique.');
-      return;
-    }
+    const id = existing && existing.id ? existing.id : nextId(type);
 
     const base = {
       id: id,
-      name: els.form.name.value.trim(),
+      name: name,
       category: els.form.category.value.trim() || (type === "combo" ? "Combos" : "Varkey"),
       description: els.form.description.value.trim(),
       image: els.form.image.value.trim(),
@@ -562,7 +559,14 @@
             const name = parts[0].trim();
             const quantity = parts[1].trim();
             if (!name) return null;
-            return { productId: slugify(name), name: name, quantity: quantity };
+            const product = state.products.find(function (p) {
+              return p.name.trim().toLowerCase() === name.toLowerCase();
+            });
+            return {
+              productId: product ? product.id : "",
+              name: name,
+              quantity: quantity,
+            };
           })
           .filter(Boolean),
       });

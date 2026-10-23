@@ -1,6 +1,5 @@
 const { getAuthUser } = require("./_auth");
-const LOCAL_PRODUCTS = require("../data/products.json");
-const LOCAL_COMBOS = require("../data/combos.json");
+const LOCAL_CATALOG = require("../data/catalog.json");
 
 const REPO_FILE = "data/catalog.json";
 const GITHUB_API = "https://api.github.com";
@@ -25,8 +24,8 @@ function configError() {
 
 function localCatalog() {
   return {
-    products: LOCAL_PRODUCTS.products || [],
-    combos: LOCAL_COMBOS.combos || [],
+    products: LOCAL_CATALOG.products || [],
+    combos: LOCAL_CATALOG.combos || [],
   };
 }
 
