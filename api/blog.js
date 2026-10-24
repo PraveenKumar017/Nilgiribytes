@@ -22,6 +22,11 @@ function configError() {
   return "GitHub environment variables (GITHUB_OWNER, GITHUB_REPO, GITHUB_BRANCH, GITHUB_TOKEN) are not configured";
 }
 
+function isLocalRequest(req) {
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  return host === "localhost" || host === "127.0.0.1";
+}
+
 function localBlog() {
   return { posts: LOCAL_BLOG.posts || [] };
 }
@@ -182,7 +187,7 @@ module.exports = async (req, res) => {
 
   if (method === "GET" || method === "HEAD") {
     let blog = null;
-    if (githubConfigured()) {
+    if (!isLocalRequest(req) && githubConfigured()) {
       try {
         const file = await getGitHubFile();
         blog = file ? file.blog : null;
