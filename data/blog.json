@@ -1,0 +1,70 @@
+{
+  "posts": [
+    {
+      "slug": "the-art-of-the-perfect-varkey",
+      "title": "The Art of the Perfect Varkey",
+      "category": "Bakery Stories",
+      "author": "Nilgiribytes Team",
+      "date": "2026-01-15",
+      "readingTime": "4 min read",
+      "featured": true,
+      "image": "assets/images/product_poster/Special_Varkey.jpeg",
+      "excerpt": "Flaky, buttery and baked to a golden snap — a closer look at what goes into our signature Ooty varkey and why the layers matter.",
+      "content": [
+        { "type": "p", "text": "Varkey is one of the Nilgiris' most recognisable bakes: a crisp, layered biscuit with a tender crumb that shatters gently with every bite. At Nilgiribytes, we make ours the traditional way, in small batches, so that every pack reaches you fresh and fragrant." },
+        { "type": "h2", "text": "The secret is in the folding" },
+        { "type": "p", "text": "A good varkey starts with a simple dough — flour, fat, a little sugar and salt. The character comes from how the fat is worked into the dough and folded over again, creating thin layers. When the dough hits the oven, moisture in those layers turns to steam and pushes them apart, giving varkey its signature flake." },
+        { "type": "h2", "text": "Time, temperature and patience" },
+        { "type": "p", "text": "Rushing never helps a layered bake. The dough is rested so the gluten relaxes, making it easier to roll evenly without tearing. The bake is slow enough to dry the layers right through, yet gentle enough to leave a golden colour rather than a scorched crust. That balance is what separates a delicate varkey from a hard one." },
+        { "type": "list", "items": ["Weights are measured carefully so every batch behaves the same way.", "The dough is rested before rolling and folding.", "Bakes are watched closely for colour, not just the clock.", "Every batch is cooled fully before packing so it stays crisp."] },
+        { "type": "h2", "text": "Best enjoyed with" },
+        { "type": "p", "text": "Varkey is at its best with a hot cup of tea or filter coffee, but it is just as good alongside fresh fruit, a bowl of curd or a scoop of vanilla. Store it in an airtight container away from moisture, and it will stay crisp for days." },
+        { "type": "h2", "text": "A Nilgiri classic" },
+        { "type": "p", "text": "What makes varkey special is not a secret ingredient but the care in the making — the folding, the resting and the watching. It is a humble bake with a long history in these hills, and we are proud to keep making it the slow way." }
+      ]
+    },
+    {
+      "slug": "five-ways-to-enjoy-your-tea-time-combo",
+      "title": "Five Ways to Enjoy Your Tea Time Combo",
+      "category": "Recipes",
+      "author": "Nilgiribytes Team",
+      "date": "2026-01-22",
+      "readingTime": "3 min read",
+      "featured": false,
+      "image": "assets/images/products/Single_250g_500g/1. Premium Ooty Varkey/All In one Photo.jpg",
+      "excerpt": "From a morning chai to a quick dessert, here are five easy ways to make the most of your Tea Time Combo.",
+      "content": [
+        { "type": "p", "text": "Our Tea Time Combo brings together varkey, flakes and both sweet and salt biscuits in one box. It is built for sharing, but it is also a very practical pantry staple. Here are five ways we like to enjoy it." },
+        { "type": "h2", "text": "Five simple pairings" },
+        { "type": "ol", "items": ["Classic chai pairing — serve a piece of varkey and a salt biscuit with hot tea. The savoury biscuit balances the buttery sweetness.", "Filter coffee break — dip a sweet biscuit briefly in filter coffee for a soft, coffee-soaked bite, then follow it with a crisp varkey.", "Fruit and flakes bowl — crush varkey flakes over fresh banana, apple or seasonal Nilgiri fruit for a quick breakfast or snack.", "Five-minute dessert — layer sweet biscuits, whipped cream or thick curd and fruit in a glass; chill for an hour for an easy no-bake pudding.", "Travel and lunchbox snack — portion the combo into small airtight boxes so there is something for everyone on a road trip, picnic or busy workday."] },
+        { "type": "h2", "text": "Keeping it fresh" },
+        { "type": "p", "text": "The biscuits and varkey stay crisp when kept away from moisture and direct sunlight. Once opened, move the contents into an airtight container, or reseal the pack tightly. If you live in a humid area, a small food-safe silica sachet in the container helps." },
+        { "type": "p", "text": "The combo is best finished within the freshness window printed on the pack. Warm a piece for a few seconds in a low oven or air fryer if you like that freshly baked aroma." }
+      ]
+    },
+    {
+      "slug": "behind-the-oven-a-day-at-the-bakery",
+      "title": "Behind the Oven: A Day at the Bakery",
+      "category": "Baking Tips",
+      "author": "Nilgiribytes Team",
+      "date": "2026-01-29",
+      "readingTime": "5 min read",
+      "featured": false,
+      "image": "assets/Craftsmanship.png",
+      "excerpt": "From the first mix before sunrise to the last batch cooling on the rack, here is how a typical baking day unfolds at Nilgiribytes.",
+      "content": [
+        { "type": "p", "text": "Good baking is mostly routine. Behind every pack of varkey is a day that starts early and follows the same careful steps, batch after batch." },
+        { "type": "h2", "text": "Before sunrise" },
+        { "type": "p", "text": "The ovens are switched on and allowed to heat evenly while ingredients are weighed out. Mise en place — everything in its place — matters more in a bakery than almost anywhere else: flour, fat, sugar and salt are measured, trays are lined, and the workspace is cleaned down before the first dough is mixed." },
+        { "type": "h2", "text": "Mixing, resting and shaping" },
+        { "type": "p", "text": "Doughs are mixed in small batches so each one is easy to handle and consistent. After mixing, the dough rests; this short pause makes it relaxed and easier to roll. The fat is then folded in layers, and the dough is rolled, cut or shaped by hand depending on the product." },
+        { "type": "h2", "text": "Into the oven" },
+        { "type": "p", "text": "Trays go into a preheated oven and are watched closely. Colour is the best signal — varkey should turn an even golden brown, not dark. Flakes and smaller bakes need a shorter, hotter bake for crunch, while thicker pieces need a gentler one so they dry through without burning." },
+        { "type": "h2", "text": "Cooling, checking and packing" },
+        { "type": "p", "text": "Nothing is packed warm. Bakes cool completely on racks so trapped steam can escape; packing too early is the quickest way to lose crispness. Before sealing, each batch gets a simple check: colour, aroma, texture and taste. Only then does it go into clean, airtight packs and out to the shop or courier." },
+        { "type": "h2", "text": "Why small batches matter" },
+        { "type": "p", "text": "Small-batch baking is slower, but it gives us control. We can adjust as the day goes on, keep the ovens steady and make sure the last pack is as good as the first. It is a simple routine, repeated with care — and that is really what fresh baking is about." }
+      ]
+    }
+  ]
+}

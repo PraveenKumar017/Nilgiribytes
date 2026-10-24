@@ -54,9 +54,6 @@ the header and footer should be.
   publish commits `data/catalog.json` to GitHub, which triggers a Vercel
   redeploy. If another edit commits first, the API detects the SHA conflict and
   the admin retries once with the latest data.
-- **Blog posts** — `data/posts.json`.
+- **Blog posts** — `data/blog.json`.
 - **Domain** — replace `https://www.niligibytes.com` in `sitemap.xml`,
   `robots.txt`, `js/blog.js` (`SITE_URL`) and the canonical/OG tags in each page.
-
-See `master_notes.md` for the full documentation and the TODO checklist of
-content the bakery must supply before launch.

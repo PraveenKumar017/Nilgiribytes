@@ -1,6 +1,6 @@
 /* ==========================================================================
    blog.js — blog list (featured, filter, search) and article detail view
-   rendered from blog.html?slug=... using data/posts.json.
+   rendered from blog.html?slug=... using data/blog.json.
    ========================================================================== */
 
 (function () {
@@ -23,9 +23,9 @@
 
   function loadPosts() {
     if (posts.length) return Promise.resolve(posts);
-    return fetch("data/posts.json")
+    return fetch("data/blog.json")
       .then(function (r) {
-        if (!r.ok) throw new Error("posts.json HTTP " + r.status);
+        if (!r.ok) throw new Error("blog.json HTTP " + r.status);
         return r.json();
       })
       .then(function (data) {
@@ -306,17 +306,6 @@
       }
     });
 
-    const tw = document.createElement("a");
-    tw.className = "btn btn--ghost btn--small";
-    tw.href =
-      "https://twitter.com/intent/tweet?text=" +
-      encodeURIComponent(text) +
-      "&url=" +
-      encodeURIComponent(url);
-    tw.target = "_blank";
-    tw.rel = "noopener";
-    tw.textContent = "Share on X";
-
     const fb = document.createElement("a");
     fb.className = "btn btn--ghost btn--small";
     fb.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
@@ -333,7 +322,6 @@
     wa.textContent = "Share on WhatsApp";
 
     wrap.appendChild(copy);
-    wrap.appendChild(tw);
     wrap.appendChild(fb);
     wrap.appendChild(wa);
     return wrap;
