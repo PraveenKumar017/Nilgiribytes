@@ -76,6 +76,7 @@
     blogImageAlt: $("[data-blog-image-alt]"),
     blogBlocks: $("[data-blog-blocks]"),
     blogReadtime: $("[data-blog-readtime]"),
+    blogReadingTimeInput: $("[data-blog-reading-time]"),
     blogSlug: $("[data-blog-slug]"),
     blogSaveBtn: $("[data-blog-save]"),
     blogSaveDraftBtn: $("[data-blog-save-draft]"),
@@ -850,9 +851,14 @@
     return words;
   }
 
+  function blogReadingTimeLabel(mins) {
+    const n = Math.max(1, Math.round(Number(mins) || 0));
+    return n + " min read";
+  }
+
   function blogReadingTime(content) {
     const mins = Math.max(1, Math.round(blogWordCount(content) / 200));
-    return mins + " min read";
+    return blogReadingTimeLabel(mins);
   }
 
   function blogExcerpt(content, maxLen) {
@@ -881,7 +887,9 @@
     blocks.forEach(function (block) {
       if (block && (block.type === "list" || block.type === "ol")) {
         const items = Array.isArray(block.items) ? block.items : [block.text || ""];
-        addBlogBlock(block.type, items.join(" "));
+        const blockEl = addBlogBlock(block.type, "");
+        blockEl.__blogItems = items.length ? items.slice() : [""];
+        renderListItems(blockEl);
       } else {
         addBlogBlock(block.type, block ? block.text : "");
       }
@@ -942,17 +950,20 @@
     head.appendChild(actions);
     blockEl.appendChild(head);
 
-    const inputWrap = document.createElement("div");
-    inputWrap.className = "admin-blog-block_input";
-    const textarea = document.createElement("textarea");
-    textarea.className = "admin-blog-block_text";
-    textarea.rows = 3;
-    textarea.value = text || "";
-    textarea.addEventListener("input", function () { updateBlogMeta(); markDirty(); });
-    inputWrap.appendChild(textarea);
-    blockEl.appendChild(inputWrap);
-
     const isList = type === "list" || type === "ol";
+
+    if (!isList) {
+      const inputWrap = document.createElement("div");
+      inputWrap.className = "admin-blog-block_input";
+      const textarea = document.createElement("textarea");
+      textarea.className = "admin-blog-block_text";
+      textarea.rows = 3;
+      textarea.value = text || "";
+      textarea.addEventListener("input", function () { updateBlogMeta(); markDirty(); });
+      inputWrap.appendChild(textarea);
+      blockEl.appendChild(inputWrap);
+    }
+
     const items = isList ? String(text || "").split(" ").filter(Boolean) : [];
     if (isList && !items.length) items.push("");
     blockEl.__blogItems = isList ? items : null;
@@ -983,7 +994,11 @@
       itemInput.type = "text";
       itemInput.className = "admin-blog-block_item_input";
       itemInput.value = itemText;
-      itemInput.addEventListener("input", function () { updateBlogMeta(); markDirty(); });
+      itemInput.addEventListener("input", function () {
+        items[itemIdx] = itemInput.value;
+        updateBlogMeta();
+        markDirty();
+      });
       const itemRemove = document.createElement("button");
       itemRemove.type = "button";
       itemRemove.className = "admin-blog-block_item_remove";
@@ -1041,8 +1056,7 @@
   }
 
   function updateBlogMeta() {
-    if (!els.blogReadtime) return;
-    els.blogReadtime.textContent = blogReadingTime(readBlogBlocks());
+    if (els.blogReadtime) els.blogReadtime.textContent = blogReadingTime(readBlogBlocks());
   }
 
   function setBlogStatus(status) {
@@ -1052,7 +1066,7 @@
       els.blogEditorStatus.textContent = isDraft ? "Draft" : "Published";
       els.blogEditorStatus.className = "admin-blog-status admin-blog-status--" + state.blogStatus;
     }
-    if (els.blogLiveNotice) els.blogLiveNotice.hidden = !isDraft;
+    if (els.blogLiveNotice) els.blogLiveNotice.hidden = true;
     if (els.blogSaveBtn) {
       els.blogSaveBtn.hidden = !isDraft;
       els.blogSaveBtn.textContent = "Save changes";
@@ -1072,6 +1086,7 @@
     if (els.blogImage) els.blogImage.value = "";
     if (els.blogImageAlt) els.blogImageAlt.value = "";
     if (els.blogSlug) els.blogSlug.value = "";
+    if (els.blogReadingTimeInput) els.blogReadingTimeInput.value = "";
     state.blogSlugTouched = false;
     state.blogStatus = "draft";
     setBlogBlocks([{ type: "p", text: "" }]);
@@ -1096,6 +1111,15 @@
       if (els.blogExcerpt) els.blogExcerpt.value = existing.excerpt || "";
       if (els.blogImage) els.blogImage.value = existing.image || "";
       if (els.blogImageAlt) els.blogImageAlt.value = existing.imageAlt || "";
+      if (els.blogReadingTimeInput) {
+        var rt = existing.readingTime || "";
+        if (typeof rt === "string") {
+          var m = rt.match(/(\d+)/);
+          els.blogReadingTimeInput.value = m ? m[1] : "";
+        } else {
+          els.blogReadingTimeInput.value = rt || "";
+        }
+      }
       if (els.blogSlug) {
         els.blogSlug.value = existing.slug || generateBlogSlug(existing.title);
         state.blogSlugTouched = true;
@@ -1131,8 +1155,13 @@
     updateBlogMeta();
     updateBlogPreview();
 
+    if (els.blogPreviewRoot) els.blogPreviewRoot.hidden = true;
+    if (els.blogPreviewToggle) els.blogPreviewToggle.textContent = "Show preview";
+
     if (els.blogListPane) els.blogListPane.hidden = true;
     if (els.blogEditorPane) els.blogEditorPane.hidden = false;
+    var blogActions = $("[data-admin-blog-actions]");
+    if (blogActions) blogActions.hidden = true;
 
     if (els.blogTitle) els.blogTitle.focus();
   }
@@ -1146,6 +1175,8 @@
     window.removeEventListener("beforeunload", beforeUnloadHandler);
     if (els.blogEditorPane) els.blogEditorPane.hidden = true;
     if (els.blogListPane) els.blogListPane.hidden = false;
+    var blogActions = $("[data-admin-blog-actions]");
+    if (blogActions) blogActions.hidden = false;
     state.blogEditing = null;
   }
 
@@ -1165,6 +1196,7 @@
       excerpt: els.blogExcerpt ? els.blogExcerpt.value : "",
       image: els.blogImage ? els.blogImage.value : "",
       imageAlt: els.blogImageAlt ? els.blogImageAlt.value : "",
+      readingTime: els.blogReadingTimeInput ? els.blogReadingTimeInput.value : "",
       blocks: readBlogBlocks(),
       status: state.blogStatus,
       slugTouched: state.blogSlugTouched,
@@ -1193,6 +1225,7 @@
     if (els.blogExcerpt) els.blogExcerpt.value = saved.excerpt || "";
     if (els.blogImage) els.blogImage.value = saved.image || "";
     if (els.blogImageAlt) els.blogImageAlt.value = saved.imageAlt || "";
+    if (els.blogReadingTimeInput) els.blogReadingTimeInput.value = saved.readingTime || "";
     if (els.blogSlug) els.blogSlug.value = saved.slug || "";
     state.blogSlugTouched = !!saved.slugTouched;
     state.blogStatus = saved.status === "draft" ? "draft" : "published";
@@ -1438,6 +1471,10 @@
     var targetStatus = isDraft ? "draft" : (existingPost ? existingPost.status : "draft");
     if (targetStatus !== "draft") targetStatus = "published";
 
+    var readingTime = (els.blogReadingTimeInput && els.blogReadingTimeInput.value.trim())
+      ? els.blogReadingTimeInput.value.trim()
+      : blogReadingTime(blocks);
+
     var post = {
       slug: slug,
       status: targetStatus,
@@ -1445,7 +1482,7 @@
       category: category,
       author: author,
       date: date,
-      readingTime: blogReadingTime(blocks),
+      readingTime: readingTime,
       image: image,
       imageAlt: imageAlt || title,
       excerpt: excerpt,
@@ -1567,6 +1604,16 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    // Strip any credentials that leaked into the URL (e.g. from a native GET submit).
+    try {
+      var url = new URL(window.location.href);
+      if (url.searchParams.has("username") || url.searchParams.has("password")) {
+        url.searchParams.delete("username");
+        url.searchParams.delete("password");
+        window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+      }
+    } catch (e) { /* ignore */ }
+
     if (els.form) els.form.addEventListener("submit", submitEditor);
     var closeBtn = $("[data-admin-close]");
     if (closeBtn) closeBtn.addEventListener("click", closeEditor);
@@ -1650,9 +1697,8 @@
 
     /* ---- Preview toggle ---- */
     if (els.blogPreviewToggle) {
-      var previewPane = $("[data-blog-preview-pane]") || (els.blogPreviewRoot && els.blogPreviewRoot.closest(".admin-blog-preview"));
       els.blogPreviewToggle.addEventListener("click", function () {
-        var target = previewPane || els.blogPreviewRoot;
+        var target = els.blogPreviewRoot;
         if (!target) return;
         var isHidden = target.hasAttribute("hidden") || target.style.display === "none";
         if (isHidden) {
@@ -1690,7 +1736,7 @@
     }
     [
       els.blogCategory, els.blogAuthor, els.blogDate,
-      els.blogExcerpt, els.blogImageAlt,
+      els.blogExcerpt, els.blogImageAlt, els.blogReadingTimeInput,
     ].forEach(function (el) {
       if (el) el.addEventListener("input", function () { markBlogDirty(); });
     });
