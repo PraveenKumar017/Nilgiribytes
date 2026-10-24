@@ -404,14 +404,6 @@
 
       const tdAction = document.createElement("td");
       tdAction.className = "admin-cell_actions";
-      const link = document.createElement("a");
-      link.className = "admin-blog-link";
-      link.href = "blog.html?slug=" + encodeURIComponent(post.slug || "");
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.textContent = "View";
-      tdAction.appendChild(link);
-
       const del = document.createElement("button");
       del.type = "button";
       del.className = "admin-icon-btn admin-icon-btn--danger";

@@ -96,6 +96,9 @@
           <button class="btn" type="button" data-admin-add-combo>Add combo</button>
           <button class="btn btn--primary" type="button" data-admin-publish disabled>Publish</button>
         </div>
+        <div class="admin-toolbar_actions" data-admin-blog-actions hidden>
+          <button class="btn btn--primary" type="button" data-blog-add>Add post</button>
+        </div>
         <span class="admin-save-status" data-admin-status role="status" aria-live="polite"></span>
       </div>
 
@@ -136,21 +139,113 @@
       </section>
 
       <section class="admin-section" aria-label="Blog" data-admin-view-panel="blog" hidden>
-        <h2 class="admin-sub_title">Published posts</h2>
-        <div class="admin-table_wrap">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Title</th>
-                <th scope="col">Category</th>
-                <th scope="col">Date</th>
-                <th scope="col">Featured</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody data-blog-list></tbody>
-          </table>
+        <div id="blog-list-pane">
+          <div class="admin-blog-header">
+            <h2 class="admin-sub_title">Blog posts</h2>
+          </div>
+          <div class="admin-table_wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col">Image</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody data-blog-list></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="blog-editor-pane" hidden>
+          <div class="admin-blog-header">
+            <button class="btn btn--small" type="button" data-blog-back>← Back to posts</button>
+            <h2 class="admin-sub_title" data-blog-editor-title>New post</h2>
+            <span class="admin-blog-status" data-blog-editor-status></span>
+          </div>
+          <p class="admin-blog-live-notice" data-blog-live-notice hidden>This post is live. Saving changes will update it right away.</p>
+          <div class="admin-blog-grid">
+            <div class="admin-blog-form">
+              <div class="admin-field">
+                <span>Title</span>
+                <input type="text" data-blog-title autocomplete="off">
+              </div>
+              <div class="admin-field_row">
+                <label class="admin-field">
+                  <span>Category</span>
+                  <select data-blog-category>
+                    <option value="Bakery Stories">Bakery Stories</option>
+                    <option value="Recipes">Recipes</option>
+                    <option value="Baking Tips">Baking Tips</option>
+                    <option value="Ingredients">Ingredients</option>
+                    <option value="News">News</option>
+                  </select>
+                </label>
+                <label class="admin-field">
+                  <span>Author</span>
+                  <input type="text" data-blog-author autocomplete="off">
+                </label>
+                <label class="admin-field">
+                  <span>Date</span>
+                  <input type="date" data-blog-date>
+                </label>
+              </div>
+              <div class="admin-field">
+                <span>Short summary</span>
+                <textarea rows="3" data-blog-excerpt placeholder="One or two sentences shown on the blog list"></textarea>
+              </div>
+              <div class="admin-field">
+                <span>Cover image</span>
+                <div class="admin-blog-upload" data-blog-upload>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" data-blog-file hidden>
+                  <button class="btn btn--small" type="button" data-blog-upload-btn>Choose image</button>
+                  <p class="admin-blog-upload-text">Upload JPG, PNG or WebP (auto-compressed)</p>
+                </div>
+                <div class="admin-blog-cover" data-blog-cover-wrap hidden>
+                  <img data-blog-cover-img alt="">
+                  <div class="admin-blog-cover-actions">
+                    <button class="btn btn--small" type="button" data-blog-cover-replace>Replace</button>
+                    <button class="btn btn--small" type="button" data-blog-cover-remove>Remove</button>
+                  </div>
+                </div>
+                <input type="text" data-blog-image placeholder="assets/images/blog/..." style="margin-top:0.6rem;">
+                <input type="text" data-blog-image-alt placeholder="Image description (alt text)" style="margin-top:0.4rem;">
+              </div>
+              <div class="admin-field">
+                <span>Content</span>
+                <div class="admin-blog-blocks-actions">
+                  <button class="btn btn--small" type="button" data-blog-add-block="p">+ Paragraph</button>
+                  <button class="btn btn--small" type="button" data-blog-add-block="h2">+ Heading</button>
+                  <button class="btn btn--small" type="button" data-blog-add-block="h3">+ Sub-heading</button>
+                  <button class="btn btn--small" type="button" data-blog-add-block="list">+ Bullet list</button>
+                  <button class="btn btn--small" type="button" data-blog-add-block="ol">+ Numbered list</button>
+                </div>
+                <div class="admin-blog-blocks" data-blog-blocks></div>
+                <p class="admin-blog-hint">Reading time: <span data-blog-readtime>1 min read</span></p>
+              </div>
+              <details class="admin-blog-advanced">
+                <summary>Advanced</summary>
+                <div class="admin-field" style="margin-top:0.6rem;">
+                  <span>Link (slug)</span>
+                  <input type="text" data-blog-slug autocomplete="off">
+                </div>
+              </details>
+              <div class="admin-blog-editor-actions">
+                <button class="btn" type="button" data-blog-cancel>Cancel</button>
+                <button class="btn btn--primary" type="button" data-blog-save>Save draft</button>
+              </div>
+            </div>
+            <div class="admin-blog-preview">
+              <div class="admin-blog-preview-header">
+                <span>Preview</span>
+                <button class="btn btn--small" type="button" data-blog-preview-toggle>Hide preview</button>
+              </div>
+              <article class="article" data-blog-preview-root></article>
+            </div>
+          </div>
         </div>
       </section>
 

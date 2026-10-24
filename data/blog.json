@@ -2,12 +2,12 @@
   "posts": [
     {
       "slug": "the-art-of-the-perfect-varkey",
+      "status": "published",
       "title": "The Art of the Perfect Varkey",
       "category": "Bakery Stories",
       "author": "Nilgiribytes Team",
       "date": "2026-01-15",
       "readingTime": "4 min read",
-      "featured": true,
       "image": "assets/images/product_poster/Special_Varkey.jpeg",
       "excerpt": "Flaky, buttery and baked to a golden snap — a closer look at what goes into our signature Ooty varkey and why the layers matter.",
       "content": [
@@ -25,12 +25,12 @@
     },
     {
       "slug": "five-ways-to-enjoy-your-tea-time-combo",
+      "status": "published",
       "title": "Five Ways to Enjoy Your Tea Time Combo",
       "category": "Recipes",
       "author": "Nilgiribytes Team",
       "date": "2026-01-22",
       "readingTime": "3 min read",
-      "featured": false,
       "image": "assets/images/products/Single_250g_500g/1_Premium_Ooty_Varkey/All_In_one_Photo.jpg",
       "excerpt": "From a morning chai to a quick dessert, here are five easy ways to make the most of your Tea Time Combo.",
       "content": [
@@ -44,12 +44,12 @@
     },
     {
       "slug": "behind-the-oven-a-day-at-the-bakery",
+      "status": "published",
       "title": "Behind the Oven: A Day at the Bakery",
       "category": "Baking Tips",
       "author": "Nilgiribytes Team",
       "date": "2026-01-29",
       "readingTime": "5 min read",
-      "featured": false,
       "image": "assets/Craftsmanship.png",
       "excerpt": "From the first mix before sunrise to the last batch cooling on the rack, here is how a typical baking day unfolds at Nilgiribytes.",
       "content": [
