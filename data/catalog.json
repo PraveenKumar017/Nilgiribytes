@@ -6,12 +6,12 @@
       "category": "Varkey",
       "description": "Our signature Ooty varkey — flaky, buttery layers baked fresh daily and loved across the Nilgiris.",
       "poster": "assets/images/product_poster/Special_Varkey.jpeg",
-      "image": "assets/images/products/Single_200g_400g/2. Special Ooty Varkey/200g/Special_01.png",
+      "image": "assets/images/products/Single_200g_400g/2_Special_Ooty_Varkey/200g/Special_01.png",
       "sizeImages": {
-        "200g": "assets/images/products/Single_200g_400g/2. Special Ooty Varkey/200g/Special_01.png",
-        "250g": "assets/images/products/Single_250g_500g/2. Special Ooty Varkey/250g/Special_01.jpg",
-        "400g": "assets/images/products/Single_200g_400g/2. Special Ooty Varkey/400g/Special_01.png",
-        "500g": "assets/images/products/Single_250g_500g/2. Special Ooty Varkey/500g/Special_01.jpg"
+        "200g": "assets/images/products/Single_200g_400g/2_Special_Ooty_Varkey/200g/Special_01.png",
+        "250g": "assets/images/products/Single_250g_500g/2_Special_Ooty_Varkey/250g/Special_01.jpg",
+        "400g": "assets/images/products/Single_200g_400g/2_Special_Ooty_Varkey/400g/Special_01.png",
+        "500g": "assets/images/products/Single_250g_500g/2_Special_Ooty_Varkey/500g/Special_01.jpg"
       },
       "sizes": [
         {
@@ -41,12 +41,12 @@
       "name": "Premium Special Varkey",
       "category": "Varkey",
       "description": "A richer, extra-buttery take on our classic varkey, made with premium ingredients for a melt-in-the-mouth bite.",
-      "image": "assets/images/products/Single_200g_400g/1. Premium Ooty Varkey/200g/Premium_01.jpeg",
+      "image": "assets/images/products/Single_200g_400g/1_Premium_Ooty_Varkey/200g/Premium_01.jpeg",
       "sizeImages": {
-        "200g": "assets/images/products/Single_200g_400g/1. Premium Ooty Varkey/200g/Premium_01.jpeg",
-        "250g": "assets/images/products/Single_250g_500g/1. Premium Ooty Varkey/250g/Premium_01.jpeg",
-        "400g": "assets/images/products/Single_200g_400g/1. Premium Ooty Varkey/400g/Premium_01.jpeg",
-        "500g": "assets/images/products/Single_250g_500g/1. Premium Ooty Varkey/500g/Premium_01.jpeg"
+        "200g": "assets/images/products/Single_200g_400g/1_Premium_Ooty_Varkey/200g/Premium_01.jpeg",
+        "250g": "assets/images/products/Single_250g_500g/1_Premium_Ooty_Varkey/250g/Premium_01.jpeg",
+        "400g": "assets/images/products/Single_200g_400g/1_Premium_Ooty_Varkey/400g/Premium_01.jpeg",
+        "500g": "assets/images/products/Single_250g_500g/1_Premium_Ooty_Varkey/500g/Premium_01.jpeg"
       },
       "sizes": [
         {
@@ -77,12 +77,12 @@
       "category": "Varkey",
       "description": "Classic Ooty varkey with light, crispy layers — an everyday tea-time favourite baked fresh daily.",
       "poster": "assets/images/product_poster/Regular_Varkey.jpeg",
-      "image": "assets/images/products/Single_200g_400g/5. Classic Ooty Varkey/200g/classic_01.jpeg",
+      "image": "assets/images/products/Single_200g_400g/5_Classic_Ooty_Varkey/200g/classic_01.jpeg",
       "sizeImages": {
-        "200g": "assets/images/products/Single_200g_400g/5. Classic Ooty Varkey/200g/classic_01.jpeg",
-        "250g": "assets/images/products/Single_250g_500g/5. Classic Ooty Varkey/250g/classic_01.jpeg",
-        "400g": "assets/images/products/Single_200g_400g/5. Classic Ooty Varkey/400g/Classic_01.jpeg",
-        "500g": "assets/images/products/Single_250g_500g/5. Classic Ooty Varkey/500g/Classic_01.jpeg"
+        "200g": "assets/images/products/Single_200g_400g/5_Classic_Ooty_Varkey/200g/classic_01.jpeg",
+        "250g": "assets/images/products/Single_250g_500g/5_Classic_Ooty_Varkey/250g/classic_01.jpeg",
+        "400g": "assets/images/products/Single_200g_400g/5_Classic_Ooty_Varkey/400g/Classic_01.jpeg",
+        "500g": "assets/images/products/Single_250g_500g/5_Classic_Ooty_Varkey/500g/Classic_01.jpeg"
       },
       "sizes": [
         {
@@ -113,12 +113,12 @@
       "category": "Varkey",
       "description": "Extra-crisp varkey baked to a golden crunch — perfect with tea, coffee or enjoyed on their own.",
       "poster": "assets/images/product_poster/Crispy_Varkey.jpeg",
-      "image": "assets/images/products/Single_200g_400g/4. Crispy Ooty Varkey/200g/Crispy_01.jpeg",
+      "image": "assets/images/products/Single_200g_400g/4_Crispy_Ooty_Varkey/200g/Crispy_01.jpeg",
       "sizeImages": {
-        "200g": "assets/images/products/Single_200g_400g/4. Crispy Ooty Varkey/200g/Crispy_01.jpeg",
-        "250g": "assets/images/products/Single_250g_500g/4. Crispy Ooty Varkey/250g/Crispy_01.jpeg",
-        "400g": "assets/images/products/Single_200g_400g/4. Crispy Ooty Varkey/400g/Crispy_01.jpeg",
-        "500g": "assets/images/products/Single_250g_500g/4. Crispy Ooty Varkey/500g/Crispy_01.jpeg"
+        "200g": "assets/images/products/Single_200g_400g/4_Crispy_Ooty_Varkey/200g/Crispy_01.jpeg",
+        "250g": "assets/images/products/Single_250g_500g/4_Crispy_Ooty_Varkey/250g/Crispy_01.jpeg",
+        "400g": "assets/images/products/Single_200g_400g/4_Crispy_Ooty_Varkey/400g/Crispy_01.jpeg",
+        "500g": "assets/images/products/Single_250g_500g/4_Crispy_Ooty_Varkey/500g/Crispy_01.jpeg"
       },
       "sizes": [
         {
@@ -149,12 +149,12 @@
       "category": "Varkey",
       "description": "Bite-sized version of our classic varkey — ideal for kids, snack boxes and gifting.",
       "poster": "assets/images/product_poster/Mini_Varkey.jpeg",
-      "image": "assets/images/products/Single_200g_400g/3. Mini Ooty Varkey/200g/Mini_01.png",
+      "image": "assets/images/products/Single_200g_400g/3_Mini_Ooty_Varkey/200g/Mini_01.png",
       "sizeImages": {
-        "200g": "assets/images/products/Single_200g_400g/3. Mini Ooty Varkey/200g/Mini_01.png",
-        "250g": "assets/images/products/Single_250g_500g/3. Mini Ooty Varkey/250g/Mini_01.jpg",
-        "400g": "assets/images/products/Single_200g_400g/3. Mini Ooty Varkey/400g/Mini_01.png",
-        "500g": "assets/images/products/Single_250g_500g/3. Mini Ooty Varkey/500g/Mini_01.jpg"
+        "200g": "assets/images/products/Single_200g_400g/3_Mini_Ooty_Varkey/200g/Mini_01.png",
+        "250g": "assets/images/products/Single_250g_500g/3_Mini_Ooty_Varkey/250g/Mini_01.jpg",
+        "400g": "assets/images/products/Single_200g_400g/3_Mini_Ooty_Varkey/400g/Mini_01.png",
+        "500g": "assets/images/products/Single_250g_500g/3_Mini_Ooty_Varkey/500g/Mini_01.jpg"
       },
       "sizes": [
         {
@@ -185,12 +185,12 @@
       "category": "Varkey",
       "description": "Light, crunchy varkey flakes made from our classic recipe — a guilt-free anytime snack.",
       "poster": "assets/images/product_poster/Varkey_Flakes.jpeg",
-      "image": "assets/images/products/Single_200g_400g/6. Ooty Flakes/200g/Flakes_01.jpeg",
+      "image": "assets/images/products/Single_200g_400g/6_Ooty_Flakes/200g/Flakes_01.jpeg",
       "sizeImages": {
-        "200g": "assets/images/products/Single_200g_400g/6. Ooty Flakes/200g/Flakes_01.jpeg",
-        "250g": "assets/images/products/Single_250g_500g/6. Ooty Flakes/250g/Flakes_01.jpg",
-        "400g": "assets/images/products/Single_200g_400g/6. Ooty Flakes/400g/Flakes_01.jpeg",
-        "500g": "assets/images/products/Single_250g_500g/6. Ooty Flakes/500g/Flakes_01.jpeg"
+        "200g": "assets/images/products/Single_200g_400g/6_Ooty_Flakes/200g/Flakes_01.jpeg",
+        "250g": "assets/images/products/Single_250g_500g/6_Ooty_Flakes/250g/Flakes_01.jpg",
+        "400g": "assets/images/products/Single_200g_400g/6_Ooty_Flakes/400g/Flakes_01.jpeg",
+        "500g": "assets/images/products/Single_250g_500g/6_Ooty_Flakes/500g/Flakes_01.jpeg"
       },
       "sizes": [
         {
@@ -282,7 +282,7 @@
       "name": "Bestseller Combo",
       "category": "Combos",
       "description": "Half a kilo each of our two most-loved varkeys — Special and Regular — packed together for the ultimate daily snack box.",
-      "image": "assets/images/products/Single_250g_500g/1. Premium Ooty Varkey/All In one Photo.jpg",
+      "image": "assets/images/products/Single_250g_500g/1_Premium_Ooty_Varkey/All_In_one_Photo.jpg",
       "weight": "1 kg total",
       "price": 290,
       "includes": [
@@ -303,7 +303,7 @@
       "name": "Ooty Signature Combo",
       "category": "Combos",
       "description": "A bit of everything Ooty is famous for — three varkey varieties and our savoury salt biscuits in one gift-ready pack.",
-      "image": "assets/images/products/Single_250g_500g/1. Premium Ooty Varkey/All In one Photo.jpg",
+      "image": "assets/images/products/Single_250g_500g/1_Premium_Ooty_Varkey/All_In_one_Photo.jpg",
       "weight": "1 kg total",
       "price": 300,
       "includes": [
@@ -334,7 +334,7 @@
       "name": "Tea Time Combo",
       "category": "Combos",
       "description": "Varkey, flakes and both biscuits sorted for the evening — one pack that covers every tea-time craving at home or work.",
-      "image": "assets/images/products/Single_250g_500g/1. Premium Ooty Varkey/All In one Photo.jpg",
+      "image": "assets/images/products/Single_250g_500g/1_Premium_Ooty_Varkey/All_In_one_Photo.jpg",
       "weight": "1 kg total",
       "price": 300,
       "includes": [

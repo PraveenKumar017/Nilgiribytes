@@ -6,10 +6,15 @@
   "use strict";
 
   const API_URL = "api/catalog";
+  const BLOG_URL = "api/blog";
 
   const state = {
     products: [],
     combos: [],
+    blogPosts: [],
+    blogLoaded: false,
+    blogLoading: false,
+    blogSaving: false,
     editing: null, // { type: "product"|"combo", index: number|null }
     dirty: false,
     publishing: false,
@@ -25,6 +30,7 @@
   const els = {
     productsList: $("[data-products-list]"),
     combosList: $("[data-combos-list]"),
+    blogList: $("[data-blog-list]"),
     drawer: $("[data-admin-drawer]"),
     overlay: $("[data-admin-overlay]"),
     drawerTitle: $("[data-admin-drawer-title]"),
@@ -225,6 +231,62 @@
       });
   }
 
+  function loadBlog() {
+    if (!els.blogList || state.blogLoading || state.blogLoaded) return;
+    state.blogLoading = true;
+    renderBlogMessage("Loading posts...");
+
+    api(BLOG_URL)
+      .then(function (blog) {
+        state.blogPosts = Array.isArray(blog.posts) ? blog.posts : [];
+        state.blogLoaded = true;
+        renderBlogList();
+      })
+      .catch(function (err) {
+        console.error(err);
+        state.blogPosts = [];
+        renderBlogMessage(err.message || "Could not load blog posts.");
+      })
+      .finally(function () {
+        state.blogLoading = false;
+      });
+  }
+
+  function deleteBlogPost(index) {
+    if (state.blogSaving) return;
+    const post = state.blogPosts[index];
+    if (!post) return;
+    if (!confirm('Delete "' + (post.title || "this post") + '"? This will remove it from the live blog.')) {
+      return;
+    }
+
+    const removed = state.blogPosts.splice(index, 1)[0];
+    state.blogSaving = true;
+    renderBlogList();
+    setStatus('Deleting "' + (post.title || "post") + '"...', "muted");
+
+    api(BLOG_URL, {
+      method: "PUT",
+      body: JSON.stringify({ posts: state.blogPosts }),
+    })
+      .then(function (result) {
+        state.blogLoaded = true;
+        setStatus(
+          'Deleted "' + (post.title || "post") + '". ' +
+            result.posts + " posts published.",
+          "success"
+        );
+      })
+      .catch(function (err) {
+        state.blogPosts.splice(index, 0, removed);
+        renderBlogList();
+        setStatus(err.message || "Delete failed.", "error");
+      })
+      .finally(function () {
+        state.blogSaving = false;
+      });
+  }
+
   async function publishCatalog() {
     if (state.publishing || !state.dirty) return;
 
@@ -272,6 +334,99 @@
   function renderAll() {
     renderList(els.productsList, state.products, "product");
     renderList(els.combosList, state.combos, "combo");
+  }
+
+  function renderBlogMessage(message) {
+    if (!els.blogList) return;
+    els.blogList.innerHTML = "";
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 6;
+    td.className = "admin-empty";
+    td.textContent = message;
+    tr.appendChild(td);
+    els.blogList.appendChild(tr);
+  }
+
+  function formatBlogDate(iso) {
+    const d = new Date(String(iso || "") + "T00:00:00");
+    if (isNaN(d.getTime())) return iso || "—";
+    return d.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }
+
+  function renderBlogList() {
+    if (!els.blogList) return;
+    if (!state.blogPosts.length) {
+      renderBlogMessage("No blog posts found.");
+      return;
+    }
+
+    els.blogList.innerHTML = "";
+    state.blogPosts.forEach(function (post, index) {
+      const tr = document.createElement("tr");
+
+      const tdImg = document.createElement("td");
+      tdImg.className = "admin-cell_img";
+      const img = document.createElement("img");
+      img.src = post.image || "";
+      img.alt = "";
+      img.loading = "lazy";
+      img.addEventListener("error", function () {
+        img.style.visibility = "hidden";
+      });
+      tdImg.appendChild(img);
+      tr.appendChild(tdImg);
+
+      const tdTitle = document.createElement("td");
+      const title = document.createElement("p");
+      title.className = "admin-row_name";
+      title.textContent = post.title || "(Untitled)";
+      tdTitle.appendChild(title);
+      tr.appendChild(tdTitle);
+
+      const tdCategory = document.createElement("td");
+      tdCategory.textContent = post.category || "—";
+      tr.appendChild(tdCategory);
+
+      const tdDate = document.createElement("td");
+      tdDate.className = "admin-cell_price";
+      tdDate.textContent = formatBlogDate(post.date);
+      tr.appendChild(tdDate);
+
+      const tdFeatured = document.createElement("td");
+      tdFeatured.className = post.featured ? "admin-cell_price is-set" : "admin-cell_price";
+      tdFeatured.textContent = post.featured ? "Yes" : "—";
+      tr.appendChild(tdFeatured);
+
+      const tdAction = document.createElement("td");
+      tdAction.className = "admin-cell_actions";
+      const link = document.createElement("a");
+      link.className = "admin-blog-link";
+      link.href = "blog.html?slug=" + encodeURIComponent(post.slug || "");
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "View";
+      tdAction.appendChild(link);
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "admin-icon-btn admin-icon-btn--danger";
+      del.setAttribute("aria-label", "Delete " + (post.title || "post"));
+      del.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 12H7zm4 2v8h2v-8zm4 0v8h2v-8z"/></svg>';
+      del.addEventListener("click", function () {
+        deleteBlogPost(index);
+      });
+      tdAction.appendChild(del);
+
+      tr.appendChild(tdAction);
+
+      els.blogList.appendChild(tr);
+    });
   }
 
   const FIXED_SIZE_LABELS = ["200g", "250g", "400g", "500g"];
@@ -596,6 +751,7 @@
     const actions = $("[data-admin-actions]");
     if (title) title.textContent = view === "blog" ? "Blog" : "Catalog";
     if (actions) actions.hidden = view === "blog";
+    if (view === "blog") loadBlog();
   }
 
   document.addEventListener("DOMContentLoaded", function () {

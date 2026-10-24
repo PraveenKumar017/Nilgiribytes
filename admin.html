@@ -136,9 +136,21 @@
       </section>
 
       <section class="admin-section" aria-label="Blog" data-admin-view-panel="blog" hidden>
-        <div class="admin-soon">
-          <h2>Blog manager coming soon</h2>
-          <p>Create, edit and publish blog posts from here.</p>
+        <h2 class="admin-sub_title">Published posts</h2>
+        <div class="admin-table_wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Title</th>
+                <th scope="col">Category</th>
+                <th scope="col">Date</th>
+                <th scope="col">Featured</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody data-blog-list></tbody>
+          </table>
         </div>
       </section>
 

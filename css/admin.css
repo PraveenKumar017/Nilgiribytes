@@ -526,6 +526,23 @@ body[data-page="admin"] {
   min-width: 140px;
 }
 
+.admin-blog-link {
+  color: var(--color-gold, #c79a42);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.admin-blog-link:hover {
+  color: var(--color-chocolate, #1a0f0a);
+}
+
+.admin-blog-link + .admin-icon-btn {
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
 /* ---------- Editor modal ---------- */
 
 .admin-overlay {
