@@ -81,7 +81,9 @@
     blogSaveBtn: $("[data-blog-save]"),
     blogSaveDraftBtn: $("[data-blog-save-draft]"),
     blogCancelBtn: $("[data-blog-cancel]"),
+    blogPreviewRoots: $$("[data-blog-preview-root]"),
     blogPreviewRoot: $("[data-blog-preview-root]"),
+    blogPreviewToggles: $$("[data-blog-preview-toggle]"),
     blogPreviewToggle: $("[data-blog-preview-toggle]"),
   };
 
@@ -1093,6 +1095,7 @@
     setBlogStatus("draft");
     if (els.blogEditorTitle) els.blogEditorTitle.textContent = "New post";
     if (els.blogLiveNotice) els.blogLiveNotice.hidden = true;
+    updateBlogMeta();
   }
 
   function openBlogEditor(post, index) {
@@ -1155,8 +1158,16 @@
     updateBlogMeta();
     updateBlogPreview();
 
-    if (els.blogPreviewRoot) els.blogPreviewRoot.hidden = true;
-    if (els.blogPreviewToggle) els.blogPreviewToggle.textContent = "Show preview";
+    if (els.blogPreviewRoots && els.blogPreviewRoots.length) {
+      els.blogPreviewRoots.forEach(function (p) { p.hidden = true; });
+    } else if (els.blogPreviewRoot) {
+      els.blogPreviewRoot.hidden = true;
+    }
+    if (els.blogPreviewToggles && els.blogPreviewToggles.length) {
+      els.blogPreviewToggles.forEach(function (t) { t.textContent = "Show preview"; });
+    } else if (els.blogPreviewToggle) {
+      els.blogPreviewToggle.textContent = "Show preview";
+    }
 
     if (els.blogListPane) els.blogListPane.hidden = true;
     if (els.blogEditorPane) els.blogEditorPane.hidden = false;
@@ -1289,7 +1300,8 @@
   /* ---- Live preview ---- */
 
   function updateBlogPreview() {
-    if (!els.blogPreviewRoot) return;
+    var roots = (els.blogPreviewRoots && els.blogPreviewRoots.length) ? els.blogPreviewRoots : (els.blogPreviewRoot ? [els.blogPreviewRoot] : []);
+    if (!roots.length) return;
     var title = els.blogTitle ? els.blogTitle.value.trim() : "";
     var excerpt = els.blogExcerpt ? els.blogExcerpt.value.trim() : "";
     var image = els.blogImage ? els.blogImage.value.trim() : "";
@@ -1298,63 +1310,65 @@
     var date = els.blogDate ? els.blogDate.value.trim() : "";
     var blocks = readBlogBlocks();
 
-    var frag = document.createDocumentFragment();
+    roots.forEach(function (root) {
+      var frag = document.createDocumentFragment();
 
-    if (title) {
-      var h1 = document.createElement("h1");
-      h1.className = "admin-blog-preview_title";
-      h1.textContent = title;
-      frag.appendChild(h1);
-    }
-
-    if (author || date) {
-      var meta = document.createElement("p");
-      meta.className = "admin-blog-preview_meta";
-      if (author) { var s = document.createElement("span"); s.textContent = "By " + author; meta.appendChild(s); }
-      if (date) {
-        var sd = document.createElement("span");
-        sd.textContent = formatBlogDate(date);
-        meta.appendChild(sd);
+      if (title) {
+        var h1 = document.createElement("h1");
+        h1.className = "admin-blog-preview_title";
+        h1.textContent = title;
+        frag.appendChild(h1);
       }
-      frag.appendChild(meta);
-    }
 
-    if (image) {
-      var coverWrap = document.createElement("div");
-      coverWrap.className = "admin-blog-preview_cover";
-      var coverImg = document.createElement("img");
-      coverImg.src = image;
-      coverImg.alt = imageAlt || title;
-      coverWrap.appendChild(coverImg);
-      frag.appendChild(coverWrap);
-    }
+      if (author || date) {
+        var meta = document.createElement("p");
+        meta.className = "admin-blog-preview_meta";
+        if (author) { var s = document.createElement("span"); s.textContent = "By " + author; meta.appendChild(s); }
+        if (date) {
+          var sd = document.createElement("span");
+          sd.textContent = formatBlogDate(date);
+          meta.appendChild(sd);
+        }
+        frag.appendChild(meta);
+      }
 
-    if (excerpt) {
-      var excerptEl = document.createElement("p");
-      excerptEl.className = "admin-blog-preview_excerpt";
-      excerptEl.textContent = excerpt;
-      frag.appendChild(excerptEl);
-    }
+      if (image) {
+        var coverWrap = document.createElement("div");
+        coverWrap.className = "admin-blog-preview_cover";
+        var coverImg = document.createElement("img");
+        coverImg.src = image;
+        coverImg.alt = imageAlt || title;
+        coverWrap.appendChild(coverImg);
+        frag.appendChild(coverWrap);
+      }
 
-    var contentWrap = document.createElement("div");
-    contentWrap.className = "article_content";
-    var renderer = (window.Bakery && window.Bakery.renderBlocks) ? window.Bakery.renderBlocks : null;
-    if (renderer) {
-      contentWrap.appendChild(renderer(blocks));
-    } else {
-      blocks.forEach(function (b) {
-        if (!b) return;
-        if (b.type === "h2") { var h = document.createElement("h2"); h.textContent = b.text || ""; contentWrap.appendChild(h); }
-        else if (b.type === "h3") { var h = document.createElement("h3"); h.textContent = b.text || ""; contentWrap.appendChild(h); }
-        else if (b.type === "list") { var ul = document.createElement("ul"); (b.items||[]).forEach(function(i){ var li=document.createElement("li"); li.textContent=i; ul.appendChild(li); }); contentWrap.appendChild(ul); }
-        else if (b.type === "ol") { var ol = document.createElement("ol"); (b.items||[]).forEach(function(i){ var li=document.createElement("li"); li.textContent=i; ol.appendChild(li); }); contentWrap.appendChild(ol); }
-        else { var p = document.createElement("p"); p.textContent = b.text || ""; contentWrap.appendChild(p); }
-      });
-    }
-    frag.appendChild(contentWrap);
+      if (excerpt) {
+        var excerptEl = document.createElement("p");
+        excerptEl.className = "admin-blog-preview_excerpt";
+        excerptEl.textContent = excerpt;
+        frag.appendChild(excerptEl);
+      }
 
-    els.blogPreviewRoot.innerHTML = "";
-    els.blogPreviewRoot.appendChild(frag);
+      var contentWrap = document.createElement("div");
+      contentWrap.className = "article_content";
+      var renderer = (window.Bakery && window.Bakery.renderBlocks) ? window.Bakery.renderBlocks : null;
+      if (renderer) {
+        contentWrap.appendChild(renderer(blocks));
+      } else {
+        blocks.forEach(function (b) {
+          if (!b) return;
+          if (b.type === "h2") { var h = document.createElement("h2"); h.textContent = b.text || ""; contentWrap.appendChild(h); }
+          else if (b.type === "h3") { var h = document.createElement("h3"); h.textContent = b.text || ""; contentWrap.appendChild(h); }
+          else if (b.type === "list") { var ul = document.createElement("ul"); (b.items||[]).forEach(function(i){ var li=document.createElement("li"); li.textContent=i; ul.appendChild(li); }); contentWrap.appendChild(ul); }
+          else if (b.type === "ol") { var ol = document.createElement("ol"); (b.items||[]).forEach(function(i){ var li=document.createElement("li"); li.textContent=i; ol.appendChild(li); }); contentWrap.appendChild(ol); }
+          else { var p = document.createElement("p"); p.textContent = b.text || ""; contentWrap.appendChild(p); }
+        });
+      }
+      frag.appendChild(contentWrap);
+
+      root.innerHTML = "";
+      root.appendChild(frag);
+    });
   }
 
   /* ---- Image upload ---- */
@@ -1657,9 +1671,21 @@
     $$("[data-blog-add-block]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         addBlogBlock(btn.getAttribute("data-blog-add-block"));
+        updateBlogMeta();
+        updateBlogPreview();
         markBlogDirty();
+        scheduleBlogAutosave();
       });
     });
+
+    if (els.blogReadingTimeInput) {
+      els.blogReadingTimeInput.addEventListener("input", function () {
+        updateBlogMeta();
+        updateBlogPreview();
+        markBlogDirty();
+        scheduleBlogAutosave();
+      });
+    }
 
     /* ---- Image upload ---- */
     if (els.blogUploadBtn && els.blogFile) {
@@ -1696,14 +1722,29 @@
     }
 
     /* ---- Preview toggle ---- */
-    if (els.blogPreviewToggle) {
+    if (els.blogPreviewToggles && els.blogPreviewToggles.length) {
+      els.blogPreviewToggles.forEach(function (toggle, idx) {
+        toggle.addEventListener("click", function () {
+          var roots = els.blogPreviewRoots && els.blogPreviewRoots.length ? els.blogPreviewRoots : (els.blogPreviewRoot ? [els.blogPreviewRoot] : []);
+          var target = roots[idx] || roots[0];
+          if (!target) return;
+          var isHidden = target.hasAttribute("hidden");
+          if (isHidden) {
+            target.hidden = false;
+            els.blogPreviewToggles.forEach(function (t) { t.textContent = "Hide preview"; });
+          } else {
+            target.hidden = true;
+            els.blogPreviewToggles.forEach(function (t) { t.textContent = "Show preview"; });
+          }
+        });
+      });
+    } else if (els.blogPreviewToggle) {
       els.blogPreviewToggle.addEventListener("click", function () {
         var target = els.blogPreviewRoot;
         if (!target) return;
-        var isHidden = target.hasAttribute("hidden") || target.style.display === "none";
+        var isHidden = target.hasAttribute("hidden");
         if (isHidden) {
           target.hidden = false;
-          target.style.display = "";
           els.blogPreviewToggle.textContent = "Hide preview";
         } else {
           target.hidden = true;

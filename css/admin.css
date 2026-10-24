@@ -1199,6 +1199,14 @@ details.admin-blog-advanced .admin-field input {
   overflow-y: auto;
 }
 
+.admin-blog-preview--inline {
+  display: none;
+}
+
+.admin-blog-preview--sidebar {
+  display: flex;
+}
+
 .admin-blog-preview-header {
   display: flex;
   align-items: center;
@@ -1284,11 +1292,24 @@ details.admin-blog-advanced .admin-field input {
     gap: 0.5rem;
   }
 
+  .admin-blog-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .admin-blog-preview--sidebar {
+    display: none;
+  }
+
+  .admin-blog-preview--inline {
+    display: flex;
+    order: 10;
+  }
+
   .admin-blog-preview {
     position: static;
     max-height: none;
     overflow: visible;
-    order: 1;
   }
 
   .admin-blog-editor-actions {

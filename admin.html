@@ -230,7 +230,6 @@
                   <button class="btn btn--small" type="button" data-blog-add-block="ol">+ Numbered list</button>
                 </div>
                 <div class="admin-blog-blocks" data-blog-blocks></div>
-                <p class="admin-blog-hint">Suggested reading time: <span data-blog-readtime>1 min read</span></p>
               </div>
               <details class="admin-blog-advanced">
                 <summary>Advanced</summary>
@@ -243,13 +242,22 @@
                   <input type="text" data-blog-image placeholder="assets/images/blog/..." autocomplete="off">
                 </div>
               </details>
+
               <div class="admin-blog-editor-actions">
                 <button class="btn" type="button" data-blog-cancel>Cancel</button>
                 <button class="btn" type="button" data-blog-save-draft>Save draft</button>
                 <button class="btn btn--primary" type="button" data-blog-save>Save changes</button>
               </div>
+
+              <div class="admin-blog-preview admin-blog-preview--inline">
+                <div class="admin-blog-preview-header">
+                  <span>Preview</span>
+                  <button class="btn btn--small" type="button" data-blog-preview-toggle>Show preview</button>
+                </div>
+                <article class="article" data-blog-preview-root hidden></article>
+              </div>
             </div>
-            <div class="admin-blog-preview">
+            <div class="admin-blog-preview admin-blog-preview--sidebar">
               <div class="admin-blog-preview-header">
                 <span>Preview</span>
                 <button class="btn btn--small" type="button" data-blog-preview-toggle>Show preview</button>
