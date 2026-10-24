@@ -29,7 +29,9 @@
         return r.json();
       })
       .then(function (data) {
-        posts = Array.isArray(data.posts) ? data.posts : [];
+        var all = Array.isArray(data.posts) ? data.posts : [];
+        // Filter drafts from the public blog
+        posts = all.filter(function (p) { return p.status === "published"; });
         return posts;
       })
       .catch(function (err) {
@@ -87,10 +89,10 @@
 
   /* ---------- List view ---------- */
 
-  function postCard(post, featured) {
+  function postCard(post) {
     const card = document.createElement("article");
-    card.className = "post-card reveal" + (featured ? " post-card--featured" : "");
-    card.setAttribute("data-reveal", featured ? "zoom-in" : "fade-up");
+    card.className = "post-card reveal";
+    card.setAttribute("data-reveal", "fade-up");
 
     const media = document.createElement("a");
     media.className = "post-card_media";
@@ -98,10 +100,10 @@
     media.setAttribute("aria-label", "Read " + post.title);
     const img = document.createElement("img");
     img.src = post.image;
-    img.alt = post.title;
+    img.alt = post.imageAlt || post.title;
     img.width = 800;
     img.height = 450;
-    img.loading = featured ? "eager" : "lazy";
+    img.loading = "lazy";
     img.setAttribute("data-fallback", "Article image coming soon");
     img.addEventListener("error", function () {
       Bakery.handleImageError(img, "Article image coming soon");
@@ -154,7 +156,6 @@
   }
 
   function initList() {
-    const featuredWrap = document.getElementById("blog-featured");
     const grid = document.getElementById("blog-grid");
     if (!grid) return;
 
@@ -166,7 +167,10 @@
 
     function apply() {
       loadPosts().then(function (all) {
-        let list = all.slice();
+        // Sort by date descending
+        let list = all.slice().sort(function (a, b) {
+          return String(b.date || "").localeCompare(String(a.date || ""));
+        });
 
         if (category !== "All") {
           list = list.filter(function (p) {
@@ -178,23 +182,10 @@
           list = list.filter(function (p) {
             return (
               p.title.toLowerCase().indexOf(q) > -1 ||
-              p.excerpt.toLowerCase().indexOf(q) > -1 ||
+              (p.excerpt || "").toLowerCase().indexOf(q) > -1 ||
               p.category.toLowerCase().indexOf(q) > -1
             );
           });
-        }
-
-        // Featured article: first featured match, only when unfiltered
-        featuredWrap.innerHTML = "";
-        const canFeature = category === "All" && !query;
-        if (canFeature) {
-          const featIdx = list.findIndex(function (p) {
-            return p.featured;
-          });
-          if (featIdx > -1) {
-            const feat = list.splice(featIdx, 1)[0];
-            featuredWrap.appendChild(postCard(feat, true));
-          }
         }
 
         grid.innerHTML = "";
@@ -206,14 +197,12 @@
           return;
         }
         list.forEach(function (post) {
-          grid.appendChild(postCard(post, false));
+          grid.appendChild(postCard(post));
         });
 
         if (typeof window.refreshReveals === "function") {
-          window.refreshReveals(featuredWrap);
           window.refreshReveals(grid);
         } else if (typeof Bakery.observeReveals === "function") {
-          Bakery.observeReveals(featuredWrap);
           Bakery.observeReveals(grid);
         }
       });
@@ -423,7 +412,7 @@
         const grid = document.createElement("div");
         grid.className = "blog-grid mt-2";
         related.forEach(function (p) {
-          grid.appendChild(postCard(p, false));
+          grid.appendChild(postCard(p));
         });
         section.appendChild(h2);
         section.appendChild(grid);

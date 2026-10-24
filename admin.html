@@ -202,7 +202,7 @@
                 <div class="admin-blog-upload" data-blog-upload>
                   <input type="file" accept="image/jpeg,image/png,image/webp" data-blog-file hidden>
                   <button class="btn btn--small" type="button" data-blog-upload-btn>Choose image</button>
-                  <p class="admin-blog-upload-text">Upload JPG, PNG or WebP (auto-compressed)</p>
+                  <p class="admin-blog-upload-text">Upload JPG, PNG or WebP (max 5 MB, auto-compressed)</p>
                 </div>
                 <div class="admin-blog-cover" data-blog-cover-wrap hidden>
                   <img data-blog-cover-img alt="">
@@ -211,8 +211,10 @@
                     <button class="btn btn--small" type="button" data-blog-cover-remove>Remove</button>
                   </div>
                 </div>
-                <input type="text" data-blog-image placeholder="assets/images/blog/..." style="margin-top:0.6rem;">
-                <input type="text" data-blog-image-alt placeholder="Image description (alt text)" style="margin-top:0.4rem;">
+              </div>
+              <div class="admin-field">
+                <span>Image description <em>(alt text — helps screen readers)</em></span>
+                <input type="text" data-blog-image-alt placeholder="e.g. Freshly baked Nilgiri varkey on a wooden tray" autocomplete="off">
               </div>
               <div class="admin-field">
                 <span>Content</span>
@@ -229,13 +231,18 @@
               <details class="admin-blog-advanced">
                 <summary>Advanced</summary>
                 <div class="admin-field" style="margin-top:0.6rem;">
-                  <span>Link (slug)</span>
+                  <span>Link (slug) <em>— auto-generated; only change if you need a specific URL</em></span>
                   <input type="text" data-blog-slug autocomplete="off">
+                </div>
+                <div class="admin-field" style="margin-top:0.6rem;">
+                  <span>Image path <em>— filled automatically after upload</em></span>
+                  <input type="text" data-blog-image placeholder="assets/images/blog/..." autocomplete="off">
                 </div>
               </details>
               <div class="admin-blog-editor-actions">
                 <button class="btn" type="button" data-blog-cancel>Cancel</button>
-                <button class="btn btn--primary" type="button" data-blog-save>Save draft</button>
+                <button class="btn" type="button" data-blog-save-draft>Save draft</button>
+                <button class="btn btn--primary" type="button" data-blog-save>Save changes</button>
               </div>
             </div>
             <div class="admin-blog-preview">
@@ -318,6 +325,7 @@
     </form>
   </aside>
 
+  <script src="js/blog-render.js"></script>
   <script src="js/admin.js"></script>
 </body>
 
